@@ -1,11 +1,14 @@
 import os, sys
 import pygame
+from engine import Viewport
+from engine import Actor
 
-pygame.init()
 
 
 def main():
-	os.size = (320, 240)
+	pygame.init()
+
+	size = (320, 240)
 	black = (0, 0, 0)
 	screen = pygame.display.set_mode(size)
 

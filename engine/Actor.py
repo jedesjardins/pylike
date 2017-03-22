@@ -1,11 +1,13 @@
+print("hey")
+
 class Actor():
 	"""Base class for objects in the game it's an Enitity with components
 	   somehow"""
 	def __init__(self):
 		print("init")
 
-	def update():
+	def update(self):
 		print("update")
 
-	def draw():
+	def draw(self):
 		print("draw")
