@@ -5,11 +5,7 @@ pygame.init()
 
 
 def main():
-	os.
-
-
-
-	size = (320, 240)
+	os.size = (320, 240)
 	black = (0, 0, 0)
 	screen = pygame.display.set_mode(size)
 
