@@ -5,5 +5,7 @@ class Actor():
 		print("init")
 
 	def update():
+		print("update")
 
 	def draw():
+		print("draw")
