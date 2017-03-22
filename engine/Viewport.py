@@ -14,22 +14,22 @@ class Viewport():
 		self.w, self.h = size
 
 	def draw(self):
-		print('unimplemented')
+		pass
 
 	def draw_rect(self):
-		print('unimplemented')
+		pass
 
 	def center_on(point=(0,0), size=(0,0))
-		print('unimplemented')
+		pass
 
 	def zoom_in(self, percentage):
-		print('unimplemented')
+		pass
 
 	def zoom_out(self, percentage):
-		print('unimplemented')
+		pass
 
 	def translate_rect(self, rect):
-		print('unimplemented')
+		pass
 
 	def on_screen(self, rect):
-		print('unimplemented')
+		pass
