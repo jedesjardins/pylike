@@ -44,3 +44,26 @@ class EnitityManager(object):
 		except KeyError:
 			raise NonexistentComponentTypeForEntity(
 				entity, component_type)				
+
+	def remove_entity(self, entity):
+		for comp_type in list(self._database.keys()):
+			try:
+				del self._database[comp_type][entity]
+				if self._database[comp_type] == {}:
+					del self._database[comp_type]
+			except KeyError:
+				pass
+
+
+class SystemManager(object):
+
+	def __init__(self, entity_manager):
+		self._systems = []
+		self._system_types = {}
+		self._entity_manager = entity_manager
+
+	@property
+	def _systems(self):
+		return self._systems
+
+	
