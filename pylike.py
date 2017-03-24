@@ -7,6 +7,7 @@ from engine.state import State
 # from engine.ecs import models, managers, exceptions
 from engine import Viewport
 
+from data.states import menustate
 
 
 def main():
@@ -16,7 +17,7 @@ def main():
     viewport = Viewport.Viewport()
     
     engine = Engine()
-    start_state = State()
+    start_state = menu_state.MenuState()
     engine.push_state(start_state)
 
     frames_per_second_max = 1
