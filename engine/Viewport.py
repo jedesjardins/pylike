@@ -13,8 +13,6 @@ class Viewport(object):
         self.w, self.h = size
         self.scale = resolution[0] / size[0]
 
-        print((self.x, self.y), (self.w, self.h), resolution, self.scale)
-
 
     def setPosition(self, point=(0, 0)):
         self.x, self.y = point
@@ -26,6 +24,7 @@ class Viewport(object):
     def update(self):
         pass
 
+    # TODO(jhives): rename this? 
     def draw(self):
         # self.screen.fill((0,0,0))
         pygame.display.flip()
@@ -36,7 +35,6 @@ class Viewport(object):
 
     def draw_rect(self, rect):
         pygame.draw.rect(self.screen, (255, 255, 255), self.translate_rect(rect))
-        pygame.draw.rect(self.screen, (255, 255, 255), rect)
 
     def center_on(point=(0,0), size=(0,0)):
         pass
@@ -57,10 +55,7 @@ class Viewport(object):
         ay = self.screen_size[1] - (scale * (y - self.y)) - ah
 
         trans_rect = (ax, ay, scale*w, scale*h)
-
-        print(rect, trans_rect)
-
-
+        
         return trans_rect
 
 

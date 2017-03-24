@@ -2,10 +2,11 @@
 
 import os, sys
 import pygame
-from engine.ecs import models, managers, exceptions
+from engine.engine import Engine
+from engine.state import State
+# from engine.ecs import models, managers, exceptions
 from engine import Viewport
 
-models.Entity(0)
 
 
 def main():
@@ -13,21 +14,30 @@ def main():
     
     frame_lock = pygame.time.Clock()
     viewport = Viewport.Viewport()
+    
+    engine = Engine()
+    start_state = State()
+    engine.push_state(start_state)
 
-    y = 0
+    frames_per_second_max = 1
+    dt = 1/frames_per_second_max
+
 
     while True:
+        engine.handle_events()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
 
-        viewport.draw_rect((10, y, 20, 20))
+        engine.update(dt)
+
+        viewport.draw_rect((10, 10, 20, 20))
         viewport.draw()
 
-        y = y + 1
+        engine.draw()
 
         # TODO(jhives): rework frame time to use dt
-        dt = frame_lock.tick(60)
+        dt = frame_lock.tick(frames_per_second_max)
 
 if __name__ == '__main__':
     main()
