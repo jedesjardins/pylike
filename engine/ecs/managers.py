@@ -63,7 +63,32 @@ class SystemManager(object):
 		self._entity_manager = entity_manager
 
 	@property
-	def _systems(self):
+	def systems(self):
 		return self._systems
 
+	def add_system(self, system_instance, priority=0):
+
+		system_type = type(system_instance)
+
+		if system_type in self._system_types:
+			raise DuplicateSystemTypeError(system_type)
+		if system_instance.system_manager is not None:
+			raise SystemAlreadyAddedToManagerError(system_instance, self, 
+				system_instance.system_manager)
 	
+		system_instance.entity_manager = self._entity_manager
+		system_instance.system_manager = self
+		self._system_types[system_type] = system_instance
+		self._systems.append(system_instance)
+
+	def remove_system(self, system_type):
+		system = self._system_types[system_type]
+
+		system.entity_manager = None
+		system.system_manager = None
+		self._systems.remove(system)
+		del self._system_types(system_type)
+
+	def update(self, dt):
+		for system in self._systems:
+			system.update(dt)
