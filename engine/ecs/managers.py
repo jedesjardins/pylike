@@ -1,6 +1,6 @@
-from engine.ecs.models import Entity
+from engine.ecs import Entity
 
-class EnitityManager(object):
+class EntityManager(object):
     """Provide database-like access to components based on an entity key."""
 
     def __init__(self):

@@ -5,6 +5,10 @@ class Viewport(object):
     """ Translates coordinates from the gamespace to the surface coordinate
         space"""
 
+    # TODO(jhives): rework to use pygame.Rect instead of my stuff,
+    #               it already has a lot of functionality that I reimplemented,
+    #               Probably poorly too.
+
     def __init__(self, point=(0, 0), size=(200, 150), resolution=(800,600)):
 
         self.screen = pygame.display.set_mode(resolution)

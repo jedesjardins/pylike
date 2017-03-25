@@ -2,13 +2,8 @@
 
 import os, sys
 import pygame
-from engine.engine import Engine
-from engine.state import State
-# from engine.ecs import models, managers, exceptions
-# from engine import Viewport
-
+from engine import State, Engine
 from data.states import menustate
-
 
 def main():
     pygame.init()
