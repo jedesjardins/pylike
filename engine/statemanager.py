@@ -1,6 +1,6 @@
 import pygame
 
-class Engine(object):
+class StateManager(object):
 
     def __init__(self):
         # print("State Manager, init")

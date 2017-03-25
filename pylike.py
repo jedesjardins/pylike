@@ -2,7 +2,7 @@
 
 import os, sys
 import pygame
-from engine import State, Engine
+from engine import State, StateManager
 from data.states import menustate
 
 def main():
@@ -10,7 +10,7 @@ def main():
     
     frame_lock = pygame.time.Clock()
     
-    engine = Engine()
+    engine = StateManager()
     start_state = menustate.MenuState()
     engine.push_state(start_state)
 
