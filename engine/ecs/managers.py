@@ -36,7 +36,10 @@ class EntityManager(object):
     def pairs_for_type(self, component_type):
         # TODO(jhives): This should return an iterator of tuples of type
         #                (entity, component_instance) for the given component_type    
-        pass
+        try:
+            return self._database[component_type].items()
+        except KeyError:
+            return {}
 
     def component_for_entity(self, entity, component_type):
         try:
@@ -92,3 +95,7 @@ class SystemManager(object):
     def update(self, dt):
         for system in self._systems:
             system.update(dt)
+
+    def draw(self):
+        for system in self._systems:
+            system.draw()

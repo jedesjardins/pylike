@@ -71,10 +71,10 @@ class StateManager(object):
                 keys["mousemove"] = event.pos
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                keys[Engine.mouse_map[event.button]] = ("down", event.pos) 
+                keys[StateManager.mouse_map[event.button]] = ("down", event.pos) 
 
             if event.type == pygame.MOUSEBUTTONUP:
-                keys[Engine.mouse_map[event.button]] = ("up", event.pos)
+                keys[StateManager.mouse_map[event.button]] = ("up", event.pos)
 
         self._running = self._state_stack[-1].handle_events(keys)
 

@@ -2,7 +2,7 @@
 
 import os, sys
 import pygame
-from engine import State, StateManager
+from engine import StateManager
 from data.states import menustate
 
 def main():
