@@ -1,7 +1,7 @@
 
 from engine.ecs import System
-from data.components.counter import Counter
-from data.components.position import Position
+from data.components import Counter
+from data.components import Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 
 class CounterSystem(System):

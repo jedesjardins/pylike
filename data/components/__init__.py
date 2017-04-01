@@ -1,6 +1,6 @@
 
-from .counter import Counter
-from .movable import Movable
-from .position import Position
+from .examplecounter import Counter
+from .examplemovable import Movable
+from .exampleposition import Position
 from .realposition import RealPosition
-from .clickable import Clickable
+from .exampleclickable import Clickable

@@ -3,7 +3,7 @@
 import os, sys
 import pygame
 from engine import StateManager
-from data.states import menustate
+from data.states import *
 
 def main():
     pygame.init()
@@ -11,7 +11,7 @@ def main():
     frame_lock = pygame.time.Clock()
     
     engine = StateManager()
-    start_state = menustate.MenuState()
+    start_state = MenuState()
     engine.push_state(start_state)
 
     frames_per_second_max = 30
