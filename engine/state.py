@@ -12,11 +12,13 @@ class State(object):
         # print("\tState, exit state")
         pass
 
+    """
     def handle_events(self, keys):
         # print("\tState, handle_events")
         pass
+    """
 
-    def update(self, dt):
+    def update(self, dt, keys):
         # print("\tState, update")
         pass
 

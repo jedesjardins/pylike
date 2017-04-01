@@ -44,7 +44,7 @@ class System():
             Systems are run.
         """
 
-    def update(self, dt):
+    def update(self, dt, keys):
         pass
 
     def draw(self, dt):

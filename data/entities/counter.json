@@ -1,0 +1,8 @@
+{
+	"Misc": {
+		"name": "Counter"
+	},
+	"Counter": {
+		"value": 0
+	}
+}

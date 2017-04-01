@@ -1,4 +1,5 @@
 from engine.ecs import Entity
+from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 
 class EntityManager(object):
     """Provide database-like access to components based on an entity key."""
@@ -92,9 +93,10 @@ class SystemManager(object):
         self._systems.remove(system)
         del self._system_types[system_type]
 
-    def update(self, dt):
+    def update(self, dt, keys):
         for system in self._systems:
-            system.update(dt)
+            system.update(dt, keys)
+        return True
 
     def draw(self):
         for system in self._systems:

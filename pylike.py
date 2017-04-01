@@ -19,8 +19,6 @@ def main():
 
 
     while engine.running:
-        engine.handle_events()
-
         engine.update(dt)
 
         engine.draw()

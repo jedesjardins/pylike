@@ -1,7 +1,9 @@
-import pygame
+import pygame, os
 import os
 import json
 from copy import deepcopy
+from functools import partial
+import data.components
 from data.components import *
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 
@@ -10,7 +12,7 @@ class Maker(object):
     __slots__ = 'em', 'game' 
     presets = {}
 
-    def __init__(self, entity_manager, game, entity_path = None):
+    def __init__(self, entity_manager, entity_path=None, game=None):
 
         self.em = entity_manager
         self.game = game
@@ -20,7 +22,7 @@ class Maker(object):
 
     def update_presets(self, entity_path):
         # iterate over entities in the directory
-        for preset in os.listDir(entity_path):
+        for preset in os.listdir(entity_path):
             # open the json file representing the entity
             with open(os.path.join(entity_path, preset)) as pref:
                 try:
@@ -54,6 +56,7 @@ class Maker(object):
                         comp = getattr(data.components, s)
                     # comp is now the method that will create the entity
                 except AttributeError as err:
+                    print(s)
                     print('Component or Factory doesnt exist')
                     del self.presets[name]
                     break
@@ -77,10 +80,40 @@ class Maker(object):
                         del self.presets[name]
                         break
 
-                    while n >= len (vargs):
+
+                    while n >= len(vargs):
                         vargs.append ([])
+
                     vargs[n].append((comp, key))
                 else:
                     continue
 
                 break
+
+    def make(self, name, *vargs, pos=(0, 0)):
+
+        try:
+            proto = self.presets[name].copy()
+        except KeyError:
+            raise ValueError ('Preset {} doesn\'t exist.'.format(name)) from None
+
+        for i, va in enumerate(proto['vargs']):
+            try:
+                for c, o in va:
+                    proto[c][o] = vargs[i]
+            except IndexError:
+                print('Preset "{}" specified more arguments than were provided.'.format(name))
+                return
+        del proto['vargs']
+
+        e = self.em.create_entity()
+        if pos:
+            self.em.add_component(e, Position(*pos))
+
+        for c, args in proto.items():
+            self.em.add_component(e, c(**args))
+        return e
+
+    def __getitem__(self, name):
+        return partial (self.make, name)
+

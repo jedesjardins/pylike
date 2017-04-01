@@ -1,9 +1,8 @@
-from engine import Viewport
-from engine import State 
-from engine import Maker
+from engine import Viewport, State, Maker
+from engine import Command
 import engine.ecs as ecs
 from data.systems import *
-from data.components import Counter
+# from data.components import Person
 import pygame
 
 class MenuState(State):
@@ -11,28 +10,36 @@ class MenuState(State):
     def __init__(self):
         # print("\tMenuState, init")
         super().__init__()
-
-        # used to make all the entities and shit
-        self.maker = Maker()
-
         self.entity_manager = ecs.EntityManager()
         self.system_manager = ecs.SystemManager(self.entity_manager)
 
-        self.system_manager.add_system(CounterSystem())
+        # used to make all the entities and shit
+        self.maker = Maker(self.entity_manager, 'data/entities')
 
-        e = self.entity_manager.create_entity()
-        self.entity_manager.add_component(e, Counter())
+        #self.system_manager.add_system(CounterSystem())
+        #self.system_manager.add_system(ButtonSystem())
+        self.system_manager.add_system(MovableSystem())
 
+        # e = self.entity_manager.create_entity()
+        # self.entity_manager.add_component(e, Counter())
+
+        # self.maker["Counter"](pos=None);
+        self.maker["Person"]('w', 's', 'a', 'd');
 
         self.viewport = Viewport.Viewport()
 
+    """
     def handle_events(self, keys):
         if 'q' in keys:
             return False
-        return True
+        return self.system_manager.handle_events(keys)
+    """
 
-    def update(self, dt):
-        self.system_manager.update(dt)
+    def update(self, dt, keys):
+        if 'q' in keys:
+            return False
+        return self.system_manager.update(dt, keys)
+
 
     def draw(self):
         self.system_manager.draw()
