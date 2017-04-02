@@ -1,9 +1,9 @@
 from engine.ecs import System
-from data.components import Sprite, Position
+from data.components import Sprite, Position, Animation
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
 
-class SpriteSystem(System):
+class DrawSystem(System):
 
     def update(self, dt, keys):
         pass
@@ -16,4 +16,11 @@ class SpriteSystem(System):
             except NonexistentComponentTypeForEntity:
                 x, y = (0, 0)
 
-            viewport.draw_image(sprite.image, sprite.frame_rect, (x, y))
+            try:
+                animation = self.entity_manager.component_for_entity(e, Animation)
+                frame_rect = animation.curr_frame_rect
+            except NonexistentComponentTypeForEntity:
+                frame_rect = sprite.image.get_rect()
+
+
+            viewport.draw_image(sprite.image, frame_rect, (x, y))

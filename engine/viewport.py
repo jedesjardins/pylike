@@ -36,11 +36,14 @@ class Viewport(object):
 
     def draw_image(self, image, source=None, pos=None):
         tsrc = source.copy()
+        tsrc.x, tsrc.y = self.scale * source.x, self.scale * source.y
         tsrc.size = self.scale * source.w, self.scale * source.h
 
         dest = self.translate_rect(source, pos)
         self.screen.blit(pygame.transform.scale(image, (int(self.scale * image.get_rect().w), int(self.scale * image.get_rect().h))),
                 dest, tsrc)
+
+        self.screen.blit(image, Rect(0.5,0.5,0,0))
 
     def translate_rect(self, rect, pos):
         dest = Rect(0, 0, self.scale * rect.w, self.scale * rect.h)
@@ -67,18 +70,4 @@ class Viewport(object):
 
     # TODO(jhives): implement for calculating collisions
     def on_screen(self, rect):
-        """ determines if a rect is on screen
-
-        Checks the boundaries of the viewports location against the rect to see
-        if the rect has any portion on screen
-
-        Args:
-            rect: a 4 element tuple representing a rect
-
-        Returns:
-            boolean: True if within the screens boundaries at all
-        
-        Raises:
-            None 
-        """
         pass

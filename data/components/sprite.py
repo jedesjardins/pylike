@@ -4,7 +4,6 @@ from pygame import Rect
 
 class Sprite(Component):
 
-    def __init__(self, file, rect):
+    def __init__(self, file):
         self.file = file
         self.image = pygame.image.load("resources/" + file)
-        self.frame_rect = Rect(rect["x"], rect["y"], rect["w"], rect["h"])

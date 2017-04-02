@@ -113,6 +113,7 @@ class Maker(object):
 
         for c, args in proto.items():
             self.em.add_component(e, c(**args))
+
         return e
 
     def __getitem__(self, name):
