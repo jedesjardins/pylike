@@ -107,6 +107,7 @@ class Maker(object):
         del proto['vargs']
 
         e = self.em.create_entity()
+
         if pos:
             self.em.add_component(e, Position(*pos))
 

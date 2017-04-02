@@ -25,9 +25,11 @@ class PlayState(State):
 
         # self.maker["Counter"](pos=None);
         # self.maker["Person"]('w', 's', 'a', 'd');
-        self.maker["Actor"]("Detective.png")
+        self.maker["Actor"]("Detective.png", pos=(0, 0))
 
         self.viewport = Viewport()
+        self.viewport.center_on()
+        # self.viewport.set_position(point=(0, 0))
 
     def update(self, dt, keys):
         if 'q' in keys:
@@ -38,10 +40,6 @@ class PlayState(State):
     def draw(self):
         self.system_manager.draw(self.viewport)
         
-
-        self.viewport.draw_rect((10, 10, 20, 20))
+        # self.viewport.draw_rect((10, 10, 20, 20))
         # pygame.draw.rect(self.viewport.screen, (255, 255, 255), (10, 10, 20, 20))
-        self.viewport.draw()
-        #pygame.draw.line(self.viewport.screen, (255, 255, 255), 
-        #    (self.x, self.y), (400, 300))
-        # self.viewport.draw()
+        self.viewport.push()
