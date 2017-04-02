@@ -47,5 +47,5 @@ class System():
     def update(self, dt, keys):
         pass
 
-    def draw(self, dt):
+    def draw(self, viewport):
         pass

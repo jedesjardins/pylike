@@ -1,5 +1,6 @@
 
 import pygame
+from pygame import Rect
 
 class Viewport(object):
     """ Translates coordinates from the gamespace to the surface coordinate
@@ -12,16 +13,20 @@ class Viewport(object):
     def __init__(self, point=(0, 0), size=(200, 150), resolution=(800,600)):
 
         self.screen = pygame.display.set_mode(resolution)
+
+        self.rect = Rect(*point, *size)
+        self.screen_rect = Rect(0, 0, *resolution)
+
         self.screen_size = resolution
         self.x, self.y = point
         self.w, self.h = size
         self.scale = resolution[0] / size[0]
 
 
-    def setPosition(self, point=(0, 0)):
-        self.x, self.y = point
+    def set_position(self, point=(0, 0)):
+        self.rect.x, self.y = point
 
-    def setSize(self, size=(800, 600)):
+    def set_resolution(self, resolution=(800, 600)):
         self.screen = pygame.display.set_mode(size)
         self.w, self.h = size
 
@@ -34,8 +39,8 @@ class Viewport(object):
         pygame.display.flip()
         self.screen.fill((0,0,0))
 
-    def draw_image(self):
-        pass
+    def draw_image(self, image):
+        self.screen.blit(image, image.get_rect())
 
     def draw_rect(self, rect):
         pygame.draw.rect(self.screen, (255, 255, 255), self.translate_rect(rect))

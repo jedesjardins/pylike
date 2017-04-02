@@ -67,5 +67,5 @@ class MovableSystem(System):
 
             print(position.x, position.y)
 
-    def draw(self):
+    def draw(self, viewport):
         pass

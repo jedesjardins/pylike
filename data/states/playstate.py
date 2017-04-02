@@ -1,11 +1,10 @@
-from engine import Command, State, Maker
+from engine import State, Maker
 from engine.viewport import Viewport
 import engine.ecs as ecs
 from data.systems import *
-# from data.components import Person
 import pygame
 
-class MenuState(State):
+class PlayState(State):
 
     def __init__(self):
         # print("\tMenuState, init")
@@ -18,22 +17,17 @@ class MenuState(State):
 
         #self.system_manager.add_system(CounterSystem())
         #self.system_manager.add_system(ButtonSystem())
-        self.system_manager.add_system(MovableSystem())
+        #self.system_manager.add_system(MovableSystem())
+        self.system_manager.add_system(SpriteSystem())
 
         # e = self.entity_manager.create_entity()
         # self.entity_manager.add_component(e, Counter())
 
         # self.maker["Counter"](pos=None);
-        #self.maker["Person"]('w', 's', 'a', 'd');
+        # self.maker["Person"]('w', 's', 'a', 'd');
+        self.maker["Actor"]("Detective.png")
 
         self.viewport = Viewport()
-
-    """
-    def handle_events(self, keys):
-        if 'q' in keys:
-            return False
-        return self.system_manager.handle_events(keys)
-    """
 
     def update(self, dt, keys):
         if 'q' in keys:
@@ -42,10 +36,12 @@ class MenuState(State):
 
 
     def draw(self):
-        self.system_manager.draw()
-        #system_manager.draw()?
+        self.system_manager.draw(self.viewport)
+        
 
-        # self.viewport.draw_rect((10, 10, 20, 20))
+        self.viewport.draw_rect((10, 10, 20, 20))
+        # pygame.draw.rect(self.viewport.screen, (255, 255, 255), (10, 10, 20, 20))
+        self.viewport.draw()
         #pygame.draw.line(self.viewport.screen, (255, 255, 255), 
         #    (self.x, self.y), (400, 300))
         # self.viewport.draw()

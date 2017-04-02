@@ -98,6 +98,6 @@ class SystemManager(object):
             system.update(dt, keys)
         return True
 
-    def draw(self):
+    def draw(self, viewport):
         for system in self._systems:
-            system.draw()
+            system.draw(viewport)

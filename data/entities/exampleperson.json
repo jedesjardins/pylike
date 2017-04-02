@@ -1,6 +1,6 @@
 {
 	"Misc": {
-		"name": "Person"
+		"name": "ExamplePerson"
 	},
 	"Movable": {
 		"up": "$0",

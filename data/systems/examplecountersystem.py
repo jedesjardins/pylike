@@ -10,6 +10,6 @@ class CounterSystem(System):
         for e, counter in self.entity_manager.pairs_for_type(Counter):
             counter.value += 1
 
-    def draw(self):
+    def draw(self, viewport):
         for e, counter in self.entity_manager.pairs_for_type(Counter):
             print(counter.value)

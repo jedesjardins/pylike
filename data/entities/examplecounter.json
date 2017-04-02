@@ -1,6 +1,6 @@
 {
 	"Misc": {
-		"name": "Counter"
+		"name": "ExampleCounter"
 	},
 	"Counter": {
 		"value": 0

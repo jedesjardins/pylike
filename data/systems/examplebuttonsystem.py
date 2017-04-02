@@ -12,5 +12,5 @@ class ButtonSystem(System):
             for e, clickable in self.entity_manager.pairs_for_type(Clickable):
                 clickable.action.undo()
 
-    def draw(self):
+    def draw(self, viewport):
         pass
