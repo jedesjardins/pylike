@@ -20,7 +20,6 @@ class PlayState(State):
         #self.system_manager.add_system(MovableSystem())
         self.system_manager.add_system(DrawSystem())
         self.system_manager.add_system(AnimationSystem())
-        self.system_manager.add_system(MovableSystem())
 
         # e = self.entity_manager.create_entity()
         # self.entity_manager.add_component(e, Counter())

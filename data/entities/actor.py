@@ -3,10 +3,12 @@
 		"name": "Actor"
 	},
 	"Controlled": {
-		"up": "w",
-		"down": "s",
-		"left": "a",
-		"right": "d"
+		"actions": {
+			"up": "w",
+			"down": "s",
+			"left": "a",
+			"right": "d"
+		}
 	},
 	"Sprite": {
 		"file": "$0"

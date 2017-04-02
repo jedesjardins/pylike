@@ -20,14 +20,10 @@ class AnimationSystem(System):
             print(animation.elapsed_time, animation.frame)
             
         elif keys[key] == 'held':
-            # continue animation
             animation.elapsed_time += dt
 
         elif keys[key] == 'up':
-            # start animation
             animation.elapsed_time = 0
-            animation.animation = animation.animations[direction]
-            animation.frame = animation.animation['frames'][0]
 
     def update(self, dt, keys):
         for e, animation in self.entity_manager.pairs_for_type(Animation):
@@ -37,14 +33,9 @@ class AnimationSystem(System):
                 # TODO(jhives): adapt to ai somehow
                 continue
 
-            if controlled.up in keys:
-                self.handle_key(animation, dt, keys, controlled.up, 'up')
-            if controlled.down in keys:
-                self.handle_key(animation, dt, keys, controlled.down, 'down')
-            if controlled.left in keys:
-                self.handle_key(animation, dt, keys, controlled.left, 'left')
-            if controlled.right in keys:
-                self.handle_key(animation, dt, keys, controlled.right, 'right')
+            for action, key_value in controlled.actions.items():
+                if key_value in keys:
+                    self.handle_key(animation, dt, keys, key_value, action)
 
             frame_length = animation.animation['length']/len(animation.animation['frames'])
             frame_index = int((animation.elapsed_time // frame_length) % 4)
