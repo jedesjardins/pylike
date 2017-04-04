@@ -40,7 +40,10 @@ class AnimationSystem(System):
         elif keys[key] == 'up':
             self.end_animation(animation, controlled, keys)
 
-    def update(self, dt, keys):
+    def update(self, game):
+        dt = game['dt']
+        keys = game['keys']
+
         for e, animation in self.entity_manager.pairs_for_type(Animation):
             try:
                 controlled = self.entity_manager.component_for_entity(e, Controlled)

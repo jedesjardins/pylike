@@ -5,7 +5,7 @@ from pygame import Rect
 
 class DrawSystem(System):
 
-    def update(self, dt, keys):
+    def update(self, game):
         pass
 
     def draw(self, viewport):
@@ -20,7 +20,7 @@ class DrawSystem(System):
                 animation = self.entity_manager.component_for_entity(e, Animation)
                 frame_rect = animation.curr_frame_rect
             except NonexistentComponentTypeForEntity:
-                frame_rect = sprite.image.get_rect()
+                frame_rect = sprite.frame_rect
 
 
             viewport.draw_image(sprite.image, frame_rect, (x, y))

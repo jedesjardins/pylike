@@ -18,15 +18,17 @@ class PlayState(State):
         #self.system_manager.add_system(CounterSystem())
         #self.system_manager.add_system(ButtonSystem())
         self.system_manager.add_system(MovableSystem())
-        self.system_manager.add_system(DrawSystem())
         self.system_manager.add_system(AnimationSystem())
+        self.system_manager.add_system(CollisionSystem(), 1)
+        self.system_manager.add_system(DrawSystem(), 1)
 
         # e = self.entity_manager.create_entity()
         # self.entity_manager.add_component(e, Counter())
 
         # self.maker["Counter"](pos=None);
         # self.maker["Person"]('w', 's', 'a', 'd');
-        self.maker["Actor"]("Detective.png", pos=(0, 0))
+        self.maker["Actor"]("Detective.png", pos=(30, 30))
+        self.maker["Box"](pos=(0, 0))
 
         self.viewport = Viewport()
         self.viewport.center_on(point=(0, 0))
@@ -35,7 +37,11 @@ class PlayState(State):
     def update(self, dt, keys):
         if 'q' in keys:
             return False
-        return self.system_manager.update(dt, keys)
+
+        game = {'dt': dt, 'keys': keys, 
+            'viewport': self.viewport, 'world': {}}
+
+        return self.system_manager.update(game)
 
 
     def draw(self):

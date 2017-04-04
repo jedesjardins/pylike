@@ -93,9 +93,9 @@ class SystemManager(object):
         self._systems.remove(system)
         del self._system_types[system_type]
 
-    def update(self, dt, keys):
+    def update(self, game):
         for system in self._systems:
-            system.update(dt, keys)
+            system.update(game)
         return True
 
     def draw(self, viewport):

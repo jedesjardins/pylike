@@ -53,7 +53,10 @@ class MovableSystem(System):
         def undo(self):
             self.position.x = self.ox
 
-    def update(self, dt, keys):
+    def update(self, game):
+        dt = game['dt']
+        keys = game['keys']
+
         for e, movable in self.entity_manager.pairs_for_type(Controlled):
             try:
                 position = self.entity_manager.component_for_entity(e, Position)

@@ -4,10 +4,13 @@ from engine.ecs import System
 from data.components import Position, Hitbox
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from engine import Quadtree
+from pygame import Rect
 
 class CollisionSystem(System):
 
-    def update(self, dt, keys):
+    def update(self, game):
+        dt = game['dt']
+        keys = game['keys']
         qt = Quadtree(Rect(0, 0, 100, 100))
         entities = []
 
@@ -22,7 +25,7 @@ class CollisionSystem(System):
             # TODO: How do I get the screen dimensions? Maybe pass game datastructure?
             
             entities.append(e)
-            hb = hitbox.copy()
+            hb = hitbox.rect.copy()
             hb.center = position.x, position.y
             qt.insert(e, hb)
 
@@ -32,15 +35,25 @@ class CollisionSystem(System):
             hitbox = self.entity_manager.component_for_entity(e, Hitbox)
             position = self.entity_manager.component_for_entity(e, Position)
 
-            hb = hitbox.copy()
+            hb = hitbox.rect.copy()
             hb.center = position.x, position.y
 
-            for c in qt.retrieve[hb]:
-                chb = self.entity_manager.component_for_entity(c, Hitbox)
+            for c in qt.retrieve(hb):
+                chitbox = self.entity_manager.component_for_entity(c, Hitbox)
+                cposition = self.entity_manager.component_for_entity(c, Position)
+                chb = chitbox.rect.copy()
+                chb.center = cposition.x, cposition.y
 
-                if hb.colliderect(chb):
-                    e.resolve_collision()
-                    c.resolve_collision()
+
+
+                if e != c and hb.colliderect(chb):
+                    pass
+                    """
+                    print('Collision: {0}, {1}'. format(str(e), str(c)))
+                    print('\t', hb, chb)
+                    # e.resolve_collision()
+                    # c.resolve_collision()
+                    """
 
             
                     
