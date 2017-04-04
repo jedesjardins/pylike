@@ -9,6 +9,9 @@ class DrawSystem(System):
         pass
 
     def draw(self, viewport):
+        # dict maps e -> (image, frame_rect, x, y, z)
+        entities = []
+
         for e, sprite in self.entity_manager.pairs_for_type(Sprite):
             try:
                 position = self.entity_manager.component_for_entity(e, Position)
@@ -22,5 +25,17 @@ class DrawSystem(System):
             except NonexistentComponentTypeForEntity:
                 frame_rect = sprite.frame_rect
 
+            # subtract because of euclidean space
+            # TODO(jhives): this might need to work off the hitbox, as it 
+            #               represents the visible part of the sprite.. idk yet
+            z = y - frame_rect.h/2
 
-            viewport.draw_image(sprite.image, frame_rect, (x, y))
+            dest = frame_rect.copy()
+            dest.center = x, y
+
+            if dest.colliderect(viewport.rect):
+                entities.append((sprite.image, frame_rect, x, y, z))
+
+        for group in sorted(entities, key=lambda entity: entity[4], reverse=True):
+            image, rect, x, y, z = group
+            viewport.draw_image(image, rect, (x, y))
