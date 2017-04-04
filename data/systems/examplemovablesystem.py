@@ -64,9 +64,11 @@ class MovableSystem(System):
                 continue
 
 
-            for action, key in movable.actions.items():
-
-                if key in keys and keys[key] == 'held':
+            for action, keylist in movable.actions.items():
+                pass
+                # TODO(jhives): change to if every key in list is held, move it
+                """
+                if keylist in keys and keys[keylist] == 'held':
                     if action == 'walk_up':
                         self.MoveUp(position, 2).do()
 
@@ -78,6 +80,7 @@ class MovableSystem(System):
 
                     if action == 'walk_right':
                         self.MoveRight(position, 2).do()
+                """
 
     def draw(self, viewport):
         pass

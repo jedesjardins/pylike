@@ -24,20 +24,20 @@ class AnimationSystem(System):
 
     def end_animation(self, animation, controls, keys):
         animation.action['elapsed_time'] = 0
-        for action, key_value in controls.actions.items():
+        for action, key_list in controls.actions.items():
             if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
                 self.start_animation(animation, action)
                 break
 
-    def handle_key(self, animation, controls, dt, keys, key, action):
+    def handle_key(self, animation, controls, dt, keys, key_list, action):
 
-        if keys[key] == 'down':
+        if keys[key_list] == 'down':
             self.start_animation(animation, action)
             
-        elif keys[key] == 'held':
+        elif keys[key_list] == 'held':
             self.continue_animation(animation, action, dt)
 
-        elif keys[key] == 'up':
+        elif keys[key_list] == 'up':
             self.end_animation(animation, controls, keys)
 
     def update(self, game):
@@ -51,9 +51,12 @@ class AnimationSystem(System):
                 # TODO(jhives): adapt to ai somehow
                 continue
 
-            for action, key_value in controls.actions.items():
-                if key_value in keys:
-                    self.handle_key(animation, controls, dt, keys, key_value, action)
+            for action, key_list in controls.actions.items():
+                pass
+                """
+                if key_list in keys:
+                    self.handle_key(animation, controls, dt, keys, key_list, action)
+                """
 
             frame_length = animation.action['length']/len(animation.action['frames'])
             frame_index = int((animation.action['elapsed_time'] // frame_length) % 4)
