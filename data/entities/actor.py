@@ -13,7 +13,13 @@
 	"Sprite": {
 		"file": "$0",
 		"frames": 12,
-		"columns": 3
+		"columns": 3,
+		"frame_rect": {
+			"x": 0,
+			"y": 0,
+			"w": 24,
+			"h": 32
+		}
 	},
 	"Animation": {
 		"frame_rect": {
