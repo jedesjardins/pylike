@@ -10,7 +10,7 @@ class Viewport(object):
     #               it already has a lot of functionality that I reimplemented,
     #               Probably poorly too.
 
-    def __init__(self, point=(0, 0), size=(400, 300), resolution=(800,600)):
+    def __init__(self, point=(0, 0), size=(200, 150), resolution=(800,600)):
 
         self.screen = pygame.display.set_mode(resolution)
 
@@ -42,8 +42,6 @@ class Viewport(object):
         dest = self.translate_rect(source, pos)
         self.screen.blit(pygame.transform.scale(image, (int(self.scale * image.get_rect().w), int(self.scale * image.get_rect().h))),
                 dest, tsrc)
-
-        self.screen.blit(image, Rect(0.5,0.5,0,0))
 
     def translate_rect(self, rect, pos):
         dest = Rect(0, 0, self.scale * rect.w, self.scale * rect.h)

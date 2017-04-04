@@ -11,7 +11,9 @@
 		}
 	},
 	"Sprite": {
-		"file": "$0"
+		"file": "$0",
+		"frames": 12,
+		"columns": 3
 	},
 	"Animation": {
 		"frame_rect": {
@@ -20,20 +22,24 @@
 			"w": 24,
 			"h": 32
 		},
-		"animations": {
-			"down": {
-				"frames": [0, 1, 0, 2],
-				"length": 500
-			},	
+		"actions": {	
 			"up": {
+				"name": "up",
 				"frames": [3, 4, 3, 5],
 				"length": 500
 			},
+			"down": {
+				"name": "down",
+				"frames": [0, 1, 0, 2],
+				"length": 500
+			},
 			"left": {
+				"name": "left",
 				"frames": [6, 7, 6, 8],
 				"length": 500
 			},	
 			"right": {
+				"name": "right",
 				"frames": [9, 10, 9, 11],
 				"length": 500
 			}
@@ -43,8 +49,14 @@
 		"rect": {
 			"x": 0,
 			"y": 0,
-			"w": 24,
-			"h": 32
+			"w": 18,
+			"h": 26
 		}
+	},
+	"Hold": {
+		"hand_locations": []
+	},
+	"Inventory": {
+		"items": []
 	}
 }

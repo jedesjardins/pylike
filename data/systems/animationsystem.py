@@ -1,3 +1,5 @@
+# TODO(jhives): change from keys to actions or something?
+
 from engine.ecs import System
 from data.components import Animation, Controlled
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
@@ -10,20 +12,33 @@ class AnimationSystem(System):
         r.x = x * r.w
         r.y = y * r.h
 
-    def handle_key(self, animation, dt, keys, key, direction):
-        if keys[key] == 'down':
-            # start animation
-            animation.elapsed_time = animation.animation['length']/len(animation.animation['frames'])
-            animation.animation = animation.animations[direction]
-            animation.frame = animation.animation['frames'][1]
+    def start_animation(self, animation, action):
+        animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
+        animation.action = animation.actions[action]
+        animation.frame = animation.action['frames'][1]
 
-            print(animation.elapsed_time, animation.frame)
+    # TODO(jhives): Make this work with three keys held (ex: up, down, right)
+    def continue_animation(self, animation, action, dt):
+        if action == animation.action['name']:
+            animation.action['elapsed_time'] += dt
+
+    def end_animation(self, animation, controlled, keys):
+        animation.action['elapsed_time'] = 0
+        for action, key_value in controlled.actions.items():
+            if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
+                self.start_animation(animation, action)
+                break
+
+    def handle_key(self, animation, controlled, dt, keys, key, action):
+
+        if keys[key] == 'down':
+            self.start_animation(animation, action)
             
         elif keys[key] == 'held':
-            animation.elapsed_time += dt
+            self.continue_animation(animation, action, dt)
 
         elif keys[key] == 'up':
-            animation.elapsed_time = 0
+            self.end_animation(animation, controlled, keys)
 
     def update(self, dt, keys):
         for e, animation in self.entity_manager.pairs_for_type(Animation):
@@ -35,14 +50,12 @@ class AnimationSystem(System):
 
             for action, key_value in controlled.actions.items():
                 if key_value in keys:
-                    self.handle_key(animation, dt, keys, key_value, action)
+                    self.handle_key(animation, controlled, dt, keys, key_value, action)
 
-            frame_length = animation.animation['length']/len(animation.animation['frames'])
-            frame_index = int((animation.elapsed_time // frame_length) % 4)
-            animation.frame = animation.animation['frames'][frame_index]
+            frame_length = animation.action['length']/len(animation.action['frames'])
+            frame_index = int((animation.action['elapsed_time'] // frame_length) % 4)
+            animation.frame = animation.action['frames'][frame_index]
             self.change_frame_rect(animation, animation.frame%3, animation.frame//3)
-
                     
-
     def draw(self, viewport):
         pass

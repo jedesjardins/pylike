@@ -6,45 +6,49 @@ from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 class MovableSystem(System):
 
     class MoveUp(Command):
-        def __init__(self, position):
+        def __init__(self, position, dp):
             self.position = position
             self.oy = position.y
+            self.dp = dp
 
         def do(self):
-            self.position.y += 5
+            self.position.y += self.dp
 
         def undo(self):
             self.position.y = self.oy
 
     class MoveDown(Command):
-        def __init__(self, position):
+        def __init__(self, position, dp):
             self.position = position
             self.oy = position.y
+            self.dp = dp
 
         def do(self):
-            self.position.y -= 5
+            self.position.y -= self.dp
 
         def undo(self):
             self.position.y = self.oy
 
     class MoveLeft(Command):
-        def __init__(self, position):
+        def __init__(self, position, dp):
             self.position = position
             self.ox = position.x
+            self.dp = dp
 
         def do(self):
-            self.position.x -= 5
+            self.position.x -= self.dp
 
         def undo(self):
             self.position.x = self.ox
 
     class MoveRight(Command):
-        def __init__(self, position):
+        def __init__(self, position, dp):
             self.position = position
             self.ox = position.x
+            self.dp = dp
 
         def do(self):
-            self.position.x += 5
+            self.position.x += self.dp
 
         def undo(self):
             self.position.x = self.ox
@@ -56,16 +60,21 @@ class MovableSystem(System):
             except NonexistentComponentTypeForEntity:
                 continue
 
-            if movable.up in keys and keys[movable.up] == 'held':
-                self.MoveUp(position).do()
-            if movable.down in keys and keys[movable.down] == 'held':
-                self.MoveDown(position).do()
-            if movable.left in keys and keys[movable.left] == 'held':
-                self.MoveLeft(position).do()
-            if movable.right in keys and keys[movable.right] == 'held':
-                self.MoveRight(position).do()
 
-            print(position.x, position.y)
+            for action, key in movable.actions.items():
+
+                if key in keys and keys[key] == 'held':
+                    if action == 'up':
+                        self.MoveUp(position, 2).do()
+
+                    if action == 'down':
+                        self.MoveDown(position, 2).do()
+
+                    if action == 'left':
+                        self.MoveLeft(position, 2).do()
+
+                    if action == 'right':
+                        self.MoveRight(position, 2).do()
 
     def draw(self, viewport):
         pass

@@ -17,7 +17,7 @@ class PlayState(State):
 
         #self.system_manager.add_system(CounterSystem())
         #self.system_manager.add_system(ButtonSystem())
-        #self.system_manager.add_system(MovableSystem())
+        self.system_manager.add_system(MovableSystem())
         self.system_manager.add_system(DrawSystem())
         self.system_manager.add_system(AnimationSystem())
 
