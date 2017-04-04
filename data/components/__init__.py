@@ -8,6 +8,7 @@ from .position import Position
 from .sprite import Sprite
 from .animation import Animation
 from .hitbox import Hitbox
-from .controlled import Controlled
+from .controls import Controls
 from .inventory import Inventory
 from .hold import Hold
+from .actions import Actions

@@ -2,12 +2,18 @@
 	"Misc": {
 		"name": "Player"
 	},
-	"Controlled": {
+	"Controls": {
 		"actions": {
-			"up": "w",
-			"down": "s",
-			"left": "a",
-			"right": "d"
+			"slide_up": "shift.w",
+			"slide_down": "shift.s",
+			"slide_left": "shift.a",
+			"slide_right": "shift.d",
+			"walk_up": "w",
+			"walk_down": "s",
+			"walk_left": "a",
+			"walk_right": "d",
+			"attack": "space",
+			"interact": "e"
 		}
 	},
 	"Sprite": {
@@ -35,23 +41,23 @@
 			"h": 32
 		},
 		"actions": {	
-			"up": {
-				"name": "up",
+			"walk_up": {
+				"name": "walk_up",
 				"frames": [3, 4, 3, 5],
 				"length": 500
 			},
-			"down": {
-				"name": "down",
+			"walk_down": {
+				"name": "walk_down",
 				"frames": [0, 1, 0, 2],
 				"length": 500
 			},
-			"left": {
-				"name": "left",
+			"walk_left": {
+				"name": "walk_left",
 				"frames": [6, 7, 6, 8],
 				"length": 500
 			},	
-			"right": {
-				"name": "right",
+			"walk_right": {
+				"name": "walk_right",
 				"frames": [9, 10, 9, 11],
 				"length": 500
 			}

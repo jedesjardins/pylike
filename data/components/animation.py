@@ -10,5 +10,5 @@ class Animation(Component):
         self.actions = actions
         for action, data in self.actions.items():
             data['elapsed_time'] = 0
-        self.action = self.actions['down']
+        self.action = self.actions['walk_down']
         self.frame = self.action['frames'][0]
