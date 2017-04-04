@@ -37,6 +37,39 @@ class StateManager(object):
     ktou = {}
     past_keys = {}
 
+    ascii_to_key = {
+        97: 'a',
+        98: 'b',
+        99: 'c',
+        100: 'd',
+        101: 'e',
+        102: 'f',
+        103: 'g',
+        104: 'h',
+        105: 'i',
+        106: 'j',
+        107: 'k',
+        108: 'l',
+        109: 'm',
+        110: 'n',
+        111: 'o',
+        112: 'p',
+        113: 'q',
+        114: 'r',
+        115: 's',
+        116: 't',
+        117: 'u',
+        118: 'v',
+        119: 'w',
+        120: 'x',
+        121: 'y',
+        122: 'z',
+        32: 'space',
+        303: 'rshift',
+        304: 'lshift',
+        306: 'ctrl'
+    }
+
     def update(self, dt):
 
         keys = {}
@@ -53,12 +86,21 @@ class StateManager(object):
 
             # maps this key code to the unicode to be stored for keyup
             if event.type == pygame.KEYDOWN:
+                if event.key in StateManager.ascii_to_key:
+                    keys[StateManager.ascii_to_key[event.key]] = 'down'
+                """
+                print(event)
                 ktou[event.key] = event.unicode
                 keys[event.unicode] = 'down'
+                """
 
             # looks into ktou to translate the key code to unicode
             if event.type == pygame.KEYUP:
+                if event.key in StateManager.ascii_to_key:
+                    keys[StateManager.ascii_to_key[event.key]] = 'up'
+                """
                 keys[ktou[event.key]] = 'up'
+                """
 
             # TODO(jhives): translate pos to new coordinate system?
             # TODO(jhives): add clickndrag input?
