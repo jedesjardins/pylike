@@ -26,9 +26,7 @@ class DrawSystem(System):
                 frame_rect = sprite.frame_rect
 
             # subtract because of euclidean space
-            # TODO(jhives): this might need to work off the hitbox, as it 
-            #               represents the visible part of the sprite.. idk yet
-            z = y - frame_rect.h/2
+            z = y + sprite.edge_buffer["bottom"] - frame_rect.h/2 
 
             dest = frame_rect.copy()
             dest.center = x, y

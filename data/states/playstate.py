@@ -27,7 +27,7 @@ class PlayState(State):
 
         # self.maker["Counter"](pos=None);
         # self.maker["Person"]('w', 's', 'a', 'd');
-        self.maker["Actor"]("Detective.png", pos=(30, 30))
+        self.maker["Player"]("Detective.png", pos=(30, 30))
         self.maker["Box"](pos=(0, 0))
 
         self.viewport = Viewport()

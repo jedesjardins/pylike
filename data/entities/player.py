@@ -1,6 +1,6 @@
 {
 	"Misc": {
-		"name": "Actor"
+		"name": "Player"
 	},
 	"Controlled": {
 		"actions": {
@@ -19,6 +19,12 @@
 			"y": 0,
 			"w": 24,
 			"h": 32
+		},
+		"edge_buffer": {
+			"left": 3,
+			"right": 3,
+			"top": 3,
+			"bottom": 3
 		}
 	},
 	"Animation": {
