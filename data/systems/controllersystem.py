@@ -14,16 +14,20 @@ class ControllerSystem(System):
                 actions = self.entity_manager.component_for_entity(e, Actions)
             except NonexistentComponentTypeForEntity:
                 continue
-
-            for action, key_list in controls.actions.items():
-                all_held = True
-                for key in key_list:
-                    if not (key in keys and (keys[key] == 'held' or keys[key] == 'down')):
-                        all_held = False
                 
-                # if key in keys and keys[key] == 'held':
-                if all_held:
-                    actions.actions.append(action)
+            actions.actions = []
+
+            for action, key_value in controls.actions.items():
+                if key_value in keys and (keys[key_value] == 'held' or keys[key_value] == 'down'):
+                    press = keys[key_value]
+                    if press == 'held':
+                        actions.actions.append((action, 'continue'))
+                    elif press == 'down':
+                        actions.actions.append((action, 'start'))
+                    elif press == 'up':
+                        actions.actions.append((action, 'end'))
+
+            print(e, actions.actions)
                 
 
     def draw(self, viewport):
