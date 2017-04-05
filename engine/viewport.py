@@ -18,6 +18,8 @@ class Viewport(object):
         self.screen_rect = Rect(0, 0, *resolution)
         self.scale = resolution[0] / size[0]
 
+        self.lock = None
+
 
     def set_position(self, point=(0, 0)):
         self.rect.center = point
@@ -25,9 +27,6 @@ class Viewport(object):
     def set_resolution(self, resolution=(800, 600)):
         self.screen = pygame.display.set_mode(size)
         self.w, self.h = size
-
-    def update(self):
-        pass
 
     def push(self):
         # self.screen.fill((0,0,0))
@@ -69,3 +68,10 @@ class Viewport(object):
     # TODO(jhives): implement for calculating collisions
     def on_screen(self, rect):
         pass
+
+    def lock_on(self, position):
+        self.lock = position
+
+    def update(self):
+        if self.lock:
+            self.center_on((self.lock.x, self.lock.y))

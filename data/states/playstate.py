@@ -2,6 +2,7 @@ from engine import State, Maker
 from engine.viewport import Viewport
 import engine.ecs as ecs
 from data.systems import *
+from data.components import Position
 import pygame
 
 class PlayState(State):
@@ -23,11 +24,12 @@ class PlayState(State):
         self.system_manager.add_system(DrawSystem(), 1)
         
 
-        self.maker["Player"]("Detective.png", pos=(0, 0))
+        e = self.maker["Player"]("Detective.png", pos=(0, 0))
         self.maker["Box"](pos=(0, 0))
 
         self.viewport = Viewport()
-        self.viewport.center_on(point=(30, 30))
+        # self.viewport.center_on((0, 0))
+        self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
 
     def update(self, dt, keys):
         if 'q' in keys:
@@ -36,7 +38,11 @@ class PlayState(State):
         game = {'dt': dt, 'keys': keys, 
             'viewport': self.viewport, 'world': {}}
 
-        return self.system_manager.update(game)
+        play_flag = self.system_manager.update(game)
+
+        self.viewport.update()
+
+        return play_flag
 
 
     def draw(self):
