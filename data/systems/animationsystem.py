@@ -12,6 +12,23 @@ class AnimationSystem(System):
         r.x = x * r.w
         r.y = y * r.h
 
+    def start_animation_key(self, animation, action):
+        animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
+        animation.action = animation.actions[action]
+        animation.frame = animation.action['frames'][1]
+
+    # TODO(jhives): Make this work with three keys held (ex: up, down, right)
+    def continue_animation_key(self, animation, action, dt):
+        if action == animation.action['name']:
+            animation.action['elapsed_time'] += dt
+
+    def end_animation_key(self, animation, controls, keys):
+        animation.action['elapsed_time'] = 0
+        for action, key_list in controls.actions.items():
+            if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
+                self.start_animation(animation, action)
+                break
+
     def start_animation(self, animation, action):
         animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
         animation.action = animation.actions[action]
@@ -27,9 +44,9 @@ class AnimationSystem(System):
         for action, key_list in controls.actions.items():
             if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
                 self.start_animation(animation, action)
-                break
+                break      
 
-    def handle_key(self, animation, controls, dt, keys, key_list, action):
+    def handle_key1(self, animation, controls, dt, keys, key_list, action):
         if keys[key_list] == 'down':
             self.start_animation(animation, action)
             
@@ -38,6 +55,25 @@ class AnimationSystem(System):
 
         elif keys[key_list] == 'up':
             self.end_animation(animation, controls, keys)
+
+    def handle_action(self, animation, actions, action, status, dt):
+        if status == 'start':
+            # start this animation unless the shift button is held
+
+            # if shift key is down
+            # continue the current animation
+            # else
+            self.start_animation(animation, action)
+
+        if status == 'continue':
+            # continue this animation if it's name matches the current action
+            self.continue_animation(animation, action, dt)
+            pass
+
+        if status == 'end':
+            # end the animation and switch to another unless the shift button 
+            # is held, in witch case, continue on the current animation
+            self.end_animation(animation, actions, )
 
     def update(self, game):
         dt = game['dt']
@@ -50,16 +86,17 @@ class AnimationSystem(System):
                 # TODO(jhives): adapt to ai somehow
                 continue
 
-            for action, key_list in controls.actions.items():
-                all_held = True
-                for key in key_list:
-                    if not key in keys:
-                        all_held = False
-                
-                # if key in keys and keys[key] == 'held':
-                if all_held:
-                    self.handle_action(animation, actions, dt, keys, action)
-                    actions.actions.append(action)
+            for action_status in actions.actions:
+                action, status = action_status
+
+                if action != 'slide':
+                    self.handle_action(animation, actions, action, status, dt)
+
+                """
+                if key_value in keys and (keys[key_value] == 'held' or keys[key_value] == 'down'):
+                    print(key_value)
+                    self.handle_action(animation, actions, action, dt, keys)
+                """
 
             frame_length = animation.action['length']/len(animation.action['frames'])
             frame_index = int((animation.action['elapsed_time'] // frame_length) % 4)

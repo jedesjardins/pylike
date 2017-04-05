@@ -4,6 +4,7 @@
 	},
 	"Controls": {
 		"actions": {
+			"caps": "run",
 			"slide": "lshift",
 			"walk_up": "w",
 			"walk_down": "s",
