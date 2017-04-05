@@ -23,11 +23,11 @@ class PlayState(State):
         self.system_manager.add_system(DrawSystem(), 1)
         
 
-        self.maker["Player"]("Detective.png", pos=(30, 30))
+        self.maker["Player"]("Detective.png", pos=(0, 0))
         self.maker["Box"](pos=(0, 0))
 
         self.viewport = Viewport()
-        self.viewport.center_on(point=(0, 0))
+        self.viewport.center_on(point=(30, 30))
 
     def update(self, dt, keys):
         if 'q' in keys:

@@ -55,7 +55,7 @@ class AnimationSystem(System):
 
         for action_status in actions:
             action, status = action_status
-            if action == 'slide': 
+            if action == 'strafe': 
                 if status == 'end': continue
                 else: break
             if status == 'end': continue
@@ -65,10 +65,10 @@ class AnimationSystem(System):
 
     def handle_action(self, animation, actions, action, status, dt):
         # true if sliding
-        slide = 'slide' in [action_status[0] for action_status in actions]
+        strafe = 'strafe' in [action_status[0] for action_status in actions]
 
         #
-        # Maybe if slide is detected here just continue the animation
+        # Maybe if strafe is detected here just continue the animation
         #
 
         if status == 'start':
@@ -99,8 +99,8 @@ class AnimationSystem(System):
             except NonexistentComponentTypeForEntity:
                 continue
 
-            # if slide is held and other buttons are held, continue the action
-            if 'slide' in [action_status[0] for action_status in actions.act_list]:
+            # if strafe is held and other buttons are held, continue the action
+            if 'strafe' in [action_status[0] for action_status in actions.act_list]:
 
                 if len(actions.act_list) > 1:
                     self.continue_animation(animation, animation.action['name'], dt)
@@ -111,7 +111,7 @@ class AnimationSystem(System):
                 for action_status in actions.act_list:
                     action, status = action_status
 
-                    if action != 'slide':
+                    if action != 'strafe':
                         self.handle_action(animation, actions.act_list, action, status, dt)
 
             frame_length = animation.action['length']/len(animation.action['frames'])
