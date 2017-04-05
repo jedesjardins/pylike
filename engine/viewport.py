@@ -59,11 +59,20 @@ class Viewport(object):
     def center_on(self, point=(0,0), size=(0,0)):
         self.rect.center = point
 
+    # TODO(): FIX, Zoom is fucked
     def zoom_in(self, percentage):
-        pass
+        print(self.rect)
+        c = self.rect.copy().center
+        self.rect.w = self.rect.w * 1.05
+        self.rect.h = self.rect.h * 1.05
+        self.rect.center = c
+        print(self.rect)
 
     def zoom_out(self, percentage):
-        pass
+        c = self.rect.copy().center
+        self.rect.w = self.rect.w * .95
+        self.rect.h = self.rect.h * .95
+        self.rect.center = c
 
     # TODO(jhives): implement for calculating collisions
     def on_screen(self, rect):
