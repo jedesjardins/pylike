@@ -30,7 +30,6 @@ class AnimationSystem(System):
                 break
 
     def handle_key(self, animation, controls, dt, keys, key_list, action):
-
         if keys[key_list] == 'down':
             self.start_animation(animation, action)
             
