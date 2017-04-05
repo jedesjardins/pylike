@@ -11,7 +11,7 @@ class ControllerSystem(System):
         for e, controls in self.entity_manager.pairs_for_type(Controls):
 
             try:
-                action = self.entity_manager.component_for_entity(e, Actions)
+                actions = self.entity_manager.component_for_entity(e, Actions)
             except NonexistentComponentTypeForEntity:
                 continue
 
@@ -23,7 +23,7 @@ class ControllerSystem(System):
                 
                 # if key in keys and keys[key] == 'held':
                 if all_held:
-                    print(action)
+                    actions.actions.append(action)
                 
 
     def draw(self, viewport):

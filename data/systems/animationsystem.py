@@ -1,7 +1,7 @@
 # TODO(jhives): change from keys to actions or something?
 
 from engine.ecs import System
-from data.components import Animation, Controls
+from data.components import Animation, Actions
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
 
@@ -46,17 +46,21 @@ class AnimationSystem(System):
 
         for e, animation in self.entity_manager.pairs_for_type(Animation):
             try:
-                controls = self.entity_manager.component_for_entity(e, Controls)
+                actions = self.entity_manager.component_for_entity(e, Actions)
             except NonexistentComponentTypeForEntity:
                 # TODO(jhives): adapt to ai somehow
                 continue
 
             for action, key_list in controls.actions.items():
-                pass
-                """
-                if key_list in keys:
-                    self.handle_key(animation, controls, dt, keys, key_list, action)
-                """
+                all_held = True
+                for key in key_list:
+                    if not key in keys:
+                        all_held = False
+                
+                # if key in keys and keys[key] == 'held':
+                if all_held:
+                    self.handle_action(animation, actions, dt, keys, action)
+                    actions.actions.append(action)
 
             frame_length = animation.action['length']/len(animation.action['frames'])
             frame_index = int((animation.action['elapsed_time'] // frame_length) % 4)

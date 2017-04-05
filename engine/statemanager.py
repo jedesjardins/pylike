@@ -65,6 +65,7 @@ class StateManager(object):
         121: 'y',
         122: 'z',
         32: 'space',
+        301: 'caps',
         303: 'rshift',
         304: 'lshift',
         306: 'ctrl'

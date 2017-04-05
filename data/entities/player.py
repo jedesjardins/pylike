@@ -4,10 +4,7 @@
 	},
 	"Controls": {
 		"actions": {
-			"slide_up": "lshift.w",
-			"slide_down": "lshift.s",
-			"slide_left": "lshift.a",
-			"slide_right": "lshift.d",
+			"slide": "lshift",
 			"walk_up": "w",
 			"walk_down": "s",
 			"walk_left": "a",
