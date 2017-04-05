@@ -17,7 +17,7 @@ class PlayState(State):
         self.system_manager.add_system(ControllerSystem(), 0)
         self.system_manager.add_system(MovableSystem(), 1)
 
-        self.system_manager.add_system(AnimationSystem())
+        self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(CollisionSystem(), 1)
 
         self.system_manager.add_system(DrawSystem(), 1)

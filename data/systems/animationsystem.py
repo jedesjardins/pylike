@@ -13,6 +13,7 @@ class AnimationSystem(System):
         r.y = y * r.h
 
     def start_animation_key(self, animation, action):
+
         animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
         animation.action = animation.actions[action]
         animation.frame = animation.action['frames'][1]
@@ -27,7 +28,17 @@ class AnimationSystem(System):
         for action, key_list in controls.actions.items():
             if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
                 self.start_animation(animation, action)
-                break
+                break   
+
+    def handle_key(self, animation, controls, dt, keys, key_list, action):
+        if keys[key_list] == 'down':
+            self.start_animation(animation, action)
+            
+        elif keys[key_list] == 'held':
+            self.continue_animation(animation, action, dt)
+
+        elif keys[key_list] == 'up':
+            self.end_animation(animation, controls, keys)
 
     def start_animation(self, animation, action):
         animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
@@ -39,24 +50,27 @@ class AnimationSystem(System):
         if action == animation.action['name']:
             animation.action['elapsed_time'] += dt
 
-    def end_animation(self, animation, controls, keys):
+    def end_animation(self, animation, actions):
         animation.action['elapsed_time'] = 0
-        for action, key_list in controls.actions.items():
-            if key_value in keys and (keys[key_value] == 'down' or keys[key_value] == 'held'):
-                self.start_animation(animation, action)
-                break      
 
-    def handle_key1(self, animation, controls, dt, keys, key_list, action):
-        if keys[key_list] == 'down':
+        for action_status in actions:
+            action, status = action_status
+            if action == 'slide': 
+                if status == 'end': continue
+                else: break
+            if status == 'end': continue
             self.start_animation(animation, action)
-            
-        elif keys[key_list] == 'held':
-            self.continue_animation(animation, action, dt)
+            break
 
-        elif keys[key_list] == 'up':
-            self.end_animation(animation, controls, keys)
 
     def handle_action(self, animation, actions, action, status, dt):
+        # true if sliding
+        slide = 'slide' in [action_status[0] for action_status in actions]
+
+        #
+        # Maybe if slide is detected here just continue the animation
+        #
+
         if status == 'start':
             # start this animation unless the shift button is held
 
@@ -73,7 +87,7 @@ class AnimationSystem(System):
         if status == 'end':
             # end the animation and switch to another unless the shift button 
             # is held, in witch case, continue on the current animation
-            self.end_animation(animation, actions, )
+            self.end_animation(animation, actions)
 
     def update(self, game):
         dt = game['dt']
@@ -83,20 +97,22 @@ class AnimationSystem(System):
             try:
                 actions = self.entity_manager.component_for_entity(e, Actions)
             except NonexistentComponentTypeForEntity:
-                # TODO(jhives): adapt to ai somehow
                 continue
 
-            for action_status in actions.actions:
-                action, status = action_status
+            # if slide is held and other buttons are held, continue the action
+            if 'slide' in [action_status[0] for action_status in actions.act_list]:
 
-                if action != 'slide':
-                    self.handle_action(animation, actions, action, status, dt)
+                if len(actions.act_list) > 1:
+                    self.continue_animation(animation, animation.action['name'], dt)
+                else:
+                    self.end_animation(animation, actions.act_list)
+            # 
+            else:
+                for action_status in actions.act_list:
+                    action, status = action_status
 
-                """
-                if key_value in keys and (keys[key_value] == 'held' or keys[key_value] == 'down'):
-                    print(key_value)
-                    self.handle_action(animation, actions, action, dt, keys)
-                """
+                    if action != 'slide':
+                        self.handle_action(animation, actions.act_list, action, status, dt)
 
             frame_length = animation.action['length']/len(animation.action['frames'])
             frame_index = int((animation.action['elapsed_time'] // frame_length) % 4)

@@ -15,19 +15,17 @@ class ControllerSystem(System):
             except NonexistentComponentTypeForEntity:
                 continue
                 
-            actions.actions = []
+            actions.act_list = []
 
             for action, key_value in controls.actions.items():
-                if key_value in keys and (keys[key_value] == 'held' or keys[key_value] == 'down'):
+                if key_value in keys:
                     press = keys[key_value]
                     if press == 'held':
-                        actions.actions.append((action, 'continue'))
+                        actions.act_list.append((action, 'continue'))
                     elif press == 'down':
-                        actions.actions.append((action, 'start'))
+                        actions.act_list.append((action, 'start'))
                     elif press == 'up':
-                        actions.actions.append((action, 'end'))
-
-            print(e, actions.actions)
+                        actions.act_list.append((action, 'end'))
                 
 
     def draw(self, viewport):
