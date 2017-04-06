@@ -1,5 +1,4 @@
-from engine import State, Maker
-from engine.viewport import Viewport
+from engine import State, Maker, Viewport, World
 import engine.ecs as ecs
 from data.systems import *
 from data.components import Position
@@ -27,6 +26,8 @@ class PlayState(State):
         e = self.maker["Player"]("Detective.png", pos=(0, 0))
         self.maker["Box"](pos=(0, 0))
 
+        self.world = World()
+
         self.viewport = Viewport()
         # self.viewport.center_on((0, 0))
         self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
@@ -46,6 +47,7 @@ class PlayState(State):
 
 
     def draw(self):
+        self.viewport.screen.blit(self.world.image, pygame.Rect(0, 0, 10, 10))
         self.system_manager.draw(self.viewport)
         
         # self.viewport.draw_rect((10, 10, 20, 20))
