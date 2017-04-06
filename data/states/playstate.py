@@ -23,7 +23,7 @@ class PlayState(State):
         self.system_manager.add_system(DrawSystem(), 1)
         
 
-        e = self.maker["Player"]("Detective.png", pos=(0, 0))
+        e = self.maker["Player"]("Detective.png", pos=(24, 0))
         self.maker["Box"](pos=(0, 0))
 
         self.world = World()
@@ -42,12 +42,15 @@ class PlayState(State):
         play_flag = self.system_manager.update(game)
 
         self.viewport.update()
+        self.world.update(self.viewport)
 
         return play_flag
 
 
     def draw(self):
-        self.viewport.screen.blit(self.world.image, pygame.Rect(0, 0, 10, 10))
+        #self.viewport.screen.blit(self.world.image, pygame.Rect(0, 0, 10, 10))
+
+        self.viewport.draw_image(self.world.image, pos=self.world.position)
         self.system_manager.draw(self.viewport)
         
         # self.viewport.draw_rect((10, 10, 20, 20))

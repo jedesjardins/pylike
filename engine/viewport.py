@@ -24,6 +24,9 @@ class Viewport(object):
     def set_position(self, point=(0, 0)):
         self.rect.center = point
 
+    def get_position(self):
+        return self.rect.center
+
     def set_resolution(self, resolution=(800, 600)):
         self.screen = pygame.display.set_mode(size)
         self.w, self.h = size
@@ -34,6 +37,11 @@ class Viewport(object):
         self.screen.fill((0,0,0))
 
     def draw_image(self, image, source=None, pos=None):
+        if not source:
+            source = image.get_rect()
+        if not pos:
+            pos = self.rect.center
+
         tsrc = source.copy()
         tsrc.x, tsrc.y = self.scale * source.x, self.scale * source.y
         tsrc.size = self.scale * source.w, self.scale * source.h
