@@ -67,8 +67,9 @@
 			"x": 0,
 			"y": 0,
 			"w": 18,
-			"h": 26
-		}
+			"h": 18
+		},
+		"y_offset": 8
 	},
 	"Hold": {
 		"hand_locations": []
