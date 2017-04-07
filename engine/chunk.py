@@ -16,39 +16,16 @@ class Chunk(object):
 
         self.grid = np.empty([Chunk.size, Chunk.size])
         self.fill()
-        """
-        if x == None or y == None:
-            self.grid = \
-            [[0,0,0,1,1,0,0,0], 
-             [0,1,1,1,1,1,1,0],
-             [0,1,1,1,1,1,1,0], 
-             [1,1,1,1,1,1,1,1], 
-             [1,1,1,1,1,1,1,1], 
-             [0,1,1,1,1,1,1,0], 
-             [0,1,1,1,1,1,1,0], 
-             [0,0,0,1,1,0,0,0]]
-        else:
-            self.grid = \
-            [[0,0,0,1,1,0,0,0], 
-             [0,0,0,1,1,0,0,0],
-             [0,0,0,1,1,0,0,0], 
-             [1,1,1,1,1,1,1,1], 
-             [1,1,1,1,1,1,1,1], 
-             [0,0,0,1,1,0,0,0], 
-             [0,0,0,1,1,0,0,0], 
-             [0,0,0,1,1,0,0,0]]
-        """
 
     def fill(self):
         for y in range(0, Chunk.size):
             for x in range(0, Chunk.size):
-                if noise((x+self.x)/8, (y+self.y)/8, .1, octaves=2) > -.1:
+                rand = noise((x+self.x)/8, (y+self.y)/8, .1, octaves=2)
+                if rand < .35 and rand > -.35:
                     value = 1
                 else:
                     value = 0 
                 self.grid[Chunk.size-1-y][x] = value
-
-
 
     def __getitem__(self, y):
         return self.grid[y]

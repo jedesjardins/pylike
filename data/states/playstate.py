@@ -19,12 +19,13 @@ class PlayState(State):
 
         self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(CollisionSystem(), 1)
+        self.system_manager.add_system(WorldCollisionSystem(), 1)
 
         self.system_manager.add_system(DrawSystem(), 1)
         
 
         e = self.maker["Player"]("Detective.png", pos=(24, 0))
-        self.maker["Box"](pos=(0, 0))
+        # self.maker["Box"](pos=(0, 0))
 
         self.world = World()
 
@@ -37,7 +38,7 @@ class PlayState(State):
             return False
 
         game = {'dt': dt, 'keys': keys, 
-            'viewport': self.viewport, 'world': {}}
+            'viewport': self.viewport, 'world': self.world}
 
         play_flag = self.system_manager.update(game)
 

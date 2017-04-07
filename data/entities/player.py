@@ -14,6 +14,7 @@
 			"interact": "e"
 		}
 	},
+	"Undo": {},
 	"Sprite": {
 		"file": "$0",
 		"frames": 12,
