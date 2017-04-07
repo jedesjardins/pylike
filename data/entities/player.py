@@ -14,7 +14,6 @@
 			"interact": "e"
 		}
 	},
-	"Undo": {},
 	"Sprite": {
 		"file": "$0",
 		"frames": 12,
@@ -76,5 +75,7 @@
 	},
 	"Inventory": {
 		"items": []
-	}
+	},
+	"Undo": {},
+	"Actions": {}
 }

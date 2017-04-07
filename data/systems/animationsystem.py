@@ -13,7 +13,6 @@ class AnimationSystem(System):
         r.y = y * r.h
 
     def start_animation_key(self, animation, action):
-
         animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
         animation.action = animation.actions[action]
         animation.frame = animation.action['frames'][1]
@@ -41,6 +40,7 @@ class AnimationSystem(System):
             self.end_animation(animation, controls, keys)
 
     def start_animation(self, animation, action):
+        if action not in animation.actions: return
         animation.action['elapsed_time'] = animation.action['length']/len(animation.action['frames'])
         animation.action = animation.actions[action]
         animation.frame = animation.action['frames'][1]

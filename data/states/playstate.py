@@ -25,7 +25,7 @@ class PlayState(State):
         
 
         e = self.maker["Player"]("Detective.png", pos=(24, 0))
-        self.maker["Box"](pos=(0,70))
+        #self.maker["Box"](pos=(0,70))
 
         self.world = World()
 

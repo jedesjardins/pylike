@@ -6,9 +6,36 @@ from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from engine import Quadtree
 from pygame import Rect
 
-class CollisionSystem(System):
+class WorldCollisionSystem(System):
 
     def update(self, game):
+        dt = game['dt']
+        keys = game['keys']
+        world = game['world']
+
+        for e, hitbox in self.entity_manager.pairs_for_type(Hitbox):
+            try:
+                position = self.entity_manager.component_for_entity(e, Position)
+            except NonexistentComponentTypeForEntity:
+                continue
+
+            try:
+                undo = self.entity_manager.component_for_entity(e, Undo)
+            except NonexistentComponentTypeForEntity:
+                undo = None
+
+            hb = hitbox.rect.copy()
+            hb.center = position.x, position.y - hitbox.y_offset/2
+
+            if world.get_collision(hb) and undo:
+                for command in undo.act_list:
+                    command.undo()
+
+
+
+
+
+    def update_back(self, game):
         dt = game['dt']
         keys = game['keys']
         qt = Quadtree(Rect(0, 0, 100, 100))
@@ -26,7 +53,7 @@ class CollisionSystem(System):
             
             entities.append(e)
             hb = hitbox.rect.copy()
-            hb.center = position.x, position.y - hitbox.y_offset/2
+            hb.center = position.x, position.y
             qt.insert(e, hb)
 
 
@@ -36,24 +63,24 @@ class CollisionSystem(System):
             position = self.entity_manager.component_for_entity(e, Position)
 
             hb = hitbox.rect.copy()
-            hb.center = position.x, position.y - hitbox.y_offset/2
-
-            try:
-                undo = self.entity_manager.component_for_entity(e, Undo)
-            except NonexistentComponentTypeForEntity:
-                undo = None
+            hb.center = position.x, position.y
 
             for c in qt.retrieve(hb):
                 chitbox = self.entity_manager.component_for_entity(c, Hitbox)
                 cposition = self.entity_manager.component_for_entity(c, Position)
                 chb = chitbox.rect.copy()
-                chb.center = cposition.x, cposition.y - chitbox.y_offset/2
+                chb.center = cposition.x, cposition.y
 
 
 
-                if e != c and hb.colliderect(chb) and undo:
-                    for command in undo.act_list:
-                            command.undo()
+                if e != c and hb.colliderect(chb):
+                    pass
+                    """
+                    print('Collision: {0}, {1}'. format(str(e), str(c)))
+                    print('\t', hb, chb)
+                    # e.resolve_collision()
+                    # c.resolve_collision()
+                    """
 
             
                     

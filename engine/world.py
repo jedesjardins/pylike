@@ -92,35 +92,20 @@ class World(object):
 
 
     def get_collision(self, rect):
-        """
-        e_pos = rect.center
-        w_pos = self.position
-
-        tile_x_off = (e_pos[0] - w_pos[0])/24 
-        tile_y_off = (e_pos[1] - w_pos[1])/24
-        tile_w_off = math.ceil(rect.w / 2 / 24)
-        """
-        """
-        tiles = []
-        tiles.append(self.point_to_tile(rect.topleft))
-        tiles.append(self.point_to_tile(rect.topright))
-        tiles.append(self.point_to_tile(rect.bottomleft))
-        tiles.append(self.point_to_tile(rect.bottomright))
-
-        for tile_coord in tiles:
-            x, y = tile_coord
-            if self.grid[y][x] == 0:
-                return True
-        """
 
         start_x, start_y = self.point_to_tile(rect.topleft)
         end_x, end_y = self.point_to_tile(rect.bottomright)
 
         for y in range(start_y, end_y + 1):
             for x in range(start_x, end_x + 1):
-                if self.grid[y][x] == 0:
-                    return True
-                    
+                try:
+                    if self.grid[y][x] == 0:
+                        return True
+                except IndexError:
+                    # the object isn't within the world space anymore
+                    return False
+
+
         return False
 
 
