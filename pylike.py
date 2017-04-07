@@ -14,7 +14,7 @@ def main():
     start_state = PlayState()
     engine.push_state(start_state)
 
-    frames_per_second_max = 30
+    frames_per_second_max = 60
     dt = 1/frames_per_second_max
 
 
