@@ -6,6 +6,18 @@ from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from engine import Quadtree
 from pygame import Rect
 
+def undo_collision(undo):
+    for command in undo.act_list:
+        command.undo()
+
+
+def get_hitbox_rect(position, hitbox):
+    new_rect = hitbox.rect.copy()
+    new_rect.center = position.x, position.y - hitbox.y_offset/2
+    return new_rect
+
+a = 0
+
 class CollisionSystem(System):
 
     def update(self, game):
@@ -25,9 +37,7 @@ class CollisionSystem(System):
             # TODO: How do I get the screen dimensions? Maybe pass game datastructure?
             
             entities.append(e)
-            hb = hitbox.rect.copy()
-            hb.center = position.x, position.y - hitbox.y_offset/2
-            qt.insert(e, hb)
+            qt.insert(e, get_hitbox_rect(position, hitbox))
 
 
         # iterate all objects and resolve collisions
@@ -35,8 +45,7 @@ class CollisionSystem(System):
             hitbox = self.entity_manager.component_for_entity(e, Hitbox)
             position = self.entity_manager.component_for_entity(e, Position)
 
-            hb = hitbox.rect.copy()
-            hb.center = position.x, position.y - hitbox.y_offset/2
+            hb = get_hitbox_rect(position, hitbox)
 
             try:
                 undo = self.entity_manager.component_for_entity(e, Undo)
@@ -46,14 +55,11 @@ class CollisionSystem(System):
             for c in qt.retrieve(hb):
                 chitbox = self.entity_manager.component_for_entity(c, Hitbox)
                 cposition = self.entity_manager.component_for_entity(c, Position)
-                chb = chitbox.rect.copy()
-                chb.center = cposition.x, cposition.y - chitbox.y_offset/2
-
-
+                chb = get_hitbox_rect(cposition, chitbox)
 
                 if e != c and hb.colliderect(chb) and undo:
-                    for command in undo.act_list:
-                            command.undo()
+                    undo_collision(undo)
+
 
             
                     
