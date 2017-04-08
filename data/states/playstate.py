@@ -14,18 +14,20 @@ class PlayState(State):
 
         # used to make all the entities and shit
         self.maker = Maker(self.entity_manager, 'data/entities')
+        """
         self.system_manager.add_system(ControllerSystem(), 0)
         self.system_manager.add_system(MovableSystem(), 1)
-
-        self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(CollisionSystem(), 1)
+        """
+        self.system_manager.add_system(CommandSystem(), 0)
+        self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(WorldCollisionSystem(), 1)
 
         self.system_manager.add_system(DrawSystem(), 1)
         
 
-        e = self.maker["Player"]("Detective.png", pos=(24, 0))
-        self.maker["Box"](pos=(0,70))
+        e = self.maker["CommandPerson"]("Detective.png", pos=(24, 0))
+        #self.maker["Box"](pos=(0,70))
 
         self.world = World()
 

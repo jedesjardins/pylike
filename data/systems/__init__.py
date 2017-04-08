@@ -7,3 +7,4 @@ from .animationsystem import AnimationSystem
 from .collisionsystem import CollisionSystem
 from .worldcollisionsystem import WorldCollisionSystem
 from .controllersystem import ControllerSystem
+from .commandsystem import CommandSystem

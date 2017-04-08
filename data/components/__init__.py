@@ -14,3 +14,4 @@ from .hold import Hold
 from .actions import Actions
 from .undo import Undo
 from .type import Type
+from .commands import Commands
