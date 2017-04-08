@@ -25,7 +25,7 @@ class PlayState(State):
         
 
         e = self.maker["Player"]("Detective.png", pos=(24, 0))
-        #self.maker["Box"](pos=(0,70))
+        self.maker["Box"](pos=(0,70))
 
         self.world = World()
 
@@ -46,7 +46,6 @@ class PlayState(State):
         self.world.update(self.viewport)
 
         return play_flag
-
 
     def draw(self):
         #self.viewport.screen.blit(self.world.image, pygame.Rect(0, 0, 10, 10))

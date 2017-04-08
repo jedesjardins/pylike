@@ -2,6 +2,9 @@
 	"Misc": {
 		"name": "Player"
 	},
+	"Type": {
+		"label": "Person"
+	},
 	"Controls": {
 		"actions": {
 			"run": "caps",

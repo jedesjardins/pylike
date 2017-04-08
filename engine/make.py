@@ -27,7 +27,7 @@ class Maker(object):
             with open(os.path.join(entity_path, preset)) as pref:
                 try:
                     cp_pre = json.load(pref)
-                except ValueError:
+                except ValueError: 
                     print('Failed to read in preset', preset)
                     continue
 
@@ -45,7 +45,7 @@ class Maker(object):
 
             # iterate fields in the entity file
             for s in cp_pre:
-                if s == 'Misc': continue # misc processed about to get the name
+                if s == 'Misc': continue
 
                 try:
                     # . means it's in the form component.factory
@@ -56,7 +56,6 @@ class Maker(object):
                         comp = getattr(data.components, s)
                     # comp is now the method that will create the entity
                 except AttributeError as err:
-                    print(s)
                     print('Component or Factory doesnt exist')
                     del self.presets[name]
                     break

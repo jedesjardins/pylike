@@ -2,6 +2,9 @@
 	"Misc": {
 		"name": "Box"
 	},
+	"Type": {
+		"label": "Item"
+	},
 	"Sprite": {
 		"file": "Tileset.png",
 		"frames": 2,
