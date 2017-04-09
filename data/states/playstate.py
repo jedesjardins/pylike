@@ -1,7 +1,7 @@
 from engine import State, Maker, Viewport, World
 import engine.ecs as ecs
 from data.systems import *
-from data.components import Position
+from data.components import Position, Commands
 import pygame
 
 class PlayState(State):
@@ -22,14 +22,17 @@ class PlayState(State):
         self.system_manager.add_system(CommandSystem(), 0)
         self.system_manager.add_system(MovementSystem(), 1)
         self.system_manager.add_system(StateSystem(), 1)
+        self.system_manager.add_system(CommandCollisionSystem(), 1)
         self.system_manager.add_system(CommandAnimationSystem(), 1)
-        self.system_manager.add_system(WorldCollisionSystem(), 2)
+        #self.system_manager.add_system(WorldCollisionSystem(), 2)
 
         self.system_manager.add_system(DrawSystem(), 2)
         
 
-        e = self.maker["CommandPerson"]("Detective.png", pos=(24, 0))
-        #self.maker["Box"](pos=(0,70))
+        e = self.maker["CommandPerson"]("Detective.png", pos=(12, 12))
+        e2 = self.maker["CommandPerson"]("Detective.png", pos=(36, 12))
+        self.entity_manager.remove_component(e2, Commands)
+        self.maker["Box"](pos=(12, 36))
 
         self.world = World()
 

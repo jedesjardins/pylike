@@ -15,3 +15,4 @@ from .commandsystem import CommandSystem
 from .movementsystem import MovementSystem
 from .statesystem import StateSystem
 from .commandanimationsystem import CommandAnimationSystem
+from .commandcollisionsystem import CommandCollisionSystem

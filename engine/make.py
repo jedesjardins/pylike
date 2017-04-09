@@ -56,6 +56,7 @@ class Maker(object):
                         comp = getattr(data.components, s)
                     # comp is now the method that will create the entity
                 except AttributeError as err:
+                    print(s)
                     print('Component or Factory doesnt exist')
                     del self.presets[name]
                     break

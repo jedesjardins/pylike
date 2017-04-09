@@ -13,9 +13,10 @@ from .inventory import Inventory
 from .hold import Hold
 from .actions import Actions
 from .undo import Undo
-from .type import Type
+from .label import Label
 
 
 from .commands import Commands
 from .state import State
 from .commandanimation import CommandAnimation
+from .collision import Collision

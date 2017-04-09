@@ -2,7 +2,7 @@
 	"Misc": {
 		"name": "Player"
 	},
-	"Type": {
+	"Label": {
 		"label": "Person"
 	},
 	"Controls": {
