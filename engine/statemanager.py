@@ -72,7 +72,8 @@ class StateManager(object):
         301: 'caps',
         303: 'rshift',
         304: 'lshift',
-        306: 'ctrl'
+        306: 'ctrl',
+        27: 'esc'
     }
 
     def update(self, dt):
@@ -91,6 +92,7 @@ class StateManager(object):
 
             # maps this key code to the unicode to be stored for keyup
             if event.type == pygame.KEYDOWN:
+                # print(event.key)
                 if event.key in StateManager.ascii_to_key:
                     keys[StateManager.ascii_to_key[event.key]] = 'down'
                 """

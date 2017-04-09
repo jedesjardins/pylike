@@ -1,5 +1,5 @@
 from engine.ecs import System
-from data.components import Sprite, Position, Animation
+from data.components import Sprite, Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
 
@@ -19,11 +19,8 @@ class DrawSystem(System):
             except NonexistentComponentTypeForEntity:
                 x, y = (0, 0)
 
-            try:
-                animation = self.entity_manager.component_for_entity(e, Animation)
-                frame_rect = animation.curr_frame_rect
-            except NonexistentComponentTypeForEntity:
-                frame_rect = sprite.frame_rect
+            
+            frame_rect = sprite.curr_frame_rect
 
             # subtract because of euclidean space
             z = y + sprite.edge_buffer["bottom"] - frame_rect.h/2 

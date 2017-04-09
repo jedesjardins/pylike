@@ -20,10 +20,12 @@ class PlayState(State):
         self.system_manager.add_system(CollisionSystem(), 1)
         """
         self.system_manager.add_system(CommandSystem(), 0)
-        self.system_manager.add_system(AnimationSystem(), 1)
-        self.system_manager.add_system(WorldCollisionSystem(), 1)
+        self.system_manager.add_system(MovementSystem(), 1)
+        self.system_manager.add_system(StateSystem(), 1)
+        self.system_manager.add_system(CommandAnimationSystem(), 1)
+        self.system_manager.add_system(WorldCollisionSystem(), 2)
 
-        self.system_manager.add_system(DrawSystem(), 1)
+        self.system_manager.add_system(DrawSystem(), 2)
         
 
         e = self.maker["CommandPerson"]("Detective.png", pos=(24, 0))
@@ -36,7 +38,7 @@ class PlayState(State):
         self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
 
     def update(self, dt, keys):
-        if 'q' in keys:
+        if 'esc' in keys:
             return False
 
         game = {'dt': dt, 'keys': keys, 
