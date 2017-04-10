@@ -1,6 +1,4 @@
-import pygame, os
-import os
-import json
+import pygame, os, json
 from copy import deepcopy
 from functools import partial
 import data.components
@@ -27,7 +25,7 @@ class Maker(object):
             with open(os.path.join(entity_path, preset)) as pref:
                 try:
                     cp_pre = json.load(pref)
-                except ValueError:
+                except ValueError: 
                     print('Failed to read in preset', preset)
                     continue
 
@@ -45,7 +43,7 @@ class Maker(object):
 
             # iterate fields in the entity file
             for s in cp_pre:
-                if s == 'Misc': continue # misc processed about to get the name
+                if s == 'Misc': continue
 
                 try:
                     # . means it's in the form component.factory
@@ -107,7 +105,6 @@ class Maker(object):
         del proto['vargs']
 
         e = self.em.create_entity()
-        self.em.add_component(e, Actions())
 
         if pos:
             self.em.add_component(e, Position(*pos))

@@ -1,0 +1,37 @@
+{
+	"Misc": {
+		"name": "MainMenu"
+	},
+	"MenuOptions": {
+		"title": "Main Menu",
+		"menulist": {
+			"play": {},
+			"options": {},
+			"exit": {}
+		}
+	},
+	"Commands": {
+		"actions": {
+			"w": {
+				"filter": ["down"],
+				"list": ["MenuSystem.Up"]
+			},
+			"s": {
+				"filter": ["down"],
+				"list": ["MenuSystem.Down"]
+			},
+			"up": {
+				"filter": ["down"],
+				"list": ["MenuSystem.Up"]
+			},
+			"down": {
+				"filter": ["down"],
+				"list": ["MenuSystem.Down"]
+			},
+			"enter": {
+				"filter": ["down"],
+				"list": ["MenuSystem.Select"]
+			}
+		}
+	}
+}

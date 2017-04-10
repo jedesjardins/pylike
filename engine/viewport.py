@@ -10,7 +10,7 @@ class Viewport(object):
     #               it already has a lot of functionality that I reimplemented,
     #               Probably poorly too.
 
-    def __init__(self, point=(0, 0), size=(200, 150), resolution=(800,600)):
+    def __init__(self, point=(0, 0), size=(400, 300), resolution=(800,600)):
 
         self.screen = pygame.display.set_mode(resolution)
 
@@ -31,10 +31,10 @@ class Viewport(object):
         self.screen = pygame.display.set_mode(size)
         self.w, self.h = size
 
-    def push(self):
+    def push(self, color=(0,0,0)):
         # self.screen.fill((0,0,0))
         pygame.display.flip()
-        self.screen.fill((0,0,0))
+        self.screen.fill(color)
 
     def draw_image(self, image, source=None, pos=None):
         if not source:
@@ -92,3 +92,6 @@ class Viewport(object):
     def update(self):
         if self.lock:
             self.center_on((self.lock.x, self.lock.y))
+
+    def get_point_position(point):
+        x, y = point

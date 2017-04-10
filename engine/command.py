@@ -1,11 +1,14 @@
 class Command(object):
 
-	def __init__(self):
+	def __init__(self, ):
 		pass
 
 	def do(self):
-		print("do", self.value)
+		pass
+
+	def redo(self):
+		pass
 
 	def undo(self):
-		print("undo", self.value)
+		pass
 

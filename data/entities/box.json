@@ -2,6 +2,9 @@
 	"Misc": {
 		"name": "Box"
 	},
+	"Label": {
+		"label": "item"
+	},
 	"Sprite": {
 		"file": "Tileset.png",
 		"frames": 2,
@@ -19,6 +22,11 @@
 			"y": 0,
 			"w": 24,
 			"h": 24
+		}
+	},
+	"Collision": {
+		"type_commands": {	
+			"person": ["DeleteSystem.Delete"]
 		}
 	}
 }

@@ -11,10 +11,10 @@ def main():
     frame_lock = pygame.time.Clock()
     
     engine = StateManager()
-    start_state = PlayState()
+    start_state = MenuState()
     engine.push_state(start_state)
 
-    frames_per_second_max = 30
+    frames_per_second_max = 60
     dt = 1/frames_per_second_max
 
 
