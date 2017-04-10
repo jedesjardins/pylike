@@ -1,6 +1,4 @@
 
-from .perlinnoise import PerlinNoise
-
 class Chunk(object):
     size = 8
     def __init__(self, x=None, y=None):
