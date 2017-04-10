@@ -20,24 +20,27 @@ class PlayState(State):
         self.system_manager.add_system(StateSystem(), 1)
         self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(CollisionSystem(), 2)
+        self.system_manager.add_system(DeleteSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
         
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
-        e = self.maker["Player"]("Detective.png", pos=(12, 12))
+        self.player = self.maker["Player"]("Detective.png", pos=(12, 12))
         e2 = self.maker["Player"]("Detective.png", pos=(36, 12))
         self.entity_manager.remove_component(e2, Commands)
         self.maker["Box"](pos=(12, 36))
 
         # create viewport and world
         self.viewport = Viewport()
-        self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
+        self.viewport.lock_on(self.entity_manager.component_for_entity(self.player, Position))
         self.world = World()
 
     def update(self, game):
         keys = game['keys']
         if 'p' in keys and keys['p'] == 'down':
             game['state_change'] = [('push', 'PauseState')]
+        if 'q' in keys:
+            game['_running'] = False
 
         game['viewport'] = self.viewport
         game['world'] = self.world

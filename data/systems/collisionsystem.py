@@ -27,13 +27,6 @@ class CollisionSystem(System):
             for command in self.commands.past_commands:
                 command.do()
 
-    class CollideItem(Command):
-        def __init__(self, e, em, game):
-            pass
-
-        def do(self):
-            pass
-
     def entity_collisions(self, game):
         dt = game['dt']
         keys = game['keys']
@@ -79,8 +72,8 @@ class CollisionSystem(System):
                 if e != c and hb.colliderect(chb) and collision:
                     if label in collision.type_commands:
                         for command in collision.type_commands[label]:
-                            c = command(e, self.entity_manager, game)
-                            c.do()
+                            d = command(e, self.entity_manager, game)
+                            d.do()
 
     def world_collision(self, game):
         dt = game['dt']

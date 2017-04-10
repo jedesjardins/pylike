@@ -1,16 +1,8 @@
 from engine.ecs import Component
 from engine.command import Command
 import data.components
-from data.components import *
 
 class Commands(Component):
-
-    class Interact(Command):
-        def __init__(self, e, em, game):
-            pass
-
-        def do(self):
-            print("Need to implement")
 
     def __init__(self, actions):
         self.key_commands = {}

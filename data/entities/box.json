@@ -23,5 +23,10 @@
 			"w": 24,
 			"h": 24
 		}
+	},
+	"Collision": {
+		"type_commands": {	
+			"person": ["DeleteSystem.Delete"]
+		}
 	}
 }

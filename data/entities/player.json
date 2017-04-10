@@ -34,7 +34,7 @@
 			},
 			"e": {
 				"filter": ["down"],
-				"list": ["Interact"]
+				"list": ["InteractSystem.Interact"]
 			}
 		}
 	},
@@ -103,8 +103,14 @@
 	"Collision": {
 		"type_commands": {	
 			"person": ["CollisionSystem.Collide"],
-			"item": ["CollisionSystem.CollideItem"],
+			"item": ["InteractSystem.Pickup"],
 			"world": ["CollisionSystem.Collide"]
 		}
-	}
+	},
+	"Interact": {
+		"type_functions": {
+			"item": ["InteractSystem.Pickup"]
+		}
+	},
+	"Inventory": {}
 }
