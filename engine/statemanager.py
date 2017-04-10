@@ -127,12 +127,14 @@ class StateManager(object):
             if event.type == pygame.MOUSEBUTTONUP:
                 keys[StateManager.mouse_map[event.button]] = ('up', event.pos)
 
-        if self._running == True:
-            self._running, next_state = self._state_stack[-1].update(dt, keys)
+        self._running, next_state, push_state = self._state_stack[-1].update(dt, keys)
 
-            if next_state:
-                state_class = getattr(data.states, next_state)
-                self.change_state(state_class())
+        if next_state:
+            state_class = getattr(data.states, next_state)
+            self.change_state(state_class())
+        elif push_state:
+            state_class = getattr(data.states, push_state)
+            self.push_state(state_class())
 
         self.past_keys = keys
 
@@ -140,7 +142,9 @@ class StateManager(object):
     #               Higher states could just not clear the screen to black?
     def draw(self):
         # print('State Manager, draw')
-        self._state_stack[-1].draw()
+        for state in self._state_stack:
+            state.draw()
+        self._state_stack[-1].clear()
 
     @property
     def running(self):

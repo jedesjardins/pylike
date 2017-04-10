@@ -28,7 +28,7 @@
 				"filter": ["down"],
 				"list": ["MenuSystem.Down"]
 			},
-			"e": {
+			"enter": {
 				"filter": ["down"],
 				"list": ["MenuSystem.Select"]
 			}

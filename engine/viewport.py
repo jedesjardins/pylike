@@ -31,10 +31,10 @@ class Viewport(object):
         self.screen = pygame.display.set_mode(size)
         self.w, self.h = size
 
-    def push(self):
+    def push(self, color=(0,0,0)):
         # self.screen.fill((0,0,0))
         pygame.display.flip()
-        self.screen.fill((0,0,0))
+        self.screen.fill(color)
 
     def draw_image(self, image, source=None, pos=None):
         if not source:

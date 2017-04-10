@@ -2,8 +2,10 @@
 
 from engine.ecs import System
 from engine.command import Command
+import engine.font as Font
 from data.components import MenuOptions
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
+from pygame import Rect
 
 class MenuSystem(System):
 
@@ -14,50 +16,42 @@ class MenuSystem(System):
         def do(self):
             if self.menuoptions.selection > 0:
                 self.menuoptions.selection -= 1
-            print('up', self.menuoptions.selection)
 
     class Down(Command):
         def __init__(self, e, em, game):
             self.menuoptions = em.component_for_entity(e, MenuOptions)
 
         def do(self):
-            if self.menuoptions.selection < len(self.menuoptions.menulist) - 1:
+            if self.menuoptions.selection < len(self.menuoptions.menu_list) - 1:
                 self.menuoptions.selection += 1
-            print('down', self.menuoptions.selection)
 
     class Select(Command):
         def __init__(self, e, em, game):
             self.menuoptions = em.component_for_entity(e, MenuOptions)
+            self.game = game
 
         def do(self):
-            print("Selection: ", 
-                self.menuoptions.menulist[self.menuoptions.selection])
+            menu_selection = self.menuoptions.menu_list[self.menuoptions.selection]
+            if menu_selection == 'play':
+                self.game['next_state'] = 'PlayState'
+            elif menu_selection == 'exit':
+                self.game['play_flag'] = False
 
     def update(self, game):
         pass
-        """
-        for e, animation in self.entity_manager.pairs_for_type(Animation):
-            try:
-                sprite = self.entity_manager.component_for_entity(e, Sprite)
-                state = self.entity_manager.component_for_entity(e, State)
+        #for e, menuoptions in self.entity_manager.pairs_for_type(MenuOptions):
+            #print(menuoptions.title, menuoptions.menu_list)
 
-            except NonexistentComponentTypeForEntity:
-                continue
+    def draw(self, viewport):
+        for e, menuoptions in self.entity_manager.pairs_for_type(MenuOptions):
+            menu_rect = menuoptions.image.get_rect()
+            menu_rect.center = viewport.screen.get_rect().center
+            viewport.screen.blit(menuoptions.image, menu_rect)
 
-            state_key = '{0}.{1}'.format(state.action, state.direction)
-
-            action = animation.action_animation[state_key]
-
-            if state.continue_action:
-                animation.elapsed_time += dt
-            else:
-                animation.elapsed_time = 0
-
-            duration = action['duration']
-            frame_count = len(action['frames'])
-            frame_length = duration/frame_count
-            frame_index = int((animation.elapsed_time // frame_length) % frame_count)
-            frame_column = sprite.columns
-            frame = action['frames'][frame_index]
-            self.change_frame_rect(sprite, frame%frame_column, frame//frame_column)
-        """
+            selection = menuoptions.selection
+            arrow = Font.get_text_image('>', 'Minecraft.ttf', 30)
+            destx, desty = menuoptions.menu_list_offsets[selection]
+            destx -= arrow.get_rect().width
+            dest_rect = menu_rect.copy()
+            dest_rect.move_ip(destx, desty)
+            viewport.screen.blit(arrow, dest_rect)

@@ -37,18 +37,26 @@ class PlayState(State):
     def update(self, dt, keys):
         if 'esc' in keys:
             return True, 'MenuState'
+        if 'p' in keys:
+            return True, None, 'PauseState'
 
-        game = {'dt': dt, 'keys': keys, 
-            'viewport': self.viewport, 'world': self.world}
+        game = {'dt': dt, 'keys': keys, 'viewport': self.viewport, 
+            'world': self.world, 'play_flag': True, 
+            'next_state': None, 'push_state': None}
 
-        play_flag = self.system_manager.update(game)
+        self.system_manager.update(game)
+        play_flag = game['play_flag']
+        next_state = game['next_state']
+        push_state = game['push_state']
 
         self.viewport.update()
         self.world.update(self.viewport)
 
-        return play_flag, None
+        return play_flag, next_state, push_state
 
     def draw(self):
         self.viewport.draw_image(self.world.image, pos=self.world.position)
         self.system_manager.draw(self.viewport)
+
+    def clear(self):
         self.viewport.push()

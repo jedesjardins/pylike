@@ -2,6 +2,7 @@ from engine.state import State
 from engine.make import Maker
 from engine.viewport import Viewport
 from engine.world import World
+import engine.font as Font
 import engine.ecs as ecs
 from data.systems import *
 import pygame
@@ -28,28 +29,29 @@ class MenuState(State):
         self.maker = Maker(self.entity_manager, 'data/entities')
         self.maker["MainMenu"](pos=None)
 
-        self.font = pygame.font.Font("resources/fonts/Minecraft.ttf", 50)
-        self.text_image = self.font.render("The Menu Bitch", True, (255,255,255))
+        self.text_image = Font.get_text_image('The Menu Bitch', 'Minecraft.ttf', 50)
         # create viewport
         self.viewport = Viewport()
 
     def update(self, dt, keys):
-        if 'enter' in keys and keys['enter'] == 'down':
-            return True, 'PlayState'
-        if 'esc' in keys and keys['esc'] == 'down':
-            return False, None
+        game = {'dt': dt, 'keys': keys, 'viewport': self.viewport, 
+            'play_flag': True, 'next_state': None, 'push_state': None}
 
-        game = {'dt': dt, 'keys': keys, 
-            'viewport': self.viewport}
+        self.system_manager.update(game)
 
-        play_flag = self.system_manager.update(game)
+        play_flag = game['play_flag']
+        next_state = game['next_state']
+        push_state = game['push_state']
 
         self.viewport.update()
         #self.world.update(self.viewport)
 
-        return play_flag, None
+        return play_flag, next_state, push_state
 
     def draw(self):
-        self.viewport.screen.blit(self.text_image, (0, 0))
+        # self.viewport.screen.blit(self.text_image, (0, 0))
         self.system_manager.draw(self.viewport)
-        self.viewport.push()
+        
+
+    def clear(self):
+        self.viewport.push((255,255,255))

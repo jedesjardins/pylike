@@ -26,6 +26,9 @@ class State(object):
         # print("\tState, draw")
         pass
 
+    def clear(self):
+        pass
+
     def pause(self):
         # print("\tState, pause")
         pass
