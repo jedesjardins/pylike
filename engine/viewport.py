@@ -92,3 +92,6 @@ class Viewport(object):
     def update(self):
         if self.lock:
             self.center_on((self.lock.x, self.lock.y))
+
+    def get_point_position(point):
+        x, y = point

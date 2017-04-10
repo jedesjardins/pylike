@@ -4,9 +4,9 @@
 from engine.ecs import System
 from data.components import Position, Hitbox, Commands, Collision, Label
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
-from engine import Quadtree
+from engine.quadtree import Quadtree
+from engine.command import Command
 from pygame import Rect
-from engine import Command
 
 def get_hitbox_rect(position, hitbox):
     new_rect = hitbox.rect.copy()
@@ -109,4 +109,6 @@ class CollisionSystem(System):
 
     def update(self, game):
         self.entity_collisions(game)
-        self.world_collision(game)
+
+        if 'world' in game:
+            self.world_collision(game)

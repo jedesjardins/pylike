@@ -1,5 +1,5 @@
 from engine.ecs import System
-from engine import Command
+from engine.command import Command
 from data.components import Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 

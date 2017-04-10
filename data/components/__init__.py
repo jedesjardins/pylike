@@ -11,3 +11,5 @@ from .collision import Collision
 # unused
 from .inventory import Inventory
 from .hold import Hold
+
+from .menuoptions import MenuOptions

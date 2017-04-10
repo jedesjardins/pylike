@@ -11,7 +11,14 @@ class CommandSystem(System):
             commands.past_commands = []
             for key, command_list in commands.key_commands.items():
                 if key in keys:
-                    for command in command_list:
-                        c = command(e, self.entity_manager, game)
-                        c.do()
-                        commands.past_commands.append(c)
+                    if key in commands.key_options:
+                        if keys[key] in commands.key_options[key]:
+                            for command in command_list:
+                                c = command(e, self.entity_manager, game)
+                                c.do()
+                                commands.past_commands.append(c)
+                    else:
+                        for command in command_list:
+                            c = command(e, self.entity_manager, game)
+                            c.do()
+                            commands.past_commands.append(c)

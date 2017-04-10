@@ -1,4 +1,5 @@
 import pygame
+import data.states
 
 class StateManager(object):
 
@@ -6,12 +7,13 @@ class StateManager(object):
         # print('State Manager, init')
         self._running = True
         self._state_stack = []
+        self._next_state = None
 
     def change_state(self, new_state):
         # print('State Manager, change state')
         if self._state_stack:
             self._state_stack[-1].exit()
-            self.pop()
+            self._state_stack.pop()
 
         self._state_stack.append(new_state)
         self._state_stack[-1].enter()
@@ -73,6 +75,7 @@ class StateManager(object):
         303: 'rshift',
         304: 'lshift',
         306: 'ctrl',
+        13: 'enter',
         27: 'esc'
     }
 
@@ -89,6 +92,7 @@ class StateManager(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._running = False
+                return
 
             # maps this key code to the unicode to be stored for keyup
             if event.type == pygame.KEYDOWN:
@@ -124,10 +128,16 @@ class StateManager(object):
                 keys[StateManager.mouse_map[event.button]] = ('up', event.pos)
 
         if self._running == True:
-            self._running = self._state_stack[-1].update(dt, keys)
+            self._running, next_state = self._state_stack[-1].update(dt, keys)
+
+            if next_state:
+                state_class = getattr(data.states, next_state)
+                self.change_state(state_class())
 
         self.past_keys = keys
 
+    # TODO(jhives): Draw lower states to show the overlay?
+    #               Higher states could just not clear the screen to black?
     def draw(self):
         # print('State Manager, draw')
         self._state_stack[-1].draw()

@@ -4,10 +4,9 @@ from engine.viewport import Viewport
 from engine.world import World
 import engine.ecs as ecs
 from data.systems import *
-from data.components import Position, Commands
 import pygame
 
-class PlayState(State):
+class MenuState(State):
 
     def __init__(self):
         super().__init__()
@@ -16,39 +15,41 @@ class PlayState(State):
 
         # systems
         self.system_manager.add_system(CommandSystem(), 0)
+        self.system_manager.add_system(MenuSystem(), 0)
+        """
         self.system_manager.add_system(MovementSystem(), 1)
         self.system_manager.add_system(StateSystem(), 1)
         self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(CollisionSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
+        """
         
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
-        e = self.maker["Player"]("Detective.png", pos=(12, 12))
-        e2 = self.maker["Player"]("Detective.png", pos=(36, 12))
-        self.entity_manager.remove_component(e2, Commands)
-        self.maker["Box"](pos=(12, 36))
+        self.maker["MainMenu"](pos=None)
 
-        # create viewport and world
+        self.font = pygame.font.Font("resources/fonts/Minecraft.ttf", 50)
+        self.text_image = self.font.render("The Menu Bitch", True, (255,255,255))
+        # create viewport
         self.viewport = Viewport()
-        self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
-        self.world = World()
 
     def update(self, dt, keys):
-        if 'esc' in keys:
-            return True, 'MenuState'
+        if 'enter' in keys and keys['enter'] == 'down':
+            return True, 'PlayState'
+        if 'esc' in keys and keys['esc'] == 'down':
+            return False, None
 
         game = {'dt': dt, 'keys': keys, 
-            'viewport': self.viewport, 'world': self.world}
+            'viewport': self.viewport}
 
         play_flag = self.system_manager.update(game)
 
         self.viewport.update()
-        self.world.update(self.viewport)
+        #self.world.update(self.viewport)
 
         return play_flag, None
 
     def draw(self):
-        self.viewport.draw_image(self.world.image, pos=self.world.position)
+        self.viewport.screen.blit(self.text_image, (0, 0))
         self.system_manager.draw(self.viewport)
         self.viewport.push()

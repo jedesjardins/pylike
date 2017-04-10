@@ -11,14 +11,31 @@
 	},
 	"Commands": {
 		"actions": {
-			"caps": ["StateSystem.Run"],
-			"lshift": ["StateSystem.LockDirection"],
-			"w": ["MovementSystem.MoveUp", "StateSystem.Up"],
-			"s": ["MovementSystem.MoveDown", "StateSystem.Down"],
-			"a": ["MovementSystem.MoveLeft", "StateSystem.Left"],
-			"d": ["MovementSystem.MoveRight", "StateSystem.Right"],
-			"space": ["StateSystem.Attack"],
-			"e": ["Interact"]
+			"caps": {
+				"list": ["StateSystem.Run"]
+			},
+			"lshift": {
+				"list": ["StateSystem.LockDirection"]
+			},
+			"w": {
+				"list": ["MovementSystem.MoveUp", "StateSystem.Up"]
+			},
+			"s": {
+				"list": ["MovementSystem.MoveDown", "StateSystem.Down"]
+			},
+			"a": {
+				"list": ["MovementSystem.MoveLeft", "StateSystem.Left"]
+			},
+			"d": {
+				"list": ["MovementSystem.MoveRight", "StateSystem.Right"]
+			},
+			"space": {
+				"list": ["StateSystem.Attack"]
+			},
+			"e": {
+				"filter": ["down"],
+				"list": ["Interact"]
+			}
 		}
 	},
 	"Sprite": {
