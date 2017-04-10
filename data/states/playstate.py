@@ -34,25 +34,18 @@ class PlayState(State):
         self.viewport.lock_on(self.entity_manager.component_for_entity(e, Position))
         self.world = World()
 
-    def update(self, dt, keys):
-        if 'esc' in keys:
-            return True, 'MenuState'
-        if 'p' in keys:
-            return True, None, 'PauseState'
+    def update(self, game):
+        keys = game['keys']
+        if 'p' in keys and keys['p'] == 'down':
+            game['state_change'] = [('push', 'PauseState')]
 
-        game = {'dt': dt, 'keys': keys, 'viewport': self.viewport, 
-            'world': self.world, 'play_flag': True, 
-            'next_state': None, 'push_state': None}
+        game['viewport'] = self.viewport
+        game['world'] = self.world
 
         self.system_manager.update(game)
-        play_flag = game['play_flag']
-        next_state = game['next_state']
-        push_state = game['push_state']
 
         self.viewport.update()
         self.world.update(self.viewport)
-
-        return play_flag, next_state, push_state
 
     def draw(self):
         self.viewport.draw_image(self.world.image, pos=self.world.position)

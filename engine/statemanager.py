@@ -33,7 +33,7 @@ class StateManager(object):
             self._state_stack.pop()
 
         if self._state_stack:
-            self._state_stack.resume()
+            self._state_stack[-1].resume()
 
     mouse_map = {1:'leftclick', 2:'rightclick', 3:'middleclick', 4:'scrollup', 5:'scrolldown'}
     ktou = {}
@@ -79,8 +79,7 @@ class StateManager(object):
         27: 'esc'
     }
 
-    def update(self, dt):
-
+    def handle_input(self, dt):
         keys = {}
         past_keys = self.past_keys
         ktou = self.ktou
@@ -92,7 +91,6 @@ class StateManager(object):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self._running = False
-                return
 
             # maps this key code to the unicode to be stored for keyup
             if event.type == pygame.KEYDOWN:
@@ -127,21 +125,44 @@ class StateManager(object):
             if event.type == pygame.MOUSEBUTTONUP:
                 keys[StateManager.mouse_map[event.button]] = ('up', event.pos)
 
-        self._running, next_state, push_state = self._state_stack[-1].update(dt, keys)
-
-        if next_state:
-            state_class = getattr(data.states, next_state)
-            self.change_state(state_class())
-        elif push_state:
-            state_class = getattr(data.states, push_state)
-            self.push_state(state_class())
-
         self.past_keys = keys
+        return keys
 
-    # TODO(jhives): Draw lower states to show the overlay?
-    #               Higher states could just not clear the screen to black?
+    def update(self, dt):
+        keys = self.handle_input(dt)
+
+        if self._running == False:
+            return
+
+        game = {
+            'keys': keys,
+            'dt': dt,
+            '_running': True,
+            'state_change': []
+        }
+
+        self._state_stack[-1].update(game)
+
+        self._running = game['_running']
+        state_changes = game['state_change']
+
+        if state_changes:
+            self.handle_state_change(state_changes)
+
+    def handle_state_change(self, state_changes):
+        for state_change in state_changes:
+            if state_change[0] == 'change':
+                state_class = getattr(data.states, state_change[1])
+                self.change_state(state_class())
+            elif state_change[0] == 'push':
+                state_class = getattr(data.states, state_change[1])
+                self.push_state(state_class())
+            elif state_change[0] == 'pop':
+                for i in range(0, state_change[1]):
+                    if len(self._state_stack) > 1:
+                        self.pop_state()
+
     def draw(self):
-        # print('State Manager, draw')
         for state in self._state_stack:
             state.draw()
         self._state_stack[-1].clear()

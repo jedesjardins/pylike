@@ -33,20 +33,11 @@ class MenuState(State):
         # create viewport
         self.viewport = Viewport()
 
-    def update(self, dt, keys):
-        game = {'dt': dt, 'keys': keys, 'viewport': self.viewport, 
-            'play_flag': True, 'next_state': None, 'push_state': None}
+    def update(self, game):
 
         self.system_manager.update(game)
 
-        play_flag = game['play_flag']
-        next_state = game['next_state']
-        push_state = game['push_state']
-
         self.viewport.update()
-        #self.world.update(self.viewport)
-
-        return play_flag, next_state, push_state
 
     def draw(self):
         # self.viewport.screen.blit(self.text_image, (0, 0))

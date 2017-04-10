@@ -33,9 +33,9 @@ class MenuSystem(System):
         def do(self):
             menu_selection = self.menuoptions.menu_list[self.menuoptions.selection]
             if menu_selection == 'play':
-                self.game['next_state'] = 'PlayState'
+                self.game['state_change'] = [('change', 'PlayState')]
             elif menu_selection == 'exit':
-                self.game['play_flag'] = False
+                self.game['_running'] = False
 
     def update(self, game):
         pass
