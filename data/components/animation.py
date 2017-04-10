@@ -4,11 +4,6 @@ from pygame import Rect
 
 class Animation(Component):
 
-    def __init__(self, frame_rect, actions):
-        self.frame_rect = Rect(frame_rect['x'], frame_rect['y'], frame_rect['w'], frame_rect['h'])
-        self.curr_frame_rect = Rect(frame_rect['x'], frame_rect['y'], frame_rect['w'], frame_rect['h'])
-        self.actions = actions
-        for action, data in self.actions.items():
-            data['elapsed_time'] = 0
-        self.action = self.actions['walk_down']
-        self.frame = self.action['frames'][0]
+    def __init__(self, action_animation):
+    	self.action_animation = action_animation
+    	self.elapsed_time = 0

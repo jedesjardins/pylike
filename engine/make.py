@@ -1,6 +1,4 @@
-import pygame, os
-import os
-import json
+import pygame, os, json
 from copy import deepcopy
 from functools import partial
 import data.components
@@ -107,7 +105,6 @@ class Maker(object):
         del proto['vargs']
 
         e = self.em.create_entity()
-        self.em.add_component(e, Actions())
 
         if pos:
             self.em.add_component(e, Position(*pos))

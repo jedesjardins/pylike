@@ -3,22 +3,26 @@
 		"name": "Player"
 	},
 	"Label": {
-		"label": "Person"
+		"label": "person"
 	},
-	"Controls": {
+	"State": {
+		"direction": "down",
+		"action": "stand"
+	},
+	"Commands": {
 		"actions": {
-			"run": "caps",
-			"strafe": "lshift",
-			"walk_up": "w",
-			"walk_down": "s",
-			"walk_left": "a",
-			"walk_right": "d",
-			"attack": "space",
-			"interact": "e"
+			"caps": ["StateSystem.Run"],
+			"lshift": ["StateSystem.LockDirection"],
+			"w": ["MovementSystem.MoveUp", "StateSystem.Up"],
+			"s": ["MovementSystem.MoveDown", "StateSystem.Down"],
+			"a": ["MovementSystem.MoveLeft", "StateSystem.Left"],
+			"d": ["MovementSystem.MoveRight", "StateSystem.Right"],
+			"space": ["StateSystem.Attack"],
+			"e": ["Interact"]
 		}
 	},
 	"Sprite": {
-		"file": "$0",
+		"file": "Detective.png",
 		"frames": 12,
 		"columns": 3,
 		"frame_rect": {
@@ -35,32 +39,38 @@
 		}
 	},
 	"Animation": {
-		"frame_rect": {
-			"x": 0,
-			"y": 0,
-			"w": 24,
-			"h": 32
-		},
-		"actions": {	
-			"walk_up": {
-				"name": "walk_up",
+		"action_animation": {
+			"walk.up":{
 				"frames": [3, 4, 3, 5],
-				"length": 500
+				"duration": 500
 			},
-			"walk_down": {
-				"name": "walk_down",
+			"walk.down":{
 				"frames": [0, 1, 0, 2],
-				"length": 500
+				"duration": 500
 			},
-			"walk_left": {
-				"name": "walk_left",
+			"walk.left":{
 				"frames": [6, 7, 6, 8],
-				"length": 500
-			},	
-			"walk_right": {
-				"name": "walk_right",
+				"duration": 500
+			},
+			"walk.right":{
 				"frames": [9, 10, 9, 11],
-				"length": 500
+				"duration": 500
+			},
+			"stand.up":{
+				"frames": [3],
+				"duration": 1
+			},
+			"stand.down":{
+				"frames": [0],
+				"duration": 1
+			},
+			"stand.left":{
+				"frames": [6],
+				"duration": 1
+			},
+			"stand.right":{
+				"frames": [9],
+				"duration": 1
 			}
 		}
 	},
@@ -73,12 +83,11 @@
 		},
 		"y_offset": 8
 	},
-	"Hold": {
-		"hand_locations": []
-	},
-	"Inventory": {
-		"items": []
-	},
-	"Undo": {},
-	"Actions": {}
+	"Collision": {
+		"type_commands": {	
+			"person": ["CollisionSystem.Collide"],
+			"item": ["CollisionSystem.CollideItem"],
+			"world": ["CollisionSystem.Collide"]
+		}
+	}
 }

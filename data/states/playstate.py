@@ -22,15 +22,13 @@ class PlayState(State):
         self.system_manager.add_system(CommandSystem(), 0)
         self.system_manager.add_system(MovementSystem(), 1)
         self.system_manager.add_system(StateSystem(), 1)
-        self.system_manager.add_system(CommandCollisionSystem(), 1)
-        self.system_manager.add_system(CommandAnimationSystem(), 1)
-        #self.system_manager.add_system(WorldCollisionSystem(), 2)
-
-        self.system_manager.add_system(DrawSystem(), 2)
+        self.system_manager.add_system(AnimationSystem(), 1)
+        self.system_manager.add_system(CollisionSystem(), 2)
+        self.system_manager.add_system(DrawSystem(), 3)
         
 
-        e = self.maker["CommandPerson"]("Detective.png", pos=(12, 12))
-        e2 = self.maker["CommandPerson"]("Detective.png", pos=(36, 12))
+        e = self.maker["Player"]("Detective.png", pos=(12, 12))
+        e2 = self.maker["Player"]("Detective.png", pos=(36, 12))
         self.entity_manager.remove_component(e2, Commands)
         self.maker["Box"](pos=(12, 36))
 

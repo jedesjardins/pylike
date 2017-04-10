@@ -1,22 +1,13 @@
-
-from .examplecounter import Counter
-from .examplemovable import Movable
-from .realposition import RealPosition
-from .exampleclickable import Clickable
-
-from .position import Position
-from .sprite import Sprite
-from .animation import Animation
+# used
 from .hitbox import Hitbox
-from .controls import Controls
+from .sprite import Sprite
+from .label import Label
+from .commands import Commands
+from .position import Position
+from .state import State
+from .animation import Animation
+from .collision import Collision
+
+# unused
 from .inventory import Inventory
 from .hold import Hold
-from .actions import Actions
-from .undo import Undo
-from .label import Label
-
-
-from .commands import Commands
-from .state import State
-from .commandanimation import CommandAnimation
-from .collision import Collision

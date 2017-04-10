@@ -1,8 +1,0 @@
-{
-	"Misc": {
-		"name": "ExampleButton"
-	},
-	"Clickable": {
-		"action": "$0"
-	}
-}
