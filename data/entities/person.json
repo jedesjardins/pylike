@@ -1,6 +1,6 @@
 {
 	"Misc": {
-		"name": "Player2"
+		"name": "Person"
 	},
 	"Label": {
 		"label": "person"
@@ -8,35 +8,6 @@
 	"State": {
 		"direction": "down",
 		"action": "stand"
-	},
-	"Commands": {
-		"actions": {
-			"caps": {
-				"list": ["StateSystem.Run"]
-			},
-			"lshift": {
-				"list": ["StateSystem.LockDirection"]
-			},
-			"up": {
-				"list": ["MovementSystem.MoveUp", "StateSystem.Up"]
-			},
-			"down": {
-				"list": ["MovementSystem.MoveDown", "StateSystem.Down"]
-			},
-			"left": {
-				"list": ["MovementSystem.MoveLeft", "StateSystem.Left"]
-			},
-			"right": {
-				"list": ["MovementSystem.MoveRight", "StateSystem.Right"]
-			},
-			"space": {
-				"list": ["StateSystem.Attack"]
-			},
-			"e": {
-				"filter": ["down"],
-				"list": ["Interact"]
-			}
-		}
 	},
 	"Sprite": {
 		"file": "Detective.png",
@@ -101,13 +72,12 @@
 		"y_offset": 8
 	},
 	"Collision": {
-		"type_commands": {	
-			"person": [],
-			"item": [],
-			"world": []
+		"type_commands": {
 		}
 	},
 	"Interact": {
-		
+		"type_commands": {
+			"person": ["DrawGameTextSystem.SpawnTextbox"]
+		}
 	}
 }

@@ -23,13 +23,14 @@ class PlayState(State):
         self.system_manager.add_system(CollisionSystem(), 2)        
         self.system_manager.add_system(DeleteSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
+        self.system_manager.add_system(DrawGameTextSystem(), 3)
         
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
         self.player = self.maker["Player"]("Detective.png", pos=(12, 12))
-        e2 = self.maker["Player"]("Detective.png", pos=(36, 12))
-        self.entity_manager.remove_component(e2, Commands)
+        e2 = self.maker["Person"]("Detective.png", pos=(36, 12))
         self.maker["Box"](pos=(12, 36))
+        self.maker["Potion"](pos=(36, 36))
 
         # create viewport and world
         self.viewport = Viewport()

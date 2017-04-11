@@ -3,7 +3,8 @@
 		"name": "Player"
 	},
 	"Label": {
-		"label": "person"
+		"label": "person",
+		"name": "player"
 	},
 	"State": {
 		"direction": "down",

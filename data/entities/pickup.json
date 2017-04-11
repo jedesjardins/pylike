@@ -1,27 +1,28 @@
 {
 	"Misc": {
-		"name": "Pickup"
+		"name": "Potion"
 	},
 	"Label": {
-		"label": "item"
+		"label": "item",
+		"name": "potion"
 	},
 	"Sprite": {
-		"file": "box.png",
+		"file": "potion.png",
 		"frames": 1,
 		"columns": 1,
 		"frame_rect": {
 			"x": 0,
 			"y": 0,
-			"w": 24,
-			"h": 24
+			"w": 10,
+			"h": 14
 		}
 	},
 	"Hitbox": {
 		"rect": {
 			"x": 0,
 			"y": 0,
-			"w": 24,
-			"h": 24
+			"w": 10,
+			"h": 14
 		}
 	},
 	"Collision": {
@@ -30,8 +31,8 @@
 		}
 	},
 	"Interact": {
-		"type_functions": {	
-			"item": ["DeleteSystem.Delete"]
+		"type_commands": {	
+			"person": ["DeleteSystem.Delete"]
 		}
 	}
 }

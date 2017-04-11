@@ -31,8 +31,6 @@
 		}
 	},
 	"Interact": {
-		"type_commands": {	
-			"item": ["DeleteSystem.Delete"]
-		}
+		"type_commands": {}
 	}
 }

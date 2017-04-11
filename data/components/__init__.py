@@ -15,3 +15,5 @@ from .menuoptions import MenuOptions
 
 from .interact import Interact
 from .delete import Delete
+
+from .textbox import Textbox

@@ -10,3 +10,5 @@ from .menusystem import MenuSystem
 
 from .interactsystem import InteractSystem
 from .deletesystem import DeleteSystem
+
+from .drawgametextsystem import DrawGameTextSystem

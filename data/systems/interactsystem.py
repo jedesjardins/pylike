@@ -63,17 +63,13 @@ class InteractSystem(System):
                 cx, cy = cposition.x, cposition.y
 
                 if e != c and abs(cx-x) < 30 and abs(cy-y) < 30:
-                    if label in interact.type_commands:
-                        for command in interact.type_commands[clabel]:
+
+                    if clabel.label in interact.type_commands:
+                        for command in interact.type_commands[clabel.label]:
                             d = command(e, self.entity_manager, game, c)
                             d.do()
 
-                    if clabel in cinteract.type_commands:
-                        for command in cinteract.type_commands[label]:
+                    if label.label in cinteract.type_commands:
+                        for command in cinteract.type_commands[label.label]:
                             d = command(c, self.entity_manager, game, e)
                             d.do()
-
-
-            # get all things close to it
-
-            # for each thing, check its type, match it to a command

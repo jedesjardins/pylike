@@ -1,6 +1,6 @@
 from engine.ecs import Component
 from engine.command import Command
-import data.components
+import data
 
 class Commands(Component):
 

@@ -29,3 +29,4 @@ class DeleteSystem(System):
 
         for e in entities:
             self.entity_manager.remove_component(e, Position)
+            self.entity_manager.remove_component(e, Delete)
