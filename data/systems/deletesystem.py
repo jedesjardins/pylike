@@ -1,7 +1,7 @@
 # TODO(jhives): change from keys to actions or something?
 
 from engine.ecs import System
-from data.components import Delete
+from data.components import Delete, Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from engine.quadtree import Quadtree
 from engine.command import Command
@@ -15,7 +15,7 @@ def get_hitbox_rect(position, hitbox):
 class DeleteSystem(System):
 
     class Delete(Command):
-        def __init__(self, e, em, game):
+        def __init__(self, e, em, game, *_):
             self.e = e
             self.em = em
 
@@ -28,4 +28,4 @@ class DeleteSystem(System):
             entities.append(e)
 
         for e in entities:
-            self.entity_manager.remove_entity(e)
+            self.entity_manager.remove_component(e, Position)

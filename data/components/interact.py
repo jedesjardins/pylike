@@ -4,7 +4,7 @@ import pygame
 
 class Interact(Component):
 
-    def __init__(self, type_functions):
+    def __init__(self, type_commands):
         self.is_interacting = False
         self.type_commands = {}
         """

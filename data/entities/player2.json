@@ -102,9 +102,9 @@
 	},
 	"Collision": {
 		"type_commands": {	
-			"person": ["CollisionSystem.Collide"],
-			"item": ["CollisionSystem.CollideItem"],
-			"world": ["CollisionSystem.Collide"]
+			"person": [],
+			"item": [],
+			"world": []
 		}
 	},
 	"Interact": {

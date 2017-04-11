@@ -1,9 +1,9 @@
 {
 	"Misc": {
-		"name": "Box"
+		"name": "Pickup"
 	},
 	"Label": {
-		"label": "prop"
+		"label": "item"
 	},
 	"Sprite": {
 		"file": "box.png",
@@ -21,17 +21,16 @@
 			"x": 0,
 			"y": 0,
 			"w": 24,
-			"h": 20
-		},
-		"y_offset": 4
+			"h": 24
+		}
 	},
 	"Collision": {
 		"type_commands": {	
-			"person": ["CollisionSystem.Push"]
+			"person": ["DeleteSystem.Delete"]
 		}
 	},
 	"Interact": {
-		"type_commands": {	
+		"type_functions": {	
 			"item": ["DeleteSystem.Delete"]
 		}
 	}

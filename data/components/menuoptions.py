@@ -18,7 +18,7 @@ class MenuOptions(Component):
         height = 0
         max_width = 0
         if self.title:
-            image = Font.get_text_image('The Menu Bitch', 'Minecraft.ttf', 50)
+            image = Font.get_text_image(self.title, 'Minecraft.ttf', 50)
             self.text_images.append(image)
             rect = image.get_rect()
             height += rect.h

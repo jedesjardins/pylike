@@ -101,14 +101,15 @@
 		"y_offset": 8
 	},
 	"Collision": {
-		"type_commands": {	
-			"person": ["CollisionSystem.Collide"],
+		"type_commands": {
+			"person": ["CollisionSystem.CollideEntity"],
+			"prop": [],
 			"item": ["InteractSystem.Pickup"],
-			"world": ["CollisionSystem.Collide"]
+			"world": ["CollisionSystem.CollideWorld"]
 		}
 	},
 	"Interact": {
-		"type_functions": {
+		"type_commands": {
 			"item": ["InteractSystem.Pickup"]
 		}
 	},

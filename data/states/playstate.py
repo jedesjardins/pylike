@@ -19,7 +19,8 @@ class PlayState(State):
         self.system_manager.add_system(MovementSystem(), 1)
         self.system_manager.add_system(StateSystem(), 1)
         self.system_manager.add_system(AnimationSystem(), 1)
-        self.system_manager.add_system(CollisionSystem(), 2)
+        self.system_manager.add_system(InteractSystem(), 1)
+        self.system_manager.add_system(CollisionSystem(), 2)        
         self.system_manager.add_system(DeleteSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
         

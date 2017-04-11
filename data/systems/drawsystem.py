@@ -17,7 +17,7 @@ class DrawSystem(System):
                 position = self.entity_manager.component_for_entity(e, Position)
                 x, y = position.x, position.y
             except NonexistentComponentTypeForEntity:
-                x, y = (0, 0)
+                continue
 
             
             frame_rect = sprite.curr_frame_rect
