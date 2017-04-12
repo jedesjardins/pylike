@@ -1,12 +1,28 @@
 from engine.ecs import System
+from engine.command import Command
 from data.components import Sprite, Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
+import pygame
 
 class DrawSystem(System):
 
-    def update(self, game):
-        pass
+    class ChangeCostume(Command):
+        def __init__(self, e, em, game, *_):
+            self.sprite = em.component_for_entity(e, Sprite)
+
+
+        def do(self):
+            print(self.sprite.file)
+            if self.sprite.file == 'Detective.png':
+                self.sprite.file = 'box.png'
+                self.sprite.image = pygame.image.load("resources/box.png")
+            else:
+                self.sprite.file = 'Detective.png'
+                self.sprite.image = pygame.image.load("resources/Detective.png")
+
+        def undo(self):
+            pass
 
     def draw(self, viewport):
         # dict maps e -> (image, frame_rect, x, y, z)

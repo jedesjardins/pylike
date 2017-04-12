@@ -37,13 +37,17 @@
 				"filter": ["down"],
 				"list": ["InteractSystem.Interact"]
 			},
+			"f": {
+				"filter": ["down"],
+				"list": ["DrawSystem.ChangeCostume"]
+			},
 			"enter": {
 				"list": ["DrawGameTextSystem.PrintFullText", "DrawGameTextSystem.EndText"]
 			}
 		}
 	},
 	"Sprite": {
-		"file": "Detective.png",
+		"file": "$0",
 		"frames": 12,
 		"columns": 3,
 		"frame_rect": {

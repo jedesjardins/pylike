@@ -23,7 +23,7 @@ class PlayState(State):
         self.system_manager.add_system(CollisionSystem(), 2)        
         self.system_manager.add_system(DeleteSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
-        self.system_manager.add_system(DrawGameTextSystem(), 3)
+        self.system_manager.add_system(DrawGameTextSystem(), 4)
         
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')

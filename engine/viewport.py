@@ -12,7 +12,7 @@ class Viewport(object):
 
     def __init__(self, point=(0, 0), size=(400, 300), resolution=(800,600)):
 
-        self.screen = pygame.display.set_mode(resolution)
+        self.screen = pygame.display.set_mode(resolution, pygame.DOUBLEBUF, 32)
 
         self.rect = Rect(*point, *size)
         self.screen_rect = Rect(0, 0, *resolution)

@@ -3,6 +3,7 @@ from engine.command import Command
 from data.components import Textbox
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
+import pygame
 
 import sys
 
@@ -14,7 +15,7 @@ class DrawGameTextSystem(System):
             self.em = em
 
         def do(self):
-            self.em.add_component(self.e, Textbox(self.e, 'Hello, my name is ur mum, lol'))
+            self.em.add_component(self.e, Textbox(self.e, 'Hello, my name is urmum, lol'))
 
         def undo(self):
             pass
@@ -40,7 +41,7 @@ class DrawGameTextSystem(System):
             pass
 
     def update(self, game):
-        cpt = 1000/15
+        cpt = 1000/20
         dt = game['dt']
 
         for e, textbox in self.entity_manager.pairs_for_type(Textbox):
@@ -55,8 +56,9 @@ class DrawGameTextSystem(System):
 
             #sys.stdout.write(textbox.lines[textbox.last_line][textbox.last_char:index])
             if textbox.last_char != index:
+                #sys.stdout.write(textbox.lines[textbox.last_line][textbox.last_char:index])
                 textbox.output_buffer[textbox.last_line].append(textbox.lines[textbox.last_line][textbox.last_char:index])
-
+                #sys.stdout.flush()
             textbox.last_char = index
 
             if index == len(textbox.lines[textbox.last_line]):
@@ -70,5 +72,9 @@ class DrawGameTextSystem(System):
                     textbox.output_buffer.append([])
 
     def draw(self, viewport):
-        # draw text
-        pass
+        square = pygame.Surface((800, 200))
+        square.set_alpha(128)
+        square.fill((100, 100, 100))
+        viewport.screen.blit(square, Rect(0, 400, 800, 200))
+
+        #pygame.draw.rect(viewport.screen, pygame.Color(100, 100, 100, 200), Rect(100, 100, 100, 200))
