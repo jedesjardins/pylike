@@ -42,7 +42,8 @@
 				"list": ["DrawSystem.ChangeCostume"]
 			},
 			"enter": {
-				"list": ["DrawGameTextSystem.PrintFullText", "DrawGameTextSystem.EndText"]
+				"filter": ["down"],
+				"list": ["DrawGameTextSystem.FinishText"]
 			}
 		}
 	},

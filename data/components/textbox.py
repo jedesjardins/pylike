@@ -3,7 +3,7 @@ import pygame
 
 class Textbox(Component):
 
-    def __init__(self, parent, text, max_length=24):
+    def __init__(self, parent, text, max_length=30):
         self.parent = parent
         self.text = text
         self.elapsed_time = 0
@@ -31,7 +31,11 @@ class Textbox(Component):
         self.last_line = 0
 
         self.finished = False
-        self.complete = False
+        self.closed = False
+        self.flush = False
 
         self.output_buffer = [[]]
+        self.changed = False
+
+        print(self.lines)
 

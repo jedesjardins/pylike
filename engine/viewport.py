@@ -10,7 +10,7 @@ class Viewport(object):
     #               it already has a lot of functionality that I reimplemented,
     #               Probably poorly too.
 
-    def __init__(self, point=(0, 0), size=(400, 300), resolution=(800,600)):
+    def __init__(self, point=(0, 0), size=(200, 150), resolution=(800,600)):
 
         self.screen = pygame.display.set_mode(resolution, pygame.DOUBLEBUF, 32)
 
