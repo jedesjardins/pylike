@@ -6,8 +6,15 @@ class Textbox(Component):
     def __init__(self, parent, text, max_length=30):
         self.parent = parent
         self.text = text
-        self.elapsed_time = 0
 
+        self.elapsed_time = 0
+        self.last_char = 0
+
+        self.output_buffer = []
+        self.finished = False
+        self.speedup = False
+
+        """
         line = 0
         lines = [[]]
         line_length = [0]
@@ -26,8 +33,6 @@ class Textbox(Component):
 
         self.lines = lines
 
-        """
-        self.total_length = 0
         self.total_past_line_length = 0
         self.last_char = 0
         self.last_line = 0
@@ -35,8 +40,8 @@ class Textbox(Component):
         self.finished = False
         self.closed = False
         self.flush = False
+        self.speedup = False
 
         self.output_buffer = [[]]
         self.changed = False
-
-		"""
+        """

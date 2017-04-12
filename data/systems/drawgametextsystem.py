@@ -21,7 +21,7 @@ class DrawGameTextSystem(System):
         def undo(self):
             pass
 
-    class FinishText(Command):
+    class SpeedUpText(Command):
         def __init__(self, e, em, game, *_):
             self.em = em
             self.textbox_list = self.em.pairs_for_type(Textbox)
@@ -29,28 +29,52 @@ class DrawGameTextSystem(System):
 
         def do(self):
             for c, textbox in self.textbox_list:
-                if textbox.finished:
-                    textbox.closed = True
-                else:
-                    textbox.flush = True
+                textbox.speedup = True
 
-    def update(self, game):
-        cpt = 1000/25
-        dt = game['dt']
-
-
-    def draw(self, draw):
-        pass
-
-    """
+    
     def push_next_char(self, textbox, index):
         textbox.changed = True
         c = textbox.lines[textbox.last_line][textbox.last_char:index]
         textbox.output_buffer[textbox.last_line].append(c)
-        #sys.stdout.write(c)
-        #sys.stdout.flush()
+        sys.stdout.write(c)
+        sys.stdout.flush()
 
     def update(self, game):
+        line_length = 28
+        dt = game['dt']
+        cpt = 1000/25
+
+        for e, tb in self.entity_manager.pairs_for_type(Textbox):
+            if tb.finished:
+                continue
+
+            if tb.speedup:
+                dt = 2*dt
+
+            tb.elapsed_time += dt
+            char_index = int(tb.elapsed_time//cpt) + 1
+
+            if char_index > tb.last_char:
+                line = int(char_index//line_length)
+                if line == len(tb.output_buffer):
+                    tb.output_buffer.append([])
+
+                c = tb.text[tb.last_char:char_index]
+                sys.stdout.write(c)
+                sys.stdout.flush()
+                tb.output_buffer[line] += c
+                tb.last_char = char_index
+
+                if char_index == len(tb.text):
+                    tb.finished = True
+
+            #print(tb.output_buffer)
+        pass
+
+    def draw(self, viewport):
+        pass
+
+    def oldupdate(self, game):
         cpt = 1000/25
         dt = game['dt']
 
@@ -66,23 +90,12 @@ class DrawGameTextSystem(System):
                 delete.append(e)
                 continue
 
-            # flush the buffer
-            if textbox.flush:
-                textbox.output_buffer = []
-                for i in range(0, len(textbox.lines)):
-
-                    if i == len(textbox.output_buffer):
-                        textbox.output_buffer.append([])
-
-                    textbox.output_buffer[i] = list(textbox.lines[i])
-
-                textbox.flush = False
-                textbox.finished = True
-                textbox.changed = True
-
             # if it was finished, forget it
             if textbox.finished == True:
                 continue
+
+            if textbox.speedup:
+                dt = 2*dt
 
             # add to the time it was on screen
             textbox.elapsed_time += dt
@@ -113,7 +126,7 @@ class DrawGameTextSystem(System):
         for e in delete:
             self.entity_manager.remove_component(e, Textbox)
 
-    def draw(self, viewport):
+    def olddraw(self, viewport):
 
         for e, textbox in self.entity_manager.pairs_for_type(Textbox):
             if textbox.closed:
@@ -138,4 +151,3 @@ class DrawGameTextSystem(System):
 
             viewport.screen.blit(textbox.image, Rect(0, 460, 800, 140))
 
-"""

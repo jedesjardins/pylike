@@ -42,8 +42,8 @@
 				"list": ["DrawSystem.ChangeCostume"]
 			},
 			"enter": {
-				"filter": ["down"],
-				"list": ["DrawGameTextSystem.FinishText"]
+				"filter": ["held"],
+				"list": ["DrawGameTextSystem.SpeedUpText"]
 			}
 		}
 	},
