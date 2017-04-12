@@ -36,6 +36,9 @@
 			"e": {
 				"filter": ["down"],
 				"list": ["InteractSystem.Interact"]
+			},
+			"enter": {
+				"list": ["DrawGameTextSystem.PrintFullText", "DrawGameTextSystem.EndText"]
 			}
 		}
 	},

@@ -13,25 +13,61 @@ class DrawGameTextSystem(System):
             self.e = e
             self.em = em
 
-        def do(self):        
-            print("Creating textbox")
-            self.em.add_component(self.e, Textbox(self.e, 'Hello, my name is ur mum, lol\n'))
+        def do(self):
+            self.em.add_component(self.e, Textbox(self.e, 'Hello, my name is ur mum, lol'))
+
+        def undo(self):
+            pass
+
+    class PrintFullText(Command):
+        def __init__(self, e, em, game, *_):
+            pass
+
+        def do(self):
+            pass
+
+        def undo(self):
+            pass
+
+    class EndText(Command):
+        def __init__(self, e, em, game, *_):
+            pass
+
+        def do(self):
+            pass
 
         def undo(self):
             pass
 
     def update(self, game):
-        lpt = 1000/15
+        cpt = 1000/15
         dt = game['dt']
 
         for e, textbox in self.entity_manager.pairs_for_type(Textbox):
-            textbox.elapsed_time += dt
-            num_chars = int(textbox.elapsed_time//lpt) + 1
-            if num_chars <= len(textbox.text):
-                sys.stdout.write(textbox.text[textbox.last_char:num_chars])
-                sys.stdout.flush()
-            textbox.last_char = num_chars
 
+            if textbox.finished == True:
+                continue
+
+            textbox.elapsed_time += dt
+            num_chars = int(textbox.elapsed_time//cpt) + 1
+
+            index = num_chars - textbox.total_past_line_length
+
+            #sys.stdout.write(textbox.lines[textbox.last_line][textbox.last_char:index])
+            if textbox.last_char != index:
+                textbox.output_buffer[textbox.last_line].append(textbox.lines[textbox.last_line][textbox.last_char:index])
+
+            textbox.last_char = index
+
+            if index == len(textbox.lines[textbox.last_line]):
+                textbox.total_past_line_length = len(textbox.lines[textbox.last_line])
+                textbox.last_line += 1
+                textbox.last_char = 0
+                if textbox.last_line >= len(textbox.lines):
+                    print(textbox.output_buffer)
+                    textbox.finished = True
+                else:
+                    textbox.output_buffer.append([])
 
     def draw(self, viewport):
         # draw text
