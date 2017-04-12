@@ -34,19 +34,15 @@ class DrawGameTextSystem(System):
                 else:
                     textbox.flush = True
 
-        def undo(self):
-            pass
+    def update(self, game):
+        cpt = 1000/25
+        dt = game['dt']
 
-    class EndText(Command):
-        def __init__(self, e, em, game, *_):
-            pass
 
-        def do(self):
-            pass
+    def draw(self, draw):
+        pass
 
-        def undo(self):
-            pass
-
+    """
     def push_next_char(self, textbox, index):
         textbox.changed = True
         c = textbox.lines[textbox.last_line][textbox.last_char:index]
@@ -140,12 +136,6 @@ class DrawGameTextSystem(System):
 
                 #print()
 
-
-            """
-            square = pygame.Surface((800, 124))
-            square.set_alpha(128)
-            square.fill((100, 100, 100))
-            viewport.screen.blit(square, Rect(0, 476, 800, 124))
-            square.set_alpha(0)
-            """
             viewport.screen.blit(textbox.image, Rect(0, 460, 800, 140))
+
+"""

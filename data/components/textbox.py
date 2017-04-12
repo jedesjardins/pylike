@@ -25,6 +25,8 @@ class Textbox(Component):
         	lines[i] = ' '.join(lines[i])
 
         self.lines = lines
+
+        """
         self.total_length = 0
         self.total_past_line_length = 0
         self.last_char = 0
@@ -37,5 +39,4 @@ class Textbox(Component):
         self.output_buffer = [[]]
         self.changed = False
 
-        print(self.lines)
-
+		"""
