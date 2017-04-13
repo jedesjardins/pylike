@@ -10,38 +10,7 @@ class Textbox(Component):
         self.elapsed_time = 0
         self.last_char = 0
 
-        self.output_buffer = []
-        self.finished = False
-        self.speedup = False
-
-        """
-        line = 0
-        lines = [[]]
-        line_length = [0]
-        words = text.split(' ')
-        for word in words:
-        	if line_length[line] + len(lines[line]) + len(word) <= max_length:
-        		lines[line].append(word)
-        		line_length[line] += len(word)
-        	else:
-        		line += 1
-        		lines.append([word])
-        		line_length.append(len(word))
-
-        for i in range(0, len(lines)):
-        	lines[i] = ' '.join(lines[i])
-
-        self.lines = lines
-
-        self.total_past_line_length = 0
-        self.last_char = 0
-        self.last_line = 0
-
-        self.finished = False
-        self.closed = False
-        self.flush = False
-        self.speedup = False
-
         self.output_buffer = [[]]
-        self.changed = False
-        """
+        self.finished = False
+        self.speedup = False
+        self.stop = False

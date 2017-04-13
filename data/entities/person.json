@@ -79,5 +79,10 @@
 		"type_commands": {
 			"person": ["DrawGameTextSystem.SpawnTextbox"]
 		}
+	},
+	"Script":{
+		"actions": [
+			"DrawGameTextSystem.SpawnTextbox"
+		]
 	}
 }

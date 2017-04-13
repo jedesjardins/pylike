@@ -17,3 +17,4 @@ from .interact import Interact
 from .delete import Delete
 
 from .textbox import Textbox
+from .script import Script

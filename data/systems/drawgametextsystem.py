@@ -9,6 +9,16 @@ import pygame
 import sys
 
 class DrawGameTextSystem(System):
+    class SpawnInteraction(Command):
+        def __init__(self, e, em, game, p):
+            self.e = e
+            self.p = p
+            self.em = em
+
+        def do(self):
+            print(self.e)
+            self.em.add_component(self.e, Textbox(self.e, "Hey, I'm your doppelganger,#how's it hangin?$We'll just keep going, see#what's happening.. $hum dee dum....$"))
+
 
     class SpawnTextbox(Command):
         def __init__(self, e, em, game, *_):
@@ -16,10 +26,8 @@ class DrawGameTextSystem(System):
             self.em = em
 
         def do(self):
-            self.em.add_component(self.e, Textbox(self.e, "Hey, I'm your doppelganger, how's it hangin? We'll just keep going, see what's happening.. hum dee dum."))
-
-        def undo(self):
-            pass
+            print(self.e)
+            self.em.add_component(self.e, Textbox(self.e, "Hey, I'm your doppelganger,#how's it hangin?$We'll just keep going, see#what's happening.. $hum dee dum....$"))
 
     class SpeedUpText(Command):
         def __init__(self, e, em, game, *_):
@@ -29,6 +37,8 @@ class DrawGameTextSystem(System):
 
         def do(self):
             for c, textbox in self.textbox_list:
+                if textbox.stop == True:
+                    textbox.stop = False
                 textbox.speedup = True
 
     
@@ -40,38 +50,77 @@ class DrawGameTextSystem(System):
         sys.stdout.flush()
 
     def update(self, game):
-        line_length = 28
         dt = game['dt']
-        cpt = 1000/25
+        cpt = 1000/12
+
+        e_to_delete = []
 
         for e, tb in self.entity_manager.pairs_for_type(Textbox):
             if tb.finished:
                 continue
 
-            if tb.speedup:
-                dt = 2*dt
+            if tb.stop:
+                continue
 
-            tb.elapsed_time += dt
+            sdt = dt
+            if tb.speedup:
+                sdt = 2*dt
+
+            tb.elapsed_time += sdt
             char_index = int(tb.elapsed_time//cpt) + 1
 
             if char_index > tb.last_char:
-                line = int(char_index//line_length)
-                if line == len(tb.output_buffer):
-                    tb.output_buffer.append([])
 
                 c = tb.text[tb.last_char:char_index]
-                sys.stdout.write(c)
-                sys.stdout.flush()
-                tb.output_buffer[line] += c
-                tb.last_char = char_index
+                line = len(tb.output_buffer)-1
 
-                if char_index == len(tb.text):
+                if '$' in c:
+                    # stop
+                    # subtract len(c after $) from tb.elapsed_time
+                    c_list = c.split('$')
+                    tb.output_buffer[line] += c_list[0]
+                    tb.output_buffer.append([])
+                    sys.stdout.write(c_list[0] + '\n')
+                    sys.stdout.flush()
+                    tb.last_char = char_index - len(c_list[1])
+                    tb.elapsed_time -= cpt*len(c_list[1])
+                    tb.stop = True
+
+
+                elif '#' in c:
+                    c_list = c.split('#')
+
+                    for string in c_list:
+                        if line == len(tb.output_buffer):
+                            tb.output_buffer.append([])
+                            sys.stdout.write('\n')
+
+                        tb.output_buffer[line] += string
+                        sys.stdout.write(string)
+                        sys.stdout.flush()
+                        tb.last_char = char_index
+                        line += 1
+
+                else:
+                    if line == len(tb.output_buffer):
+                        tb.output_buffer.append([])
+                        sys.stdout.write('\n')
+
+                    sys.stdout.write(c)
+                    sys.stdout.flush()
+                    tb.output_buffer[line] += c
+                    tb.last_char = char_index
+
+                if char_index >= len(tb.text) and not tb.stop:
                     tb.finished = True
+                    e_to_delete.append(e)
 
-            #print(tb.output_buffer)
-        pass
+            tb.speedup = False
+        
+        for e in e_to_delete:
+            self.entity_manager.remove_component(e, Textbox)
 
-    def draw(self, viewport):
+    def sdraw(self, viewport):
         pass
 
     def oldupdate(self, game):
@@ -126,28 +175,26 @@ class DrawGameTextSystem(System):
         for e in delete:
             self.entity_manager.remove_component(e, Textbox)
 
-    def olddraw(self, viewport):
+    def draw(self, viewport):
 
         for e, textbox in self.entity_manager.pairs_for_type(Textbox):
-            if textbox.closed:
+            if textbox.finished:
                 continue
 
-            if textbox.changed:
-                textbox.image = pygame.image.load("resources/textbox.png")
-                #textbox.image.set_alpha(128)
-                #textbox.image.fill((255, 255, 255))
-                #textbox.image.set_alpha(255)
+            textbox.image = pygame.image.load("resources/textbox.png")
 
-                y_offset = 0
+            y_offset = 0
 
-                for line_array in textbox.output_buffer[-2:]:
-                    text = ''.join(line_array)
-                    #print(text)
-                    text_image = Font.get_text_image(text, 'Minecraft.ttf', 40, (0,0,0))
-                    textbox.image.blit(text_image, (20, y_offset))
-                    y_offset += text_image.get_rect().h
+            if not textbox.output_buffer[-1]:
+                draw_buffer = textbox.output_buffer[-3:]
+            else:
+                draw_buffer = textbox.output_buffer[-2:]
 
-                #print()
+            for line_array in draw_buffer:
+                text = ''.join(line_array)
+                text_image = Font.get_text_image(text, 'Minecraft.ttf', 40, (0,0,0))
+                textbox.image.blit(text_image, (20, y_offset))
+                y_offset += text_image.get_rect().h
 
             viewport.screen.blit(textbox.image, Rect(0, 460, 800, 140))
 
