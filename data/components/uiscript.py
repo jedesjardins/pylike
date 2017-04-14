@@ -1,7 +1,7 @@
 
 from engine.ecs import Component
 
-class Script(Component):
+class UIScript(Component):
 
     """ A script wraps a list of actions. Each action is completed before the
         next starts.
@@ -10,6 +10,6 @@ class Script(Component):
     """
     
     def __init__(self, actions):
-        self.running = True
+        self.running = False
         self.current_action = 0
         self.actions = actions

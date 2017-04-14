@@ -9,3 +9,4 @@ class State(Component):
         self.next_action = []
         self.lock_direction = False
         self.continue_action = False
+        self.locked = False

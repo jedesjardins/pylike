@@ -21,7 +21,7 @@ class Chunk(object):
         for y in range(0, Chunk.size):
             for x in range(0, Chunk.size):
                 rand = noise((x+self.x)/8, (y+self.y)/8, .1, octaves=2)
-                if rand < .35 and rand > -.35:
+                if rand < .40 and rand > -.40:
                     value = 1
                 else:
                     value = 0 

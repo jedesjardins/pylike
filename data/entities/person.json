@@ -77,12 +77,11 @@
 	},
 	"Interact": {
 		"type_commands": {
-			"person": ["DrawGameTextSystem.SpawnTextbox"]
+			"person": ["UIScriptSystem.StartScript"]
 		}
 	},
-	"Script":{
+	"UIScript":{
 		"actions": [
-			"DrawGameTextSystem.SpawnTextbox"
 		]
 	}
 }

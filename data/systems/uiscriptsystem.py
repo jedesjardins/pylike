@@ -1,55 +1,30 @@
 from engine.ecs import System
 from engine.command import Command
 import engine.font as Font
-from data.components import Textbox
+from data.components import UIScript, State, Position
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
 from pygame import Rect
 import pygame
 
 import sys
 
-class DrawGameTextSystem(System):
-    class SpawnTextbox(Command):
+class UIScriptSystem(System):
+
+    class StartScript(Command):
         def __init__(self, e, em, game, p):
-            self.e = e
-            self.p = p
-            self.em = em
-
-        def do(self):
-            print(self.e)
-            self.em.add_component(self.e, Textbox(self.e, "Hey, I'm your doppelganger,#how's it hangin?$We'll just keep going, see#what's happening.. $hum dee dum....$"))
-
-
-    class SpawnInteraction(Command):
-        def __init__(self, e, em, game, *_):
-            self.e = e
-            self.em = em
-
-        def do(self):
-            print(self.e)
-            self.em.add_component(self.e, Textbox(self.e, "Hey,#I'm#your#doppelganger,#how's it hangin?$We'll just keep going, see#what's happening.. $hum dee dum....$"))
-
-    class SpeedUpText(Command):
-        def __init__(self, e, em, game, *_):
-            self.em = em
-            self.textbox_list = self.em.pairs_for_type(Textbox)
+            #lock movement of p somehow so the player can't move
+            self.script = em.component_for_entity(e, UIScript)
+            self.script.target = p
+            em.component_for_entity(p, State).locked = True
+            em.component_for_entity(p, Position).locked = True
 
 
         def do(self):
-            for c, textbox in self.textbox_list:
-                if textbox.stop == True:
-                    textbox.stop = False
-                textbox.speedup = True
+            if not self.script.running:
+                print('Starting script')
+                self.script.running = True
 
-    
-    def push_next_char(self, textbox, index):
-        textbox.changed = True
-        c = textbox.lines[textbox.last_line][textbox.last_char:index]
-        textbox.output_buffer[textbox.last_line].append(c)
-        sys.stdout.write(c)
-        sys.stdout.flush()
-
-    def update(self, game):
+    def old_update_text(self, game):
         dt = game['dt']
         cpt = 1000/12
 
@@ -119,63 +94,8 @@ class DrawGameTextSystem(System):
         
         for e in e_to_delete:
             self.entity_manager.remove_component(e, Textbox)
-
-    def sdraw(self, viewport):
-        pass
-
-    def oldupdate(self, game):
-        cpt = 1000/25
-        dt = game['dt']
-
-        delete = []
-
-        for e, textbox in self.entity_manager.pairs_for_type(Textbox):
-
-            # mark the textbox as not yet changed
-            textbox.changed = False
-
-            # if it was closed, delete it
-            if textbox.closed:
-                delete.append(e)
-                continue
-
-            # if it was finished, forget it
-            if textbox.finished == True:
-                continue
-
-            if textbox.speedup:
-                dt = 2*dt
-
-            # add to the time it was on screen
-            textbox.elapsed_time += dt
-            # calculate how many characters should be shown
-            num_chars = int(textbox.elapsed_time//cpt) + 1
-
-
-            index = num_chars - textbox.total_past_line_length
-
-            if textbox.last_char != index:
-                self.push_next_char(textbox, index)
-            textbox.last_char = index
-
-            if index == len(textbox.lines[textbox.last_line]):
-                sys.stdout.write('\n')
-                sys.stdout.flush()
-                textbox.total_past_line_length += len(textbox.lines[textbox.last_line])
-                textbox.last_line += 1
-                textbox.last_char = 0
-                if textbox.last_line >= len(textbox.lines):
-                    textbox.finished = True
-                else:
-                    textbox.output_buffer.append([])
-
-            #('num_chars: {}, index: {}, last_char: {}, line lenth: {}'.\
-            #    format(num_chars, index, textbox.last_char, textbox.total_past_line_length))
-
-        for e in delete:
-            self.entity_manager.remove_component(e, Textbox)
-
-    def draw(self, viewport):
+            
+    def old_draw_text(self, viewport):
 
         for e, textbox in self.entity_manager.pairs_for_type(Textbox):
             if textbox.finished:

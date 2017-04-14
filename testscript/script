@@ -1,0 +1,9 @@
+$main
+#say Hey there
+#menu Do you like turtles? #yes @first #no @second
+
+$first
+#say Good! Me too!
+
+$second
+#say That's too bad..

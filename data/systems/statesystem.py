@@ -59,6 +59,8 @@ class StateSystem(System):
 
     def update(self, game):
         for e, state in self.entity_manager.pairs_for_type(State):
+            if state.locked:
+                continue
 
             past_action = state.action
             past_direction = state.direction

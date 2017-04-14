@@ -12,7 +12,8 @@ class MovementSystem(System):
             self.dt = game['dt']
 
         def do(self):
-            self.position.y += 2
+            if not self.position.locked:
+                self.position.y += 2
 
         def undo(self):
             self.position.y = self.oy
@@ -24,7 +25,8 @@ class MovementSystem(System):
             self.dt = game['dt']
 
         def do(self):
-            self.position.y -= 2
+            if not self.position.locked:
+                self.position.y -= 2
 
         def undo(self):
             self.position.y = self.oy
@@ -36,7 +38,8 @@ class MovementSystem(System):
             self.dt = game['dt']
 
         def do(self):
-            self.position.x -= 2
+            if not self.position.locked:
+                self.position.x -= 2
 
         def undo(self):
             self.position.x = self.ox
@@ -48,7 +51,8 @@ class MovementSystem(System):
             self.dt = game['dt']
 
         def do(self):
-            self.position.x += 2
+            if not self.position.locked:
+                self.position.x += 2
 
         def undo(self):
             self.position.x = self.ox
