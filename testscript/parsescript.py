@@ -5,21 +5,32 @@
 def say(line):
 	text_array = line.split()
 	text = ' '.join(text_array[1:])
-	print(text)
+	return ('text', text)
 
 def menu(line):
 	all_array = line.split()
 	text_array = []
 	options_to_blocks = []
 
-	for word in all_array[1:]:
-		if word[0] == '#':
+	options_index = 0
+
+	for i in range(0, len(all_array)):
+		word = all_array[i]
+		if word[0] == '#' and i != 0:
+			options_index = i
 			break
 		text_array.append(word)
 
 	text = ' '.join(text_array)
+
+	index = options_index
+	options = []
+	while index < len(all_array):
+		options.append((all_array[index][1:], all_array[index+1][1:]))
+		index += 2
+
 	
-	print('menu:', text)
+	return ('menu', text, options)
 
 with open('script', 'r') as script:
 	blocks = {}
@@ -35,9 +46,9 @@ with open('script', 'r') as script:
 
 		else:
 			if '#say' in l:
-				say(l)
+				blocks[curr_block].append(say(l))
 			if '#menu' in l:
-				menu(l)
+				blocks[curr_block].append(menu(l))
 
-			blocks[curr_block].append(l)
+			#blocks[curr_block].append(l)
 
