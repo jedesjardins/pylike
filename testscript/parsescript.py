@@ -41,4 +41,3 @@ with open('script', 'r') as script:
 
 			blocks[curr_block].append(l)
 
-print(blocks)
