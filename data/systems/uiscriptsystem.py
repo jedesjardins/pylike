@@ -10,19 +10,55 @@ import sys
 
 class UIScriptSystem(System):
 
+    class Lock(Command):
+        def __init__(self, e, em, game, *_):
+            self.state = em.component_for_entity(e, State)
+            self.position = em.component_for_entity(e, Position)
+
+        def do(self):
+            self.state.locked = True
+            self.position.locked = True
+
+        def undo(self):
+            self.state.locked = False
+            self.position.locked = False
+
     class StartScript(Command):
         def __init__(self, e, em, game, p):
             #lock movement of p somehow so the player can't move
             self.script = em.component_for_entity(e, UIScript)
             self.script.target = p
-            em.component_for_entity(p, State).locked = True
-            em.component_for_entity(p, Position).locked = True
 
+            self.script.lock = UIScriptSystem.Lock(p, em, game, e)
 
         def do(self):
             if not self.script.running:
-                print('Starting script')
+                self.script.lock.do()
+                self.curr_block = 'enter'
                 self.script.running = True
+
+    def display_text(self):
+        pass
+
+    def display_menu(self):
+        self.display_text():
+        # if the text is finished drawing
+        # also put an option box
+        pass
+
+    def update(self, game):
+        for e, script in self.entity_manager.pairs_for_type(UIScript):
+            if not script.running:
+                continue
+
+            print(script.blocks[script.curr_block][script.curr_line])
+            script.running = False
+            script.lock.undo()
+
+    def draw(self, viewport):
+        for e, script in self.entity_manager.pairs_for_type(UIScript):
+            pass
+            #print(script.actions)
 
     def old_update_text(self, game):
         dt = game['dt']

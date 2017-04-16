@@ -47,8 +47,12 @@ with open('script', 'r') as script:
 		else:
 			if '#say' in l:
 				blocks[curr_block].append(say(l))
-			if '#menu' in l:
+			elif '#menu' in l:
 				blocks[curr_block].append(menu(l))
+			else:
+				print('error')
 
 			#blocks[curr_block].append(l)
+	return blocks
+
 

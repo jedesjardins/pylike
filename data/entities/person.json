@@ -80,8 +80,7 @@
 			"person": ["UIScriptSystem.StartScript"]
 		}
 	},
-	"UIScript":{
-		"actions": [
-		]
+	"UIScript.AutoScript":{
+		"script_file": "test_script"
 	}
 }
