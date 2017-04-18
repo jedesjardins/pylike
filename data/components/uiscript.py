@@ -57,6 +57,14 @@ class UIScript(Component):
 
         return ('unsetflag', flags)
 
+    def check_flag(line):
+        all_array = line.split()
+        flag = all_array[1][1:]
+        true_block = all_array[2][1:]
+        false_block = all_array[3][1:]
+
+        return ('checkflag', flag, true_block, false_block)
+
     def parse_script(file):
         with open('data/scripts/' + file, 'r') as script:
             blocks = {}
@@ -79,6 +87,8 @@ class UIScript(Component):
                         blocks[curr_block].append(UIScript.set_flag(l))
                     elif '#unsetflag' in l:
                         blocks[curr_block].append(UIScript.unset_flag(l))
+                    elif '#checkflag' in l:
+                        blocks[curr_block].append(UIScript.check_flag(l))
 
                     else:
                         print('error')

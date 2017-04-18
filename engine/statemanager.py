@@ -147,7 +147,6 @@ class StateManager(object):
         game['dt'] = dt
         game['_running'] = True
         game['state_change'] = []
-
         self._state_stack[-1].update(game)
 
         self._running = game['_running']

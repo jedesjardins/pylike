@@ -1,4 +1,4 @@
-$enter
+$oldenter
 #say Hey there!$
 #say This is just an example#script.$
 #menu Do you understand?$ >yes @first >no @second
@@ -8,3 +8,12 @@ $first
 
 $second
 #say Well this is really#simple stuff...$
+
+$enter
+#checkflag @sign @res1 @res2
+
+$res1
+#say The flag was true!#You read the sign!$
+
+$res2
+#say The flag was false!#You didn't read the sign!$

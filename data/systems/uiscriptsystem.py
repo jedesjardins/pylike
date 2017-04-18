@@ -169,15 +169,32 @@ class UIScriptSystem(System):
             script.info['selected'] = False
 
     def set_flags(self, game, script, val=True):
-        info = script.info
         flags = script.blocks[script.curr_block][script.curr_line][1]
-        print(flags)
 
         for flag in flags:
-            game['flags'][flag] = True
+            game['flags'][flag] = val
+
+
+        script.info['finished'] = True
 
     def unset_flags(self, game, script):
         self.set_flags(game, script, False)
+
+    def check_flags(self, game, script):
+        info = script.info
+        command = script.blocks[script.curr_block][script.curr_line]
+        flag = command[1]
+        true_block = command[2]
+        false_block = command[3]
+
+
+
+        if flag in game['flags'] and game['flags'][flag]:
+            info['next_block'] = true_block
+        else:
+            info['next_block'] = false_block
+
+        info['finished'] = True
 
     def update(self, game):
         for e, script in self.entity_manager.pairs_for_type(UIScript):
@@ -192,11 +209,13 @@ class UIScriptSystem(System):
                 self.update_menu(game, script)
             elif curr_type == 'setflag':
                 self.set_flags(game, script)
-                script.info['finished'] = True
             elif curr_type == 'unsetflag':
                 self.unset_flags(game, script)
-                self.info['finished'] = True
+            elif curr_type == 'checkflag':
+                self.check_flags(game, script)
 
+            else:
+                print('unchecked: ', curr_type)
             if script.info['finished']:
                 script.curr_line += 1
 
