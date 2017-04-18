@@ -1,7 +1,7 @@
 from engine.state import State
 from engine.make import Maker
 from engine.viewport import Viewport
-from engine.world import World
+from engine.world import create_world
 import engine.ecs as ecs
 from data.systems import *
 from data.components import Position, Commands
@@ -36,7 +36,7 @@ class PlayState(State):
         # create viewport and world
         self.viewport = Viewport()
         self.viewport.lock_on(self.entity_manager.component_for_entity(self.player, Position))
-        self.world = World()
+        self.world = create_world(type='dungeon')
 
     def update(self, game):
         keys = game['keys']
