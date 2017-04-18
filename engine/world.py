@@ -15,17 +15,19 @@ def touching_boundary(rect1, rect2):
 
     return False
 
-def create_world(type='infinite', pos=(0, 0)):
+def create_world(type='infinite', pos=(0, 0), seed=0):
     if type == 'infinite':
         return World(pos)
     elif type == 'dungeon':
-        return DWorld(pos)
+        return DWorld(pos, seed)
 
 class DWorld(object):
-    def __init__(self, pos=(0,0)):
+
+    def __init__(self, pos=(0,0), seed=0):
         self.position = pos
+        self.seed = seed
         self.tilesheet = pygame.image.load("resources/Tileset.png")
-        self.size = (30, 16)
+        self.size = (60, 44)
         self.tile_size = (24, 24)
         self.grid = np.empty([self.size[1], self.size[0]])
         self.grid.fill(1)
@@ -46,17 +48,16 @@ class DWorld(object):
 
         self.update_image()
 
-
     def populate(self):
 
-        random.seed(0)
+        random.seed(self.seed)
 
         for y in range(1, self.size[1]-1):
             for x in range(1, self.size[0]-1):
                 self.grid[y][x] = random.randint(0,1)
 
         
-        for i in range(0, 1):
+        for i in range(0, 2):
             old_grid = self.grid
             self.grid = deepcopy(old_grid)
 
@@ -64,10 +65,16 @@ class DWorld(object):
                 for x in range(1, self.size[0]-1):
                     alive, dead = self.check_neighbors(old_grid, x, y)
 
-                    if dead > 5:
-                        self.grid[y][x] = 0
+                    if self.grid[y][x] == 1:
+                        if dead >= 5:
+                            self.grid[y][x] = 0
+                        else:
+                            self.grid[y][x] = 1
                     else:
-                        self.grid[y][x] = 1
+                        if dead >= 4:
+                            self.grid[y][x] = 0
+                        else:
+                            self.grid[y][x] = 1
 
     def check_neighbors(self, grid, x, y):
         alive = 0
@@ -75,13 +82,15 @@ class DWorld(object):
 
         for ry in range(y-1, y+2):
             for rx in range(x-1, x+2):
-                if grid[y][x] == 1:
+                if rx == x and ry == y:
+                    continue
+
+                if grid[ry][rx] == 1:
                     alive += 1
                 else:
                     dead += 1
 
         return (alive, dead)
-
 
     def point_to_tile(self, point):
         x, y = point
@@ -91,6 +100,13 @@ class DWorld(object):
         #print(self.position, point, (tile_x_off, tile_y_off))
         return (tile_x_off, tile_y_off)
 
+    def tile_to_point(self, tile):
+        x, y = tile
+
+        x_pos = self.position[0] + (x - self.size[0]/2)*24 + 12
+        y_pos = self.position[1] + (y - self.size[1]/2)*24 + 12
+
+        return (x_pos, y_pos)
 
     def get_collision(self, rect):
         start_x, start_y = self.point_to_tile(rect.topleft)
@@ -121,6 +137,12 @@ class DWorld(object):
                 dest_rect.y = map_rect.h - y * 24 - 24
                 src_rect.x = self.grid[y][x] * 24
                 self.image.blit(self.tilesheet, dest_rect, src_rect)
+
+    def empty_position(self):
+        for y in range(0, self.size[1]):
+            for x in range(0, self.size[0]):
+                if self.grid[y][x] == 1:
+                    return self.tile_to_point((x, y))
 
 class World(object):
     def __init__(self, pos=(0, 0)):

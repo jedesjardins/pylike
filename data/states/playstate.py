@@ -25,21 +25,28 @@ class PlayState(State):
         self.system_manager.add_system(DrawSystem(), 3)
         self.system_manager.add_system(DrawGameTextSystem(), 4)
         self.system_manager.add_system(UIScriptSystem(), 4)
-        
+
+        # create viewport and world
+        self.viewport = Viewport()
+        self.world = create_world(type='dungeon', seed=0)
+       
+
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
-        self.player = self.maker["Player"]("Scientist.png", pos=(12, 12))
-        e2 = self.maker["Person"]("Detective.png", pos=(36, 12))
+        open_point = self.world.empty_position()
+        self.player = self.maker["Player"]("Scientist.png", pos=(open_point))
+        #self.player = self.maker["Player"]("Scientist.png", pos=(12,12))
+        self.maker["Person"]("Detective.png", pos=(36, 12))
         self.maker["Box"](pos=(12, 36))
         self.maker["Potion"](pos=(36, 36))
         self.maker["Sign"](pos=(-12, -12))
 
-        # create viewport and world
-        self.viewport = Viewport()
         self.viewport.lock_on(self.entity_manager.component_for_entity(self.player, Position))
-        self.world = create_world(type='dungeon')
 
     def update(self, game):
+
+        print(game['dt'])
+
         keys = game['keys']
         if 'p' in keys and keys['p'] == 'down':
             game['state_change'] = [('push', 'PauseState')]
