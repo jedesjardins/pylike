@@ -1,2 +1,3 @@
 $enter
 #say Welcome to the game!#This is just an example#sign script.$
+#setflag @sign

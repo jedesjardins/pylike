@@ -39,6 +39,24 @@ class UIScript(Component):
         
         return ('menu', text, options)
 
+    def set_flag(line):
+        all_array = line.split()
+        flags = []
+
+        for i in range(1, len(all_array)):
+            flags.append(all_array[i][1:])
+
+        return ('setflag', flags)
+
+    def unset_flag(line):
+        all_array = line.split()
+        flags = []
+
+        for i in range(1, len(all_array)):
+            flags.append(all_array[i][1:])
+
+        return ('unsetflag', flags)
+
     def parse_script(file):
         with open('data/scripts/' + file, 'r') as script:
             blocks = {}
@@ -57,6 +75,11 @@ class UIScript(Component):
                         blocks[curr_block].append(UIScript.say(l))
                     elif '#menu' in l:
                         blocks[curr_block].append(UIScript.menu(l))
+                    elif '#setflag' in l:
+                        blocks[curr_block].append(UIScript.set_flag(l))
+                    elif '#unsetflag' in l:
+                        blocks[curr_block].append(UIScript.unset_flag(l))
+
                     else:
                         print('error')
 

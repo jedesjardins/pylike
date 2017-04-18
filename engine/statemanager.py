@@ -132,7 +132,8 @@ class StateManager(object):
             'keys': None,
             'dt': 0,
             '_running': True,
-            'state_change': []
+            'state_change': [],
+            'flags': {}
     }
 
     def update(self, dt):

@@ -81,7 +81,6 @@ class UIScriptSystem(System):
 
         def do(self):
             if not self.script.running:
-                print('starting script')
                 self.script.lock.do()
                 self.script.info = deepcopy(UIScript.info)
                 self.script.curr_block = 'enter'
@@ -169,6 +168,17 @@ class UIScriptSystem(System):
         else:
             script.info['selected'] = False
 
+    def set_flags(self, game, script, val=True):
+        info = script.info
+        flags = script.blocks[script.curr_block][script.curr_line][1]
+        print(flags)
+
+        for flag in flags:
+            game['flags'][flag] = True
+
+    def unset_flags(self, game, script):
+        self.set_flags(game, script, False)
+
     def update(self, game):
         for e, script in self.entity_manager.pairs_for_type(UIScript):
             if not script.running:
@@ -180,6 +190,12 @@ class UIScriptSystem(System):
                 self.update_text(game, script)
             elif curr_type == 'menu':
                 self.update_menu(game, script)
+            elif curr_type == 'setflag':
+                self.set_flags(game, script)
+                script.info['finished'] = True
+            elif curr_type == 'unsetflag':
+                self.unset_flags(game, script)
+                self.info['finished'] = True
 
             if script.info['finished']:
                 script.curr_line += 1
