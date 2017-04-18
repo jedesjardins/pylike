@@ -9,6 +9,7 @@ class Commands(Component):
         self.key_options = {}
         self.past_commands = []
 
+        """
         for key, options in actions.items():
             # if a key has a specific action
             if 'filter' in options:
@@ -23,3 +24,18 @@ class Commands(Component):
                     command = getattr(self, command_loc)
 
                 self.key_commands[key].append(command)
+        """
+
+        for key, options in actions.items():
+            self.key_commands[key] = {}
+            for key_state, command_list in options.items():
+                self.key_commands[key][key_state] = []
+                for command_loc in command_list:
+                    if '.' in command_loc:
+                        system, command_name, *_ = command_loc.split('.')
+                        command = getattr(getattr(data.systems, system), command_name)
+                    else:
+                        command = getattr(self, command_loc)
+
+                    self.key_commands[key][key_state].append(command)
+

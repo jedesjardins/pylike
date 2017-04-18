@@ -1,5 +1,6 @@
 
 from engine.ecs import Component
+from copy import deepcopy
 
 class UIScript(Component):
 
@@ -22,12 +23,12 @@ class UIScript(Component):
 
         for i in range(0, len(all_array)):
             word = all_array[i]
-            if word[0] == '#' and i != 0:
+            if word[0] == '>' and i != 0:
                 options_index = i
                 break
             text_array.append(word)
 
-        text = ' '.join(text_array)
+        text = ' '.join(text_array[1:])
 
         index = options_index
         options = []
@@ -66,6 +67,18 @@ class UIScript(Component):
         #blocks['enter'] = [('text', 'yo, waddup')]
         blocks = UIScript.parse_script(script_file)
         return UIScript(blocks)
+
+    info = {
+            'output_buffer': [[]],
+            'finished': False,
+            'speedup': False,
+            'stop': False,
+            'elapsed_time': 0,
+            'last_char': 0,
+            'selection': 0,
+            'selected': False,
+            'next_block': None
+        }
     
     def __init__(self, actions):
         self.running = False
@@ -74,12 +87,6 @@ class UIScript(Component):
         self.curr_line = 0
         self.target = None
         self.lock = None
+        self.text_image = None
 
-        self.info = {
-            'output_buffer': [[]],
-            'finished': False,
-            'speedup': False
-            'stop': False,
-            'elapsed_time': 0
-            'last_char': 0
-        }
+        self.info = deepcopy(UIScript.info)

@@ -13,24 +13,19 @@
 	"Commands": {
 		"actions": {
 			"w": {
-				"filter": ["down"],
-				"list": ["MenuSystem.Up"]
+				"down": ["MenuSystem.Up"]
 			},
 			"s": {
-				"filter": ["down"],
-				"list": ["MenuSystem.Down"]
+				"down": ["MenuSystem.Down"]
 			},
 			"up": {
-				"filter": ["down"],
-				"list": ["MenuSystem.Up"]
+				"down": ["MenuSystem.Up"]
 			},
 			"down": {
-				"filter": ["down"],
-				"list": ["MenuSystem.Down"]
+				"down": ["MenuSystem.Down"]
 			},
 			"enter": {
-				"filter": ["down"],
-				"list": ["MenuSystem.Select"]
+				"down": ["MenuSystem.Select"]
 			}
 		}
 	}

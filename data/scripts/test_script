@@ -1,13 +1,10 @@
 $enter
-#say Hey there
-#menu Do you like turtles? #yes @first #no @second
+#say Hey there!$
+#say This is just an example#script.$
+#menu Do you understand?$ >yes @first >no @second
 
 $first
-#say Good! Me too!
-#menu Did you expect a different menu? #yes @second #maybe? @third
+#say Good!$
 
 $second
-#say That's too bad..
-
-$third
-#say Wow, okay.
+#say Well this is really#simple stuff...$

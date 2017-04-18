@@ -18,7 +18,7 @@ class MenuOptions(Component):
         height = 0
         max_width = 0
         if self.title:
-            image = Font.get_text_image(self.title, 'Minecraft.ttf', 50)
+            image = Font.get_text_image(self.title, 'Minecraft.ttf', 50, (80,66,52))
             self.text_images.append(image)
             rect = image.get_rect()
             height += rect.h
@@ -26,7 +26,7 @@ class MenuOptions(Component):
             if width > max_width:
                 max_width = width
         for option in self.menu_list:
-            image = Font.get_text_image(option, 'Minecraft.ttf', 30)
+            image = Font.get_text_image(option, 'Minecraft.ttf', 30, (80,66,52))
             self.text_images.append(image)
             rect = image.get_rect()
             height += rect.h
@@ -35,7 +35,7 @@ class MenuOptions(Component):
                 max_width = width
 
         self.image = pygame.Surface((max_width, height))
-        self.image.fill((255,255,255))
+        self.image.fill((222,219,195))
         y_offset = 0
         index = -1
         for image in self.text_images:

@@ -28,7 +28,7 @@ class PlayState(State):
         
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
-        self.player = self.maker["Player"]("Detective.png", pos=(12, 12))
+        self.player = self.maker["Player"]("Scientist.png", pos=(12, 12))
         e2 = self.maker["Person"]("Detective.png", pos=(36, 12))
         self.maker["Box"](pos=(12, 36))
         self.maker["Potion"](pos=(36, 36))

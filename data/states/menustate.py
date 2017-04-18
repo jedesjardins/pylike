@@ -29,7 +29,7 @@ class MenuState(State):
         self.maker = Maker(self.entity_manager, 'data/entities')
         self.maker["MainMenu"](pos=None)
 
-        self.text_image = Font.get_text_image('The Menu Bitch', 'Minecraft.ttf', 50)
+        self.text_image = Font.get_text_image('The Menu Bitch', 'Minecraft.ttf', 50, (80,66,52))
         # create viewport
         self.viewport = Viewport()
 
@@ -45,4 +45,4 @@ class MenuState(State):
         
 
     def clear(self):
-        self.viewport.push((255,255,255))
+        self.viewport.push((222,219,195))

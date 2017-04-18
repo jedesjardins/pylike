@@ -13,37 +13,37 @@
 	"Commands": {
 		"actions": {
 			"caps": {
-				"list": ["StateSystem.Run"]
+				"any": ["StateSystem.Run"]
 			},
 			"lshift": {
-				"list": ["StateSystem.LockDirection"]
+				"any": ["StateSystem.LockDirection"]
 			},
 			"w": {
-				"list": ["MovementSystem.MoveUp", "StateSystem.Up"]
+				"any": ["MovementSystem.MoveUp", "StateSystem.Up"],
+				"down": ["UIScriptSystem.UIUp"]
 			},
 			"s": {
-				"list": ["MovementSystem.MoveDown", "StateSystem.Down"]
+				"any": ["MovementSystem.MoveDown", "StateSystem.Down"],
+				"down": ["UIScriptSystem.UIDown"]
 			},
 			"a": {
-				"list": ["MovementSystem.MoveLeft", "StateSystem.Left"]
+				"any": ["MovementSystem.MoveLeft", "StateSystem.Left"]
 			},
 			"d": {
-				"list": ["MovementSystem.MoveRight", "StateSystem.Right"]
+				"any": ["MovementSystem.MoveRight", "StateSystem.Right"]
 			},
 			"space": {
-				"list": ["StateSystem.Attack"]
+				"any": ["StateSystem.Attack"]
 			},
 			"e": {
-				"filter": ["down"],
-				"list": ["InteractSystem.Interact"]
+				"down": ["InteractSystem.Interact"]
 			},
 			"f": {
-				"filter": ["down"],
-				"list": ["DrawSystem.ChangeCostume"]
+				"down": ["DrawSystem.ChangeCostume"]
 			},
 			"enter": {
-				"filter": ["held"],
-				"list": ["DrawGameTextSystem.SpeedUpText"]
+				"down": ["UIScriptSystem.UISelect"],
+				"held": ["UIScriptSystem.UISpeedup"]
 			}
 		}
 	},
