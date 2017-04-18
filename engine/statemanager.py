@@ -128,18 +128,24 @@ class StateManager(object):
         self.past_keys = keys
         return keys
 
+    game_struct = {
+            'keys': None,
+            'dt': 0,
+            '_running': True,
+            'state_change': []
+    }
+
     def update(self, dt):
         keys = self.handle_input(dt)
 
         if self._running == False:
             return
 
-        game = {
-            'keys': keys,
-            'dt': dt,
-            '_running': True,
-            'state_change': []
-        }
+        game = StateManager.game_struct
+        game['keys'] = keys
+        game['dt'] = dt
+        game['_running'] = True
+        game['state_change'] = []
 
         self._state_stack[-1].update(game)
 

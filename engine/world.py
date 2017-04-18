@@ -23,7 +23,7 @@ class DWorld(object):
     def __init__(self, pos=(0,0)):
         self.position = pos
         self.tilesheet = pygame.image.load("resources/Tileset.png")
-        self.size = (30, 20)
+        self.size = (16, 10)
         self.tile_size = (24, 24)
         self.grid = np.empty([self.size[1], self.size[0]])
         self.grid.fill(1)
