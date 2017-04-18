@@ -3,6 +3,8 @@ from .chunk import Chunk
 from pygame import Rect
 import numpy as np
 import math
+import random
+from copy import deepcopy
 
 
 def touching_boundary(rect1, rect2):
@@ -23,7 +25,7 @@ class DWorld(object):
     def __init__(self, pos=(0,0)):
         self.position = pos
         self.tilesheet = pygame.image.load("resources/Tileset.png")
-        self.size = (16, 10)
+        self.size = (30, 16)
         self.tile_size = (24, 24)
         self.grid = np.empty([self.size[1], self.size[0]])
         self.grid.fill(1)
@@ -36,13 +38,50 @@ class DWorld(object):
             self.grid[0][x] = 0
             self.grid[self.size[1]-1][x] = 0
 
-        self.grid[5, 5] = 0
+        self.populate()
 
         self.image = pygame.Surface((
                 self.tile_size[0] * self.size[0],
                 self.tile_size[1] * self.size[1]))
 
         self.update_image()
+
+
+    def populate(self):
+
+        random.seed(0)
+
+        for y in range(1, self.size[1]-1):
+            for x in range(1, self.size[0]-1):
+                self.grid[y][x] = random.randint(0,1)
+
+        
+        for i in range(0, 1):
+            old_grid = self.grid
+            self.grid = deepcopy(old_grid)
+
+            for y in range(1, self.size[1]-1):
+                for x in range(1, self.size[0]-1):
+                    alive, dead = self.check_neighbors(old_grid, x, y)
+
+                    if dead > 5:
+                        self.grid[y][x] = 0
+                    else:
+                        self.grid[y][x] = 1
+
+    def check_neighbors(self, grid, x, y):
+        alive = 0
+        dead = 0
+
+        for ry in range(y-1, y+2):
+            for rx in range(x-1, x+2):
+                if grid[y][x] == 1:
+                    alive += 1
+                else:
+                    dead += 1
+
+        return (alive, dead)
+
 
     def point_to_tile(self, point):
         x, y = point

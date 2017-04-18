@@ -184,15 +184,11 @@ class UIScriptSystem(System):
         info = script.info
         command = script.blocks[script.curr_block][script.curr_line]
         flag = command[1]
-        true_block = command[2]
-        false_block = command[3]
-
-
 
         if flag in game['flags'] and game['flags'][flag]:
-            info['next_block'] = true_block
+            info['next_block'] = command[2]
         else:
-            info['next_block'] = false_block
+            info['next_block'] = command[3]
 
         info['finished'] = True
 
