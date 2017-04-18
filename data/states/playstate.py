@@ -32,6 +32,7 @@ class PlayState(State):
         e2 = self.maker["Person"]("Detective.png", pos=(36, 12))
         self.maker["Box"](pos=(12, 36))
         self.maker["Potion"](pos=(36, 36))
+        self.maker["Sign"](pos=(-12, -12))
 
         # create viewport and world
         self.viewport = Viewport()

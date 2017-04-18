@@ -1,0 +1,41 @@
+{
+	"Misc": {
+		"name": "Sign"
+	},
+	"Label": {
+		"label": "prop",
+		"name": "sign"
+	},
+	"Sprite": {
+		"file": "sign.png",
+		"frames": 1,
+		"columns": 1,
+		"frame_rect": {
+			"x": 0,
+			"y": 0,
+			"w": 15,
+			"h": 15
+		}
+	},
+	"Hitbox": {
+		"rect": {
+			"x": 0,
+			"y": 0,
+			"w": 15,
+			"h": 12
+		},
+		"y_offset": 3
+	},
+	"Collision": {
+		"type_commands": {
+		}
+	},
+	"Interact": {
+		"type_commands": {	
+			"person": ["UIScriptSystem.StartScript"]
+		}
+	},
+	"UIScript.AutoScript":{
+		"script_file": "sign_script"
+	}
+}
