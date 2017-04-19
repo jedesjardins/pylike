@@ -42,7 +42,7 @@ class DWorld(object):
             self.grid[self.size[1]-1][x] = 0
 
         self.populate()
-        #self.revise()
+        self.revise()
 
         self.image = pygame.Surface((
                 self.tile_size[0] * self.size[0],
@@ -51,7 +51,7 @@ class DWorld(object):
         self.update_image()
 
 
-    kernels = {
+    kernels2 = {
     ( 0, 1, 1,
       0, 0, 1,
       0, 0, 0): 4,
@@ -127,7 +127,22 @@ class DWorld(object):
     ( 1, 1, 0,
       1, 0, 0,
       1, 0, 0): 2,
-    } 
+    }
+
+    kernels = {
+        (1, 1, 1, 1): 11,
+        (0, 1, 0, 1): 2,
+        (0, 0, 0, 1): 3,
+        (0, 0, 1, 1): 4,
+        (0, 1, 1, 1): 5,
+        (1, 1, 0, 0): 6,
+        (1, 0, 0, 0): 7,
+        (1, 0, 1, 0): 8,
+        (1, 1, 1, 0): 9,
+        (1, 1, 0, 1): 18,
+        (1, 0, 1, 1): 19
+
+    }
 
     def populate(self):
 
@@ -180,19 +195,19 @@ class DWorld(object):
         old_grid = self.grid
         self.grid = deepcopy(old_grid)
 
-        for y in range(1, self.size[1]-1):
-            for x in range(1, self.size[0]-1):
+        for y in range(1, self.size[1]-2):
+            for x in range(1, self.size[0]-2):
 
                 if old_grid[y][x] == 1: continue
                 kernel = self.get_tile_kernel(old_grid, x, y)
 
-
-
                 if kernel in DWorld.kernels:
                     self.grid[y][x] = DWorld.kernels[kernel]
 
-
     def get_tile_kernel(self, grid, x, y):
+        return (grid[y-1][x], grid[y][x-1], grid[y][x+1], grid[y+1][x])
+
+    def get_tile_kernel9(self, grid, x, y):
         vals = []
         for ry in range(y+1,y-2, -1):
             for rx in range(x-1, x+2):
