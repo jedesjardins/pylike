@@ -5,6 +5,7 @@ import numpy as np
 import math
 import random
 from copy import deepcopy
+import sys
 
 
 def touching_boundary(rect1, rect2):
@@ -27,7 +28,7 @@ class DWorld(object):
         self.position = pos
         self.seed = seed
         self.tilesheet = pygame.image.load("resources/Tileset.png")
-        self.size = (60, 44)
+        self.size = (60, 40)
         self.tile_size = (24, 24)
         self.grid = np.empty([self.size[1], self.size[0]])
         self.grid.fill(1)
@@ -41,6 +42,7 @@ class DWorld(object):
             self.grid[self.size[1]-1][x] = 0
 
         self.populate()
+        #self.revise()
 
         self.image = pygame.Surface((
                 self.tile_size[0] * self.size[0],
@@ -48,16 +50,98 @@ class DWorld(object):
 
         self.update_image()
 
+
+    kernels = {
+    ( 0, 1, 1,
+      0, 0, 1,
+      0, 0, 0): 4,
+    ( 1, 1, 1,
+      0, 0, 1,
+      0, 0, 0): 4,
+    ( 0, 1, 1,
+      0, 0, 1,
+      0, 0, 1): 4,
+    ( 1, 1, 1,
+      1, 0, 0,
+      1, 0, 0): 2,
+    ( 1, 1, 0,
+      1, 0, 0,
+      1, 0, 0): 2,
+    ( 1, 1, 1,
+      1, 0, 0,
+      0, 0, 0): 2,
+    ( 0, 0, 0,
+      1, 0, 0,
+      1, 1, 1): 6,
+    ( 1, 0, 0,
+      1, 0, 0,
+      1, 1, 0): 6,
+    ( 0, 0, 0,
+      1, 0, 0,
+      1, 1, 0): 6,
+    ( 0, 0, 1,
+      0, 0, 1,
+      0, 1, 1): 8,
+    ( 0, 0, 0,
+      0, 0, 1,
+      1, 1, 1): 8,
+    ( 0, 0, 0,
+      0, 0, 1,
+      0, 1, 1): 8,
+    ( 1, 1, 1,
+      1, 0, 1,
+      0, 0, 0): 5,
+    ( 1, 1, 1,
+      1, 0, 1,
+      1, 0, 1): 5,
+    ( 0, 0, 0,
+      1, 0, 1,
+      1, 1, 1): 9,
+    ( 1, 0, 1,
+      1, 0, 1,
+      1, 1, 1): 9,
+    ( 1, 1, 1,
+      1, 0, 0,
+      1, 1, 1): 18,
+    ( 1, 1, 0,
+      1, 0, 0,
+      1, 1, 0): 18,
+    ( 0, 1, 1,
+      0, 0, 1,
+      0, 1, 1): 19,
+    ( 1, 1, 1,
+      0, 0, 1,
+      1, 1, 1): 19,
+    ( 1, 1, 1,
+      0, 0, 0,
+      0, 0, 0): 3,
+    ( 1, 1, 1,
+      0, 0, 0,
+      0, 0, 0): 3,
+    ( 1, 1, 1,
+      0, 0, 0,
+      0, 0, 0): 3,
+    ( 1, 1, 0,
+      1, 0, 0,
+      1, 0, 0): 2,
+    ( 1, 1, 0,
+      1, 0, 0,
+      1, 0, 0): 2,
+    } 
+
     def populate(self):
 
         random.seed(self.seed)
 
         for y in range(1, self.size[1]-1):
             for x in range(1, self.size[0]-1):
-                self.grid[y][x] = random.randint(0,1)
+                if random.random() > .5:
+                    self.grid[y][x] = 1
+                else:
+                    self.grid[y][x] = 0
 
         
-        for i in range(0, 2):
+        for i in range(0, 3):
             old_grid = self.grid
             self.grid = deepcopy(old_grid)
 
@@ -75,6 +159,63 @@ class DWorld(object):
                             self.grid[y][x] = 0
                         else:
                             self.grid[y][x] = 1
+
+        
+        rooms = []
+        mapped = {}
+        for y in range(0, self.size[1]):
+            for x in range(0, self.size[0]):
+                if self.grid[y][x] == 1 and (x, y) not in mapped:
+                    rooms.append(self.flood_fill(mapped, x, y))
+
+        max_room = max(rooms, key=lambda x: len(x))
+
+        self.grid = np.zeros([self.size[1], self.size[0]])
+
+        for point, _ in max_room.items():
+            x, y = point
+            self.grid[y][x] = 1
+
+    def revise(self):
+        old_grid = self.grid
+        self.grid = deepcopy(old_grid)
+
+        for y in range(1, self.size[1]-1):
+            for x in range(1, self.size[0]-1):
+
+                if old_grid[y][x] == 1: continue
+                kernel = self.get_tile_kernel(old_grid, x, y)
+
+
+
+                if kernel in DWorld.kernels:
+                    self.grid[y][x] = DWorld.kernels[kernel]
+
+
+    def get_tile_kernel(self, grid, x, y):
+        vals = []
+        for ry in range(y+1,y-2, -1):
+            for rx in range(x-1, x+2):
+                vals.append(grid[ry][rx])
+
+        return tuple(vals)
+
+    def flood_fill(self, mapped, x, y):
+        room = {}
+        stack = [(x, y)]
+        while stack:
+            x, y = stack.pop()
+            mapped[(x, y)] = True
+            room[(x, y)] = True
+
+            tiles = [(x-1, y),(x+1, y),(x, y-1),(x, y+1)]
+
+            for tile in tiles:
+                i, j = tile
+                if self.grid[j][i] == 1 and (i, j) not in mapped:
+                    stack.append((i, j))
+
+        return room
 
     def check_neighbors(self, grid, x, y):
         alive = 0
@@ -135,7 +276,8 @@ class DWorld(object):
             for x in range(0, self.size[0]):
                 dest_rect.x = x * 24
                 dest_rect.y = map_rect.h - y * 24 - 24
-                src_rect.x = self.grid[y][x] * 24
+                src_rect.x = self.grid[y][x]%10 * 24
+                src_rect.y = self.grid[y][x]//10 * 24
                 self.image.blit(self.tilesheet, dest_rect, src_rect)
 
     def empty_position(self):
@@ -143,6 +285,7 @@ class DWorld(object):
             for x in range(0, self.size[0]):
                 if self.grid[y][x] == 1:
                     return self.tile_to_point((x, y))
+
 
 class World(object):
     def __init__(self, pos=(0, 0)):

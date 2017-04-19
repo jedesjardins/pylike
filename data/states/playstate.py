@@ -45,8 +45,6 @@ class PlayState(State):
 
     def update(self, game):
 
-        print(game['dt'])
-
         keys = game['keys']
         if 'p' in keys and keys['p'] == 'down':
             game['state_change'] = [('push', 'PauseState')]
