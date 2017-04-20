@@ -50,7 +50,7 @@ class DWorld(object):
 
         self.update_image()
 
-    kernels = {
+    wall_kernels = {
         (1, 1, 1, 1): 11,
         (0, 1, 0, 1): 2,
         (0, 0, 0, 1): 3,
@@ -67,6 +67,9 @@ class DWorld(object):
 
     }
 
+    floor_kernels = {
+        (1, 1, 1, 1): 11
+    }
     def populate(self):
 
         random.seed(self.seed)
@@ -121,11 +124,14 @@ class DWorld(object):
         for y in range(1, self.size[1]-1):
             for x in range(1, self.size[0]-1):
 
-                if old_grid[y][x] == 1: continue
                 kernel = self.get_tile_kernel(old_grid, x, y)
 
-                if kernel in DWorld.kernels:
-                    self.grid[y][x] = DWorld.kernels[kernel]
+                if old_grid[y][x] == 1:
+                    if kernel in DWorld.floor_kernels:
+                        self.grid[y][x] = DWorld.floor_kernels[kernel]
+                else:
+                    if kernel in DWorld.wall_kernels:
+                        self.grid[y][x] = DWorld.wall_kernels[kernel]
 
     def get_tile_kernel(self, grid, x, y):
         return (grid[y-1][x], grid[y][x-1], grid[y][x+1], grid[y+1][x])
@@ -194,7 +200,7 @@ class DWorld(object):
         for y in range(start_y, end_y + 1):
             for x in range(start_x, end_x + 1):
                 try:
-                    if self.grid[y][x] != 1:
+                    if self.grid[y][x]%10 != 1:
                         return True
                 except IndexError:
                     # the object isn't within the world space anymore
