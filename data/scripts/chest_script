@@ -1,0 +1,13 @@
+$enter
+
+$flagset
+#say It opened!$
+
+$flagunset
+#say It seems to be locked...$
+
+$opened
+#say You already looted this#chest..$
+
+$open
+#say It was empty, too bad!$Items are coming soon!$
