@@ -68,7 +68,7 @@ class DWorld(object):
     }
 
     floor_kernels = {
-        (1, 1, 1, 1): 11
+        (1, 1, 1, 1): 1
     }
     def populate(self):
 
@@ -225,10 +225,12 @@ class DWorld(object):
                 self.image.blit(self.tilesheet, dest_rect, src_rect)
 
     def empty_position(self):
+        poses = []
         for y in range(0, self.size[1]):
             for x in range(0, self.size[0]):
                 if self.grid[y][x] == 1:
-                    return self.tile_to_point((x, y))
+                    poses.append(self.tile_to_point((x, y)))
+        return poses
 
 
 class World(object):

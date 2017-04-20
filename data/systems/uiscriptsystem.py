@@ -211,7 +211,7 @@ class UIScriptSystem(System):
                 self.check_flags(game, script)
 
             else:
-                print('unchecked: ', curr_type)
+                print('unchecked: ', script.blocks[script.curr_block][script.curr_line])
             if script.info['finished']:
                 script.curr_line += 1
 

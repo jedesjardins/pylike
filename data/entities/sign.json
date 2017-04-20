@@ -35,7 +35,7 @@
 			"person": ["UIScriptSystem.StartScript"]
 		}
 	},
-	"UIScript.AutoScript":{
-		"script_file": "sign_script"
+	"UIScript.SignScript":{
+		"text": "$0"
 	}
 }

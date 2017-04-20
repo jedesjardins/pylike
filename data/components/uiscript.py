@@ -101,6 +101,23 @@ class UIScript(Component):
         blocks = UIScript.parse_script(script_file)
         return UIScript(blocks)
 
+    def ChestScript(checkflag, setflag):
+        blocks = UIScript.parse_script('chest_script')
+        blocks['enter'].append(('checkflag', checkflag, 'flagset', 'flagunset'))
+        blocks['flagset'].append(('checkflag', setflag, 'opened', 'open'))
+        blocks['open'].append(('setflag', [setflag]))
+        return UIScript(blocks)
+
+    def KeyScript(flag):
+        blocks = UIScript.parse_script('key_script')
+        blocks['enter'].append(('setflag', [flag]))
+        return UIScript(blocks)
+
+    def SignScript(text):
+        blocks = UIScript.parse_script('sign_script')
+        blocks['enter'].append(('text', text))
+        return UIScript(blocks)
+
     info = {
             'output_buffer': [[]],
             'finished': False,
