@@ -4,6 +4,7 @@
 from engine.ecs import System
 from data.components import Position, Hitbox, Commands, Collision, Label, State
 from engine.ecs.exceptions import NonexistentComponentTypeForEntity
+from data.systems import MovementSystem
 from engine.quadtree import Quadtree
 from engine.command import Command
 from pygame import Rect
@@ -30,10 +31,47 @@ class CollisionSystem(System):
     class CollideWorld(Command):
         def __init__(self, e, em, game, *_):
             self.commands = em.component_for_entity(e, Commands)
+            directions, *_ = _
 
-        def do(self):        
+            self.direction_classes = []
+            for direction in directions:
+                if direction == 'left':
+                    self.direction_classes.append(MovementSystem.MoveLeft)
+                elif direction == 'right':
+                    self.direction_classes.append(MovementSystem.MoveRight)
+                elif direction == 'up':
+                    self.direction_classes.append(MovementSystem.MoveUp)
+                elif direction == 'down':
+                    self.direction_classes.append(MovementSystem.MoveDown)
+
+
+        def do(self):
             for command in self.commands.past_commands:
-                command.undo()
+                if type(command) in self.direction_classes:
+                    command.undo()
+
+        def undo(self):
+            for command in self.commands.past_commands:
+                command.do()
+
+    class CollideWorld2(Command):
+        def __init__(self, e, em, game, *_):
+            self.commands = em.component_for_entity(e, Commands)
+
+            if _[0] == 'left':
+                self.direction_class = MovementSystem.MoveLeft
+            elif _[0] == 'right':
+                self.direction_class = MovementSystem.MoveRight
+            elif _[0] == 'up':
+                self.direction_class = MovementSystem.MoveUp
+            elif _[0] == 'down':
+                self.direction_class = MovementSystem.MoveDown
+
+        def do(self):
+            print(self.direction_class)
+            for command in self.commands.past_commands:
+                if type(command) == self.direction_class:
+                    command.undo()
 
         def undo(self):
             for command in self.commands.past_commands:
@@ -152,10 +190,37 @@ class CollisionSystem(System):
             hb = hitbox.rect.copy()
             hb.center = position.x, position.y - hitbox.y_offset/2
 
-            if world.get_collision(hb) and collision:
-                if 'world' in collision.type_commands:
+            collide_tiles = world.get_collision(hb)
+            player_tile = world.point_to_tile((position.x, position.y))
+
+            if collide_tiles and collision:
+
+                collide_directions = []
+                
+                for collide_tile in collide_tiles:
+                    if 'world' in collision.type_commands:
+                        dx = player_tile[0] - collide_tile[0]
+                        dy = player_tile[1] - collide_tile[1]
+                        collide_point = world.tile_to_point(collide_tile)
+
+                        dxp = position.x - collide_point[0]
+                        dyp = position.y - collide_point[1]
+
+                        if abs(dyp) > abs(dxp):
+                            # vertical collision
+                            if dyp > 0:
+                                collide_directions.append('down')
+                            elif dyp < 0:
+                                collide_directions.append('up')
+                        else:
+                            # horizontal collision
+                            if dxp > 0:
+                                collide_directions.append('left')
+                            elif dxp < 0:
+                                collide_directions.append('right')
+
                     for command in collision.type_commands['world']:
-                        c = command(e, self.entity_manager, game)
+                        c = command(e, self.entity_manager, game, collide_directions)
                         c.do()
 
     def update(self, game):

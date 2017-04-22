@@ -36,7 +36,7 @@ class PlayState(State):
         open_points = self.world.empty_position()
 
         #self.player = self.maker["Player"]("Scientist.png", pos=(open_point))
-        self.player = self.maker["Player"]("Scientist.png", pos=(12, 12+24*5))
+        self.player = self.maker["Player"]("Rescuer.png", pos=(12, 12+24*5))
         self.maker["Sign"](\
             "Welcome to the game!$This is just a demo, the game#will be built opon this#foundation!$\
 Feel free to explore and#interact with the world,#it is randomly generated!$\

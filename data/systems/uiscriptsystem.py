@@ -37,7 +37,6 @@ class UIScriptSystem(System):
             self.em = em
             self.script_list = self.em.pairs_for_type(UIScript)
 
-
         def do(self):
             for c, script in self.script_list:
                 if script.running:
@@ -49,10 +48,9 @@ class UIScriptSystem(System):
             self.em = em
             self.script_list = self.em.pairs_for_type(UIScript)
 
-
         def do(self):
             for c, script in self.script_list:
-                if script.running:
+                if script.running and script.blocks[script.curr_block][script.curr_line][0] == 'menu':
                     options = script.blocks[script.curr_block][script.curr_line][2]
 
                     if script.info['selection'] != len(options)-1:

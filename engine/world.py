@@ -101,7 +101,6 @@ class DWorld(object):
                         else:
                             self.grid[y][x] = 1
 
-        
         rooms = []
         mapped = {}
         for y in range(0, self.size[1]):
@@ -197,16 +196,18 @@ class DWorld(object):
         start_x, start_y = self.point_to_tile(rect.topleft)
         end_x, end_y = self.point_to_tile(rect.bottomright)
 
+        collide_tiles = []
+
         for y in range(start_y, end_y + 1):
             for x in range(start_x, end_x + 1):
                 try:
                     if self.grid[y][x]%10 != 1:
-                        return True
+                        collide_tiles.append((x, y))
                 except IndexError:
                     # the object isn't within the world space anymore
-                    return False
+                    return []
 
-        return False
+        return collide_tiles
 
     def update(self, viewport):
         pass
