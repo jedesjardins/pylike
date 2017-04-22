@@ -44,7 +44,6 @@ class CollisionSystem(System):
                 elif direction == 'down':
                     self.direction_classes.append(MovementSystem.MoveDown)
 
-
         def do(self):
             for command in self.commands.past_commands:
                 if type(command) in self.direction_classes:
@@ -219,9 +218,10 @@ class CollisionSystem(System):
                             elif dxp < 0:
                                 collide_directions.append('right')
 
-                    for command in collision.type_commands['world']:
-                        c = command(e, self.entity_manager, game, collide_directions)
-                        c.do()
+                    if 'world' in collision.type_commands:
+                        for command in collision.type_commands['world']:
+                            c = command(e, self.entity_manager, game, collide_directions)
+                            c.do()
 
     def update(self, game):
         self.entity_collisions(game)
