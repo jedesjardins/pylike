@@ -1,0 +1,42 @@
+{
+	"Misc": {
+		"name": "Chest"
+	},
+	"Label": {
+		"label": "prop"
+	},
+	"Sprite": {
+		"file": "chest.png",
+		"frames": 1,
+		"columns": 1,
+		"frame_rect": {
+			"x": 0,
+			"y": 0,
+			"w": 24,
+			"h": 24
+		}
+	},
+	"Hitbox": {
+		"rect": {
+			"x": 0,
+			"y": 0,
+			"w": 24,
+			"h": 20
+		},
+		"y_offset": 4
+	},
+	"Collision": {
+		"type_commands": {	
+			"person": ["CollisionSystem.Push"]
+		}
+	},
+	"Interact": {
+		"type_commands": {
+			"person": ["UIScriptSystem.StartScript"]
+		}
+	},
+	"UIScript.ChestScript":{
+		"checkflag": "$0",
+		"setflag": "$1"
+	}
+}

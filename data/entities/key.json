@@ -1,0 +1,41 @@
+{
+	"Misc": {
+		"name": "Key"
+	},
+	"Label": {
+		"label": "item",
+		"name": "key"
+	},
+	"Sprite": {
+		"file": "key.png",
+		"frames": 1,
+		"columns": 1,
+		"frame_rect": {
+			"x": 0,
+			"y": 0,
+			"w": 14,
+			"h": 6
+		}
+	},
+	"Hitbox": {
+		"rect": {
+			"x": 0,
+			"y": 0,
+			"w": 14,
+			"h": 6
+		}
+	},
+	"Collision": {
+		"type_commands": {	
+			"person": ["DeleteSystem.Delete", "UIScriptSystem.StartScript"]
+		}
+	},
+	"Interact": {
+		"type_commands": {	
+			"person": ["DeleteSystem.Delete", "UIScriptSystem.StartScript"]
+		}
+	},
+	"UIScript.KeyScript": {
+		"flag": "$0"
+	}
+}
