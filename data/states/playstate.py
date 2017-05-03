@@ -42,8 +42,11 @@ class PlayState(State):
             "Welcome to the game!$This is just a demo, the game#will be built opon this#foundation!$\
 Feel free to explore and#interact with the world,#it is randomly generated!$\
 I hid some keys and chests#around the world, why not#try and find and open them?$",\
-            pos=(12+24, 12+24*5))
+            pos=(open_points[1]))
         """
+
+        self.maker["Script_Tile"]("door_script", pos=(open_points[1]))
+        
         #self.maker["Chest"]("1", "2", pos=(open_points[random.randint(0, len(open_points))]))
         #self.maker["Key"]("1", pos=(open_points[random.randint(0, len(open_points))]))
         #self.maker["Person"]("Detective.png", pos=(36, 12))

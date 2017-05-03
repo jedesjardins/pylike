@@ -65,6 +65,21 @@ class UIScript(Component):
 
         return ('checkflag', flag, true_block, false_block)
 
+    def check_flags(line):
+        all_array = line.split()
+
+        
+        flag = all_array[1][1:]
+        flags = []
+        for i in range(1, len(all_array)-2):
+            flags.append(all_array[i][1:])
+            print(flags)
+
+        true_block = all_array[-2][1:]
+        false_block = all_array[-1][1:]
+
+        return ('checkflags', flags, true_block, false_block)
+
     def parse_script(file):
         with open('data/scripts/' + file, 'r') as script:
             blocks = {}
@@ -73,6 +88,8 @@ class UIScript(Component):
             for line in script.readlines():
                 l = line.strip()
                 if not l:
+                    continue
+                if l[0] == '/':
                     continue
                 if l[0] == '$':
                     curr_block = l[1:]
@@ -87,6 +104,8 @@ class UIScript(Component):
                         blocks[curr_block].append(UIScript.set_flag(l))
                     elif '#unsetflag' in l:
                         blocks[curr_block].append(UIScript.unset_flag(l))
+                    elif '#checkflags' in l:
+                        blocks[curr_block].append(UIScript.check_flags(l))
                     elif '#checkflag' in l:
                         blocks[curr_block].append(UIScript.check_flag(l))
 
