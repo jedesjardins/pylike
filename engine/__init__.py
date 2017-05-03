@@ -7,3 +7,4 @@ from .quadtree import Quadtree
 from .viewport import Viewport
 from .world import World
 from .chunk import Chunk
+from .behaviortree import BehaviorTree
