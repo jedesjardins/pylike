@@ -178,12 +178,30 @@ class UIScriptSystem(System):
     def unset_flags(self, game, script):
         self.set_flags(game, script, False)
 
-    def check_flags(self, game, script):
+    def check_flag(self, game, script):
         info = script.info
         command = script.blocks[script.curr_block][script.curr_line]
         flag = command[1]
 
         if flag in game['flags'] and game['flags'][flag]:
+            info['next_block'] = command[2]
+        else:
+            info['next_block'] = command[3]
+
+        info['finished'] = True
+
+    def check_flags(self, game, script):
+        info = script.info
+        command = script.blocks[script.curr_block][script.curr_line]
+        flags = command[1]
+
+        res = True
+        for flag in flags:
+            if not(flag in game['flags'] and game['flags'][flag]):
+                res = False
+                break
+
+        if res:
             info['next_block'] = command[2]
         else:
             info['next_block'] = command[3]
@@ -206,8 +224,9 @@ class UIScriptSystem(System):
             elif curr_type == 'unsetflag':
                 self.unset_flags(game, script)
             elif curr_type == 'checkflag':
+                self.check_flag(game, script)
+            elif curr_type == 'checkflags':
                 self.check_flags(game, script)
-
             else:
                 print('unchecked: ', script.blocks[script.curr_block][script.curr_line])
             if script.info['finished']:

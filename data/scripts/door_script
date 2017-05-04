@@ -1,0 +1,13 @@
+$enter
+/check if intro script ran
+#checkflag @start @entered @runentrance
+
+$runentrance
+#say Yo, rescue the miners!
+
+$entered
+#checkflags @1 @2 @3 @4 @5 @won @notyetwon
+
+$won
+
+$notyetwon
