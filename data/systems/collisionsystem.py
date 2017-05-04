@@ -16,9 +16,27 @@ def get_hitbox_rect(position, hitbox):
 
 class CollisionSystem(System):
 
+    class FloorUp(Command):
+        def __init__(self, e, em, game, e2):
+            self.world = game['world']
+
+        def do(self):
+            if self.world.curr_floor > 0:        
+                self.world.curr_floor -= 1
+
+    class FloorDown(Command):
+        def __init__(self, e, em, game, e2):
+            self.world = game['world']
+
+        def do(self):
+            if self.world.curr_floor < self.world.size[2] - 1:
+                self.world.curr_floor += 1
+
+
     class CollideEntity(Command):
         def __init__(self, e, em, game, e2):
             self.commands = em.component_for_entity(e, Commands)
+            print(e, e2)
 
         def do(self):        
             for command in self.commands.past_commands:
@@ -166,6 +184,7 @@ class CollisionSystem(System):
 
                 if e != c and hb.colliderect(chb) and collision:
                     if label in collision.type_commands:
+                        print(e, c)
                         for command in collision.type_commands[label]:
                             d = command(e, self.entity_manager, game, c)
                             d.do()
@@ -223,8 +242,80 @@ class CollisionSystem(System):
                             c = command(e, self.entity_manager, game, collide_directions)
                             c.do()
 
+    def get_pos_hit_col_lab(self, e):
+        try:
+            position = self.entity_manager.component_for_entity(e, Position)
+        except NonexistentComponentTypeForEntity:
+            position = None
+        try:
+            hitbox = self.entity_manager.component_for_entity(e, Hitbox)
+        except NonexistentComponentTypeForEntity:
+            hitbox = None
+        try:
+            collision = self.entity_manager.component_for_entity(e, Collision)
+        except NonexistentComponentTypeForEntity:
+            collision = None
+        try:
+            label = self.entity_manager.component_for_entity(e, Label)
+        except NonexistentComponentTypeForEntity:
+            label = None
+        return (position, hitbox, collision, label)
+
+    def collisions(self, game):
+        keys = game['keys']
+        qt = Quadtree(Rect(0, 0, 100, 100))
+        entities = []
+
+        # fill quadtree
+        for e, hitbox in self.entity_manager.pairs_for_type(Hitbox):
+            try:
+                position = self.entity_manager.component_for_entity(e, Position)
+            except NonexistentComponentTypeForEntity:
+                continue
+
+            # put all hitboxes centered on position into the quadtree as 
+            # TODO: How do I get the screen dimensions? Maybe pass game datastructure?
+
+            entities.append(e)
+            qt.insert(e, get_hitbox_rect(position, hitbox))
+
+        # iterate all objects and resolve collisions
+        for e in entities:
+
+            position, hitbox, collision, label = self.get_pos_hit_col_lab(e)
+            if not position or not hitbox or not collision or not label:
+                continue
+
+            hb = get_hitbox_rect(position, hitbox)
+            
+
+            for c in qt.retrieve(hb):
+                cposition, chitbox, ccollision, clabel = self.get_pos_hit_col_lab(c)
+
+                if not cposition or not chitbox:
+                    continue
+
+                chb = get_hitbox_rect(cposition, chitbox)
+
+                if e != c and hb.colliderect(chb):
+                    # resolve e
+                    if collision and clabel and clabel.label in collision.type_commands:
+                        for command in collision.type_commands[clabel.label]:
+                            d = command(e, self.entity_manager, game, c)
+                            d.do()
+
+                    # resolve c
+                    if ccollision and label and label.label in ccollision.type_commands:
+                        for command in ccollision.type_commands[label.label]:
+                            d = command(c, self.entity_manager, game, e)
+                            d.do()
+
     def update(self, game):
+        self.collisions(game)
+
+        """
         self.entity_collisions(game)
 
         if 'world' in game:
             self.world_collision(game)
+        """
