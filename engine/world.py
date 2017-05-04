@@ -265,6 +265,33 @@ class FDWorld(object):
     def get_image(self):
         return self.images[self.curr_floor]
 
+    def heuristic(self, try_tile, end_tile):
+        x_off = abs(try_tile[0] - end_tile[0])
+        y_off = abs(try_tile[1] - end_tile[1])
+        return (x_off**2 + y_off**2)**.5
+
+    def find_tile(self, s_pos, e_pos):
+        s_tile_x, s_tile_y = self.point_to_tile((s_pos.x, s_pos.y))
+        e_tile_x, e_tile_y = self.point_to_tile((e_pos.x, e_pos.y))
+
+        neighbor_tiles = {(s_tile_x, s_tile_y+1): 'up', 
+                          (s_tile_x, s_tile_y-1): 'down', 
+                          (s_tile_x-1, s_tile_y): 'left', 
+                          (s_tile_x+1, s_tile_y): 'right'
+                         }
+
+        max_heuristic = 100
+        max_tile = None
+
+        for tile, direction in neighbor_tiles.items():
+            if self.grids[self.curr_floor][tile[1]][tile[0]] == 1:
+                h = self.heuristic(tile, (e_tile_x, e_tile_y))
+                if h < max_heuristic:
+                    max_heuristic = h
+                    max_tile = tile
+
+        return max_tile, neighbor_tiles[max_tile]
+
 class DWorld(object):
 
     def __init__(self, pos=(0,0), seed=0):

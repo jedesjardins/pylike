@@ -14,3 +14,5 @@ from .deletesystem import DeleteSystem
 from .drawgametextsystem import DrawGameTextSystem
 
 from .uiscriptsystem import UIScriptSystem
+
+from .aisystem import AISystem

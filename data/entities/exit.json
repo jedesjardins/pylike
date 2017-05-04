@@ -1,0 +1,41 @@
+{
+	"Misc": {
+		"name": "Exit"
+	},
+	"Label": {
+		"label": "prop",
+		"name": "exit"
+	},
+	"Sprite": {
+		"file": "exit.png",
+		"frames": 1,
+		"columns": 1,
+		"frame_rect": {
+			"x": 0,
+			"y": 0,
+			"w": 24,
+			"h": 24
+		}
+	},
+	"Hitbox": {
+		"rect": {
+			"x": 0,
+			"y": 0,
+			"w": 24,
+			"h": 24
+		},
+		"y_offset": 0
+	},
+	"Collision": {
+		"type_commands": {
+		}
+	},
+	"Interact": {
+		"type_commands": {	
+			"person": ["UIScriptSystem.StartScript"]
+		}
+	},
+	"UIScript.AutoScript":{
+		"script_file": "$0"
+	}
+}

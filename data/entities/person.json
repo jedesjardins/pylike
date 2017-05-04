@@ -5,6 +5,12 @@
 	"Label": {
 		"label": "person"
 	},
+	"AI": {
+		"tree_file": "$0"
+	},
+	"Commands": {
+		"actions": {}
+	},
 	"State": {
 		"direction": "down",
 		"action": "stand"
@@ -73,6 +79,7 @@
 	},
 	"Collision": {
 		"type_commands": {
+			"world": ["CollisionSystem.CollideWorld"]
 		}
 	},
 	"Interact": {

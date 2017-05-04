@@ -17,11 +17,12 @@ class PlayState(State):
 
         # systems
         self.system_manager.add_system(CommandSystem(), 0)
+        self.system_manager.add_system(AISystem(), 0)
         self.system_manager.add_system(MovementSystem(), 1)
         self.system_manager.add_system(StateSystem(), 1)
         self.system_manager.add_system(AnimationSystem(), 1)
         self.system_manager.add_system(InteractSystem(), 1)
-        self.system_manager.add_system(CollisionSystem(), 2)        
+        self.system_manager.add_system(CollisionSystem(), 2)
         self.system_manager.add_system(DeleteSystem(), 2)
         self.system_manager.add_system(DrawSystem(), 3)
         self.system_manager.add_system(DrawGameTextSystem(), 4)
@@ -29,23 +30,24 @@ class PlayState(State):
 
         # create viewport and world
         self.viewport = Viewport()
-        self.world = create_world(type='dungeon', seed=0)
+        self.world = create_world(type='dungeon', seed=1)
 
         # create starting items
         self.maker = Maker(self.entity_manager, 'data/entities')
         open_points = self.world.empty_position()
 
         #self.player = self.maker["Player"]("Scientist.png", pos=(open_point))
-        self.player = self.maker["Player"]("Rescuer.png", pos=(open_points[0]))
-        """
+        self.player = self.maker["Player"]("Rescuer.png", pos=(open_points[4]))
+        self.maker["Person"]("lost_person.json", pos=(open_points[2]))
+        exit = (open_points[4][0], open_points[4][1]-24)
+        self.maker["Exit"]("exit_script", pos=(exit))
+        
         self.maker["Sign"](\
-            "Welcome to the game!$This is just a demo, the game#will be built opon this#foundation!$\
-Feel free to explore and#interact with the world,#it is randomly generated!$\
-I hid some keys and chests#around the world, why not#try and find and open them?$",\
-            pos=(open_points[1]))
-        """
+            "DANGER:$PLEASE STOP#EXTREMELY UNSAFE$ ",\
+            pos=(open_points[3]))
+        
 
-        self.maker["Script_Tile"]("door_script", pos=(open_points[1]))
+        #self.maker["Script_Tile"]("door_script", pos=(open_points[1]))
         
         #self.maker["Chest"]("1", "2", pos=(open_points[random.randint(0, len(open_points))]))
         #self.maker["Key"]("1", pos=(open_points[random.randint(0, len(open_points))]))

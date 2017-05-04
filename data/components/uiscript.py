@@ -73,7 +73,6 @@ class UIScript(Component):
         flags = []
         for i in range(1, len(all_array)-2):
             flags.append(all_array[i][1:])
-            print(flags)
 
         true_block = all_array[-2][1:]
         false_block = all_array[-1][1:]

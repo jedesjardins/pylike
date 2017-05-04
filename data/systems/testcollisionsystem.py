@@ -36,6 +36,7 @@ class CollisionSystem(System):
     class CollideEntity(Command):
         def __init__(self, e, em, game, e2):
             self.commands = em.component_for_entity(e, Commands)
+            print(e, e2)
 
         def do(self):        
             for command in self.commands.past_commands:
@@ -84,6 +85,7 @@ class CollisionSystem(System):
                 self.direction_class = MovementSystem.MoveDown
 
         def do(self):
+            print(self.direction_class)
             for command in self.commands.past_commands:
                 if type(command) == self.direction_class:
                     command.undo()
@@ -182,6 +184,7 @@ class CollisionSystem(System):
 
                 if e != c and hb.colliderect(chb) and collision:
                     if label in collision.type_commands:
+                        print(e, c)
                         for command in collision.type_commands[label]:
                             d = command(e, self.entity_manager, game, c)
                             d.do()
@@ -308,11 +311,11 @@ class CollisionSystem(System):
                             d.do()
 
     def update(self, game):
-        #self.collisions(game)
+        self.collisions(game)
 
-        
+        """
         self.entity_collisions(game)
 
         if 'world' in game:
             self.world_collision(game)
-        
+        """

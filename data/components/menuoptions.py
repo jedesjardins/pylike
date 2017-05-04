@@ -13,6 +13,9 @@ class MenuOptions(Component):
         self.menu_list_offsets = []
         for item, action in menulist.items():
             self.menu_list.append(item)
+        self.menu_list[0] = 'play'
+        self.menu_list[1] = 'info'
+        self.menu_list[2] = 'exit'
 
         self.text_images = []
         height = 0

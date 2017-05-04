@@ -9,8 +9,6 @@ class MovementSystem(System):
         def __init__(self, e, em, game):
             self.position = em.component_for_entity(e, Position)
             self.oy = self.position.y
-            self.dt = game['dt']
-
         def do(self):
             if not self.position.locked:
                 self.position.y += 2
@@ -22,7 +20,6 @@ class MovementSystem(System):
         def __init__(self, e, em, game):
             self.position = em.component_for_entity(e, Position)
             self.oy = self.position.y
-            self.dt = game['dt']
 
         def do(self):
             if not self.position.locked:
@@ -35,7 +32,6 @@ class MovementSystem(System):
         def __init__(self, e, em, game):
             self.position = em.component_for_entity(e, Position)
             self.ox = self.position.x
-            self.dt = game['dt']
 
         def do(self):
             if not self.position.locked:
@@ -48,7 +44,6 @@ class MovementSystem(System):
         def __init__(self, e, em, game):
             self.position = em.component_for_entity(e, Position)
             self.ox = self.position.x
-            self.dt = game['dt']
 
         def do(self):
             if not self.position.locked:

@@ -3,10 +3,10 @@
 		"name": "MainMenu"
 	},
 	"MenuOptions": {
-		"title": "Main Menu",
+		"title": "DEPTHS",
 		"menulist": {
 			"play": {},
-			"options": {},
+			"info": {},
 			"exit": {}
 		}
 	},

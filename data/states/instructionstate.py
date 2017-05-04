@@ -23,7 +23,7 @@ class InstructionState(State):
     def update(self, game):
         keys = game['keys']
         if 'enter' in keys and keys['enter'] == 'down':
-            game['state_change'] = [('change', 'PlayState')]
+            game['state_change'] = [('change', 'MenuState')]
 
         self.viewport.update()
 
